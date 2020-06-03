@@ -40,7 +40,7 @@ class Animal:
         if self._weight < 0:
             return 0
         else:
-            self._fitness = fitness_calculation()
+            self._fitness = fitness_calc()
         
         return self._fitness
 
