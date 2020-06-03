@@ -1,4 +1,4 @@
-from cell import Cell
+from biosim.cells.cell import Cell
 
 
 class Dessert(Cell):
