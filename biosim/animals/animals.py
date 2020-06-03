@@ -5,9 +5,9 @@ class Animal:
         self.pos = pos
         self.weight = weight
         self.fitness = None
-        
+
     @staticmethod
-|   def increase_age(self):
+    def increase_age(self):
         self.age += 1
         return True
 
@@ -19,7 +19,7 @@ class Animal:
         Update fitness based on given function in document
         """
         pass
-    
+
     def die(self):
         pass
 
@@ -29,7 +29,7 @@ class Animal:
         """
         pass
 
-    def migration(self)
+    def migration(self):
         # Check surroundings
         # if: self.pos = blabla
         pass
