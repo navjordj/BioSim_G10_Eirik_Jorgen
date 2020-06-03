@@ -10,6 +10,8 @@ Notes:
        the class functions correctly. You need to write your own tests for that.
      - You should only run these tests on your code *after* you have implemented
        both animal and all landscape classes.
+
+Copied from https://github.com/heplesser/nmbu_inf200_june2020/tree/master/project_description
 """
 
 __author__ = 'Hans Ekkehard Plesser'
