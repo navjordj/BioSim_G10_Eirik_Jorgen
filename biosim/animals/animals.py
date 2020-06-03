@@ -17,11 +17,14 @@ class Animal:
             self._weight = weight
         
 
-    @staticmethod
     def increase_age(self):
         self.age += 1
         return True
 
+    def death(self):
+        pass
+
+    
     def update_weight(self, change):
         self.weight += change
 
