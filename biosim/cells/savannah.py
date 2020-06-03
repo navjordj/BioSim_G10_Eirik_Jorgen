@@ -1,4 +1,4 @@
-from cells import Cell
+from biosim.cells import Cell
 
 
 class Savannah(Cell):

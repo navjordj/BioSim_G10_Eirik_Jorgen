@@ -2,7 +2,7 @@ __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 
-from animals import Animal
+from biosim.animals import Animal
 
 class Carnivore(Animal):
     def __init__(self, weight, pos):
