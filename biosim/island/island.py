@@ -35,10 +35,10 @@ class Island:
             self.row_len = len(geo)
             self.column_len = len(geo[0])
 
-            for x, row in enumerate(geo):
-                for y, cell in enumerate(row):
+            for y, row in enumerate(geo):
+                for x, cell in enumerate(row):
                     if cell in self.map_params.keys():
-                        full_map[(x+1, y+1)] = self.map_params[cell]
+                        full_map[(y+1, x+1)] = self.map_params[cell]
                     else:
                         raise ValueError(f'All letters must be uppercase, and all'
                                          f'letters must be in '
