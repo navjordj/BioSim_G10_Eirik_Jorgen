@@ -1,13 +1,21 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
+import random
+
+def fitness_calc() -> float:
+    pass
+
 class Animal:
 
-    def __init__(self, weight, pos):
-        self.age = 0
-        self.pos = pos
-        self.weight = weight
-        self.fitness = None
+    def __init__(self, age, weight=None):
+        self._age = age
+        self._fitness = fitness
+        if weight == None:
+            pass
+        else:
+            self._weight = weight
+        
 
     @staticmethod
     def increase_age(self):
@@ -17,28 +25,24 @@ class Animal:
     def update_weight(self, change):
         self.weight += change
 
-    def update_fitness(self):
-        """
-        Update fitness based on given function in document
-        """
-        pass
 
-    def die(self):
-        pass
+    def new_year(self):
+        self._age += 1
 
-    def get_child(self, probability):
-        """
-        Spawn a child. Probability given by probability parameter.
-        """
-        pass
+    @property
+    def get_fitness(self):
+        if self._weight < 0:
+            return 0
+        else:
+            self._fitness = fitness_calculation()
+        
+        return self._fitness
 
-    def migration(self):
-        # Check surroundings
-        # if: self.pos = blabla
-        pass
 
-    def update_parameters(self, **kwargs):
-        """ 
-        Update parameters for a given animal
-        """
-        pass
+    @property
+    def get_age(self):
+        return self._age
+
+    @property
+    def get_weight(self):
+        return self._weight
