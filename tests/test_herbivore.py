@@ -1,5 +1,5 @@
-__author__ = 'Eirik Høyheim'
-__email__ = 'eirihoyh@nmbu.no'
+__author__ = 'Eirik Høyheim, Jørgen Navjord'
+__email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 
 import pytest
