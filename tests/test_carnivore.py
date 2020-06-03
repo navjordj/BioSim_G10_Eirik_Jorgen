@@ -7,7 +7,7 @@ import pytest
 from biosim.animals.carnivore import Carnivore
 
 #@pytest.mark.skip(reason="Not implemented yet")
-def test_carnivore():
+def test_init_carnivore():
     c = Carnivore(2, 10)
     assert c.weight == 10
     assert c.age == 2
