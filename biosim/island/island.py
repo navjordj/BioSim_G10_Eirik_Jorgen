@@ -13,8 +13,8 @@ class Island:
 
     def __init__(self, map):
         self.map = self.make_a_map(map)
-        self.y_len = None
-        self.x_len = None
+        self.row_len = None
+        self.column_len = None
 
     def make_a_map(self, string_map):
         '''
@@ -32,8 +32,8 @@ class Island:
 
         else:
 
-            self.y_len = len(geo)
-            self.x_len = len(geo[0])
+            self.row_len = len(geo)
+            self.column_len = len(geo[0])
 
             for x, row in enumerate(geo):
                 for y, cell in enumerate(row):
