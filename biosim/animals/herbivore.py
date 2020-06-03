@@ -6,8 +6,8 @@ from .animals import Animal
 
 
 class Herbivore(Animal):
-    def __init__(self, weight, age):
-        super().__init__(weight, age)
+    def __init__(self, age, weight):
+        super().__init__(age, weight)
         pass
 
 
