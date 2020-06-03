@@ -1,4 +1,4 @@
-from biosim.cells import Cell
+from biosim.cells.cell import Cell
 
 
 class Mountain(Cell):

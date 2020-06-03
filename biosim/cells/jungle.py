@@ -1,4 +1,4 @@
-from biosim.cell import Cell
+from biosim.cells.cell import Cell
 
 
 class Jungle(Cell):

@@ -2,7 +2,7 @@ __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 
-from biosim.animals import Animal
+from biosim.animals.animals import Animal
 
 
 class Herbivore(Animal):
