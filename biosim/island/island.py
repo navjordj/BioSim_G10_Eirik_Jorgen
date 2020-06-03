@@ -24,11 +24,4 @@ class Island:
         kart = []
         geo = [list(rader) for rader in
                self.map.replace(" ", "").split("\n")]
-
-        for row in geo:
-            temp_kart = []
-            for cellene in row:
-                if cellene == "H":
-                    temp_kart.append(Jungle())  # osv
-
-            kart.append(temp_kart)
+        pass
