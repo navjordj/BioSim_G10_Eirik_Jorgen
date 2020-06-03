@@ -30,3 +30,17 @@ def test_same_len():
     """
     with pytest.raises(ValueError):
         Island("WWW\nWLLW\nWWW")
+
+
+def test_edges_water():
+    """
+    Checks if it raises ValueError when the edges is not water
+    """
+    with pytest.raises(ValueError):
+        Island("WLW\nWLW\nWWW")
+
+    with pytest.raises(ValueError):
+        Island("WWW\nLLW\nWWW")
+
+    with pytest.raises(ValueError):
+        Island("WWW\nWLW\nWLW")

@@ -5,7 +5,6 @@ from biosim.cells.highland import Highland
 
 
 class Island:
-
     map_params = {'W': Ocean,
                   'D': Desert,
                   'L': Lowland,
@@ -16,33 +15,45 @@ class Island:
         self.row_len = None
         self.column_len = None
 
+    @staticmethod
+    def make_map_ready(map_string):
+        geo = [list(rows) for rows in
+               map_string.replace(" ", "").split("\n")]
+
+        if not all(len(geo[0]) == len(line) for line in geo[1:]):
+            raise ValueError('All rows must be equal length')
+
+        for lines in geo:
+            if 'W' not in lines[0] or 'W' not in lines[-1]:
+                raise ValueError('Edges must be labeled "W" (Water)')
+
+        for i in range(len(geo[0])):
+            if 'W' not in geo[0][i] or 'W' not in geo[-1][i]:
+                raise ValueError('Edges must be labeled "W" (Water)')
+
+        return geo
+
     def make_a_map(self, string_map):
-        '''
+        """
         Makes a map and puts a cell in each position
 
         :return:
         Full map
-        '''
+        """
         full_map = {}
-        geo = [list(rows) for rows in
-               string_map.replace(" ", "").split("\n")]
+        geo = self.make_map_ready(string_map)
 
-        if not all(len(geo[0]) == len(line) for line in geo[1:]):
-            raise ValueError('All rows must be equal')
+        self.row_len = len(geo)
+        self.column_len = len(geo[0])
 
-        else:
+        for y, row in enumerate(geo):
+            for x, cell in enumerate(row):
+                if cell in self.map_params.keys():
+                    full_map[(y + 1, x + 1)] = self.map_params[cell]
+                else:
+                    raise ValueError(
+                        f'All letters must be uppercase, and all'
+                        f'letters must be in '
+                        f'{self.map_params.keys()}')
 
-            self.row_len = len(geo)
-            self.column_len = len(geo[0])
-
-            for y, row in enumerate(geo):
-                for x, cell in enumerate(row):
-                    if cell in self.map_params.keys():
-                        full_map[(y+1, x+1)] = self.map_params[cell]
-                    else:
-                        raise ValueError(f'All letters must be uppercase, and all'
-                                         f'letters must be in '
-                                         f'{self.map_params.keys()}')
-
-            return full_map
-
+        return full_map
