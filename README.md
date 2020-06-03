@@ -1,4 +1,3 @@
 # BioSim_G10_Eirik_Jorgen
 
-Jørgen
-Eirik
+![Simulation](https://github.com/navjordj/BioSim_G10_Eirik_Jorgen/workflows/Python%20application/badge.svg)
