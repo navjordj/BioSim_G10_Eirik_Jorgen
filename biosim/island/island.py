@@ -1,4 +1,16 @@
+from biosim.cells.ocean import Ocean
+from biosim.cells.desert import Desert
+from biosim.cells.lowland import Lowland
+from biosim.cells.highland import Highland
+
+
 class Island:
+
+    map_params = {'O': Ocean,
+                  'D': Desert,
+                  'L': Lowland,
+                  'H': Highland}
+
     def __init__(self, map):
         self.map = map
 
@@ -16,7 +28,7 @@ class Island:
         for row in geo:
             temp_kart = []
             for cellene in row:
-                if cellene == "J":
+                if cellene == "H":
                     temp_kart.append(Jungle())  # osv
 
             kart.append(temp_kart)
