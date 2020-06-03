@@ -8,11 +8,14 @@ def fitness_calc() -> float:
 
 class Animal:
 
-    def __init__(self, age, weight=None):
-        self._age = age
-        self._fitness = fitness
-        if weight == None:
-            pass
+    def __init__(self, age, weight):
+        if age < 0:
+            raise ValueError("Age must be positive")
+        else:
+            self._age = age
+        
+        if weight <= 0:
+            raise ValueError("Weight must be positive")
         else:
             self._weight = weight
         
@@ -43,9 +46,15 @@ class Animal:
 
 
     @property
-    def get_age(self):
+    def age(self):
         return self._age
 
     @property
-    def get_weight(self):
+    def weight(self):
         return self._weight
+
+
+if __name__ == "__main__":
+    a = Animal(10, 3)
+    print(a.weight)
+    print(a.age)
