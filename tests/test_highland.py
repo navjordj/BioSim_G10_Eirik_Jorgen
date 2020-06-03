@@ -4,8 +4,8 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 
-from biosim.cells.jungle import Jungle
+from biosim.cells.highland import Highland
 
 @pytest.mark.skip(reason="Not implemented yet")
-def test_jungle():
+def test_lowland():
     pass
