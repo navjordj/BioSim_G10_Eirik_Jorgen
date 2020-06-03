@@ -1,3 +1,6 @@
+__author__ = 'Eirik Høyheim, Jørgen Navjord'
+__email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
+
 class Animal:
 
     def __init__(self, weight, pos):
