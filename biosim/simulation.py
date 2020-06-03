@@ -22,7 +22,7 @@ class BioSim:
 
         If cmax_animals is None, sensible, fixed default values should be used.
         cmax_animals is a dict mapping species names to numbers, e.g.,
-           {'Herbivore': 50, 'Carnivore': 20}
+           {'Herbivore': 50, 'Carnivore': 20} 
 
         If img_base is None, no figures are written to file.
         Filenames are formed as
