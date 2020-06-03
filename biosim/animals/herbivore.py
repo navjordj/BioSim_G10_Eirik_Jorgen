@@ -15,7 +15,7 @@ class Herbivore(Animal):
         "a_half": 40.0,
         "phi_age": 0.6,
         "weight_half": 10.0,
-        "phi_weight": 0.1
+        "phi_weight": 0.1,
         "mu": 0.25,
         "gamma": 0.2,
         "zeta": 3.5,

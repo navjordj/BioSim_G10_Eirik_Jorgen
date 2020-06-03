@@ -14,7 +14,7 @@ class Carnivore(Animal):
         "a_half": 40.0,
         "phi_age": 0.3,
         "weight_half": 4.0,
-        "phi_weight": 0.4
+        "phi_weight": 0.4,
         "mu": 0.4,
         "gamma": 0.8,
         "zeta": 3.5,
