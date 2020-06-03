@@ -1,0 +1,10 @@
+matplotlib
+numpy
+scipy
+pandas
+sphinx
+pytest
+pytest-mock
+coverage
+numba
+cython
