@@ -9,7 +9,7 @@ from biosim.animals.animals import Animal
 
 # @pytest.mark.skip(reason="Not implemented yet")
 def test_init_animal():
-    a = Animal(age=2, weight=10)
+    a: Animal = Animal(age=2, weight=10)
     assert a.age == 2
     assert a.weight == 10
 
@@ -24,6 +24,46 @@ def test_init_animal():
 
 
 def test_aging():
-    a = Animal(age=4, weight=10)
+    a: Animal = Animal(age=4, weight=10)
     a.increase_age()
     assert a.age == 5
+
+def test_weight():
+    a: Animal = Animal(age=4, weight=10)
+    a.update_weight(10)
+    assert a.weight == 20
+
+    a: Animal = Animal(age=4, weight=10)
+    a.update_weight(-5)
+    assert a.weight == 5
+
+def test_fitness():
+
+    # Check that fitness decreases when age increases
+    a: Animal = Animal(age=2, weight=10)
+    fit_before: float = a.get_fitness()
+    a.increase_age()
+    fit_after: float = a.get_fitness()
+    assert fit_after < fit_before
+
+    # Check that fitness increases when weight increases
+    a: Animal = Animal(age=2, weight=10)
+    fit_before: float = a.get_fitness()
+    a.update_weight(10)
+    fit_after: float = a.get_fitness()
+    assert fit_after > fit_before
+
+    # Test that the fitness goes towards 0 when aging
+    a: Animal = Animal(age=2, weight=10)
+    for _ in range(1000):
+        a.increase_age()
+    assert a.get_fitness() == pytest.approx(0)
+
+    # Test that fitness goes towards 1 as weight increases
+    a: Animal = Animal(age=2, weight=10)
+    a.update_weight(10000)
+    assert a.get_fitness() == pytest.approx(1)
+
+
+
+    
