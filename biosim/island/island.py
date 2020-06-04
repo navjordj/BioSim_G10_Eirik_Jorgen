@@ -11,9 +11,10 @@ class Island:
                   'H': Highland}
 
     def __init__(self, map):
-        self.map = self.make_a_map(map)
         self.row_len = None
         self.column_len = None
+        self.map = self.make_a_map(map)
+
 
     @staticmethod
     def make_map_ready(map_string):

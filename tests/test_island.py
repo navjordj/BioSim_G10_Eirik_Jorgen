@@ -6,41 +6,45 @@ import pytest
 from biosim.island.island import Island
 
 
-def test_island_start():
-    """
-    Checks if the island can take in "Water" and can put them in a
-    """
-    Island('WW\nWW')
+class Test_island:
+    def test_island_start(self):
+        """
+        Checks if the island can take in "Water" and can put them in a
+        """
+        Island('WW\nWW')
+        Island('WWWW\nWHLW\nWWLW\nWWWW')
 
+    def test_if_start_with_1_1(self):
+        """
+        Tests that the first coordinate of the map is (1, 1)
+        """
+        testing = Island('WW\nWW')
+        if list(testing.map.keys())[0] == (1, 1):
+            assert True
+        else:
+            assert False
 
-def test_if_start_with_1_1():
-    """
-    Tests that the first coordinate of the map is (1, 1)
-    """
-    testing = Island('WW\nWW')
-    if list(testing.map.keys())[0] == (1, 1):
-        assert True
-    else:
-        assert False
+    def test_same_len(self):
+        """
+        Checks if it raises ValueError when the rows does not have same length
+        """
+        with pytest.raises(ValueError):
+            Island("WWW\nWLLW\nWWW")
 
+    def test_edges_water(self):
+        """
+        Checks if it raises ValueError when the edges is not water
+        """
+        with pytest.raises(ValueError):
+            Island("WLW\nWLW\nWWW")
 
-def test_same_len():
-    """
-    Checks if it raises ValueError when the rows does not have the same length
-    """
-    with pytest.raises(ValueError):
-        Island("WWW\nWLLW\nWWW")
+        with pytest.raises(ValueError):
+            Island("WWW\nLLW\nWWW")
 
+        with pytest.raises(ValueError):
+            Island("WWW\nWLW\nWLW")
 
-def test_edges_water():
-    """
-    Checks if it raises ValueError when the edges is not water
-    """
-    with pytest.raises(ValueError):
-        Island("WLW\nWLW\nWWW")
-
-    with pytest.raises(ValueError):
-        Island("WWW\nLLW\nWWW")
-
-    with pytest.raises(ValueError):
-        Island("WWW\nWLW\nWLW")
+    def test_if_len_is_not_none(self):
+        k = Island('WWW\nWLW\nWLW\nWWW')
+        assert k.row_len is not None
+        assert k.column_len is not None
