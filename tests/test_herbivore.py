@@ -7,7 +7,7 @@ import pytest
 from biosim.animals.herbivore import Herbivore
 
 # @pytest.mark.skip(reason="Not implemented yet")
-def test_init_herbivore() -> None:
+def test_init_herbivore():
     h: Herbivore = Herbivore(age=2, weight=10)
     assert h.weight == 10
     assert h.age == 2
@@ -21,12 +21,12 @@ def test_init_herbivore() -> None:
         h: Herbivore = Herbivore(age=2, weight=-10)
 
 
-def test_aging() -> None:
+def test_aging():
     h: Herbivore = Herbivore(age=4, weight=10)
     h.increase_age()
     assert h.age == 5
 
-def test_weight() -> None:
+def test_weight():
     h: Herbivore = Herbivore(age=4, weight=10)
     h.update_weight(10)
     assert h.weight == 20
@@ -35,7 +35,7 @@ def test_weight() -> None:
     h.update_weight(-5)
     assert h.weight == 5
 
-def test_fitness() -> None:
+def test_fitness():
 
     # Check that fitness decreases when age increases
     a: Herbivore = Herbivore(age=2, weight=10)
