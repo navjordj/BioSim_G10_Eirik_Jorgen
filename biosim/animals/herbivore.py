@@ -37,4 +37,8 @@ class Herbivore(Animal):
 
 if __name__ == "__main__":
     h = Herbivore(3, 10)
-    print(h.age)
+    print(h)
+    h.increase_age()
+    print(h)
+    h.update_weight(10000)
+    print(h)
