@@ -6,7 +6,7 @@ from math import exp
 from typing import Union
 import numpy as np
 
-
+ 
 def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
 
     def q(x: float, x_half: float, phi: float, sign: int) -> float:
@@ -50,6 +50,9 @@ class Animal:
         else:
             self._weight: float = self.initialize_weight()
 
+        self._fitness = self.get_fitness()
+        self.alive = True # Might not be necessary
+
 
     def __str__(self):
         return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'
@@ -60,6 +63,7 @@ class Animal:
 
     def death(self):
         pass
+    
     # TODO update correct type
     def give_birth(self, gamma: float, phi: float, N: float) -> Union[object, int]:
         p = min(1, gamma*phi*(N-1))
@@ -68,8 +72,18 @@ class Animal:
         else:
             return 0
 
+    def eat(self, intake: Union[int, float]):
+        """ 
+        Takes in a certain amount of fodder. Weight change is beta * intake
+        """
+        fodder_eaten: float = self._params["beta"] * intake
+        self.update_weight(fodder_eaten)
+
+
+
     def update_weight(self, change: float) -> None:
         self._weight += change
+    
 
     def new_year(self) -> None:
         """
@@ -78,10 +92,13 @@ class Animal:
         self._age += 1
         weight_change: float = -self._params["eta"] * self._weight
         self.update_weight(weight_change)
+        self._fitness = self.get_fitness()
  
-    # (phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
 
     def get_fitness(self) -> Union[int, float]:
+        """
+        Returns the current fitness of a animal
+        """
         if self._weight < 0:
             return 0
         else:
@@ -91,7 +108,14 @@ class Animal:
         return self._fitness
 
     def initialize_weight(self) -> float:
+        """
+        Initializes the weight using a normal distribution
+        """
         return np.random.normal(self._params["w_birth"], self._params["sigma_birth"])
+
+    def move(self) -> bool:
+        prob = self._params["mu"] * self._fitness
+        return np.random.random < prob
 
     @property
     def age(self):
@@ -106,3 +130,4 @@ if __name__ == "__main__":
     a = Animal(10, 3)
     a.new_year()
     print(a)
+
