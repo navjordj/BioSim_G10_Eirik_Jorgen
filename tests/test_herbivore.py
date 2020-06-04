@@ -19,3 +19,9 @@ def test_init_herbivore():
     with pytest.raises(ValueError) as error:
         print(error)
         h = Herbivore(age=2, weight=-10)
+
+
+def test_aging():
+    a = Herbivore(age=4, weight=10)
+    a.increase_age()
+    assert a.age == 5

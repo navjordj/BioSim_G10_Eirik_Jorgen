@@ -21,3 +21,9 @@ def test_init_carnivore():
     with pytest.raises(ValueError) as error:
         print(error)
         c = Carnivore(age=2, weight=-10)
+
+# TODO Nødvendig å teste subclassene?
+def test_aging():
+    a = Carnivore(age=4, weight=10)
+    a.increase_age()
+    assert a.age == 5

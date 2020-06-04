@@ -8,7 +8,7 @@ import pytest
 from biosim.animals.animals import Animal
 
 # @pytest.mark.skip(reason="Not implemented yet")
-def test_animal():
+def test_init_animal():
     a = Animal(age=2, weight=10)
     assert a.age == 2
     assert a.weight == 10
@@ -21,3 +21,9 @@ def test_animal():
     with pytest.raises(ValueError) as error:
         print(error)
         a = Animal(age=2, weight=-10)
+
+
+def test_aging():
+    a = Animal(age=4, weight=10)
+    a.increase_age()
+    assert a.age == 5
