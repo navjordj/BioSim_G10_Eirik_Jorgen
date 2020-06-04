@@ -34,7 +34,7 @@ class Animal:
     def death(self):
         pass
 
-    def give_birth(self, gamma: float, phi: float, N: float) -> type(self):
+    def give_birth(self, gamma: float, phi: float, N: float) -> None: # TODO update correct type
         p = min(1, gamma*phi*(N-1))
         if random.random() < p:
             return type(self)(0, 3)
@@ -52,7 +52,7 @@ class Animal:
         if self._weight < 0:
             return 0
         else:
-            self._fitness = fitness_calc()
+            self._fitness = None # fitness_calc()
         
         return self._fitness
 

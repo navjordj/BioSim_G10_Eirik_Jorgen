@@ -4,9 +4,8 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 from .animals import Animal
 
-class Carnivore(Animal):
 
-    params = {
+params = {
         "w_birth": 6.0,
         "sigma_birth": 1.0,
         "beta": 0.75,
@@ -24,9 +23,16 @@ class Carnivore(Animal):
         "delta_phi_max": 10
     }
 
-    def __init__(self, age, weight):
+class Carnivore(Animal):
+
+    def __init__(self, age: int, weight: float) -> None:
         super().__init__(age, weight)
+        self._params = params
         
+
+    @classmethod
+    def set_params(cls, params: dict) -> None:
+        cls._params = params
 
 
 if __name__ == "__main__":
