@@ -2,6 +2,12 @@ from biosim.cells.cell import Cell
 
 
 class Lowland(Cell):
-    def __init__(self, pos, animals):
-        super().__init__(pos, animals)
-        pass
+
+    max_fodder = 800
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.fodder = self.max_fodder
+
+    def grow(self) -> None:
+        self.fodder = self.max_fodder

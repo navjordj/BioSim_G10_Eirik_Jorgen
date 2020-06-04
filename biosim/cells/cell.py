@@ -7,13 +7,19 @@ from typing import List
 
 
 class Cell:
-
-
-
     def __init__(self) -> None:
         self.carnivores = []
         self.herbivores = []
         self.fodder = 0
+        self.allowed_move_to = True
+
+    # TODO make it so it's possible to move to then move
+    def migrate(self) -> bool:
+
+        if self.allowed_move_to is False:
+            return False
+        else:
+            return True
 
     def set_parameters(self, fodder: Union[float, int]) -> None:
         if fodder >= 0:
