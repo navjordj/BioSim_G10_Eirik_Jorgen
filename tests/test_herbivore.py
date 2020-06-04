@@ -26,6 +26,15 @@ def test_aging():
     h.increase_age()
     assert h.age == 5
 
+def test_weight():
+    h: Herbivore = Herbivore(age=4, weight=10)
+    h.update_weight(10)
+    assert h.weight == 20
+
+    h: Herbivore = Herbivore(age=4, weight=10)
+    h.update_weight(-5)
+    assert h.weight == 5
+
 def test_fitness():
 
     # Check that fitness decreases when age increases

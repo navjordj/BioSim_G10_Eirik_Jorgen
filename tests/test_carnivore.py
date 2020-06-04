@@ -28,6 +28,14 @@ def test_aging():
     c.increase_age()
     assert c.age == 5
 
+def test_weight():
+    c: Carnivore = Carnivore(age=4, weight=10)
+    c.update_weight(10)
+    assert c.weight == 20
+
+    c: Carnivore = Carnivore(age=4, weight=10)
+    c.update_weight(-5)
+    assert c.weight == 5
 
 def test_fitness():
 
