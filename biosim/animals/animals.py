@@ -1,44 +1,96 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
+import random
+from math import exp
+from typing import Union
+
+
+def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
+
+    def q(x: float, x_half: float, phi: float, sign: int) -> float:
+        return 1 / (1 + exp(sign * phi*(x - x_half)))
+
+    return q(a, a_half, phi_age, 1) * q(w, w_half, phi_weight, -1)
+
+
+params = {
+    "w_birth": 8.0,
+    "sigma_birth": 1.5,
+    "beta": 0.9,
+    "eta": 0.05,
+    "a_half": 40.0,
+    "phi_age": 0.6,
+    "weight_half": 10.0,
+    "phi_weight": 0.1,
+    "mu": 0.25,
+    "gamma": 0.2,
+    "zeta": 3.5,
+    "xi": 1.2,
+    "omega": 0.4,
+    "F": 10.0,
+    "delta_phi_max": None
+}
+
+
 class Animal:
 
-    def __init__(self, weight, pos):
-        self.age = 0
-        self.pos = pos
-        self.weight = weight
-        self.fitness = None
+    def __init__(self, age, weight):
+        if age < 0:
+            raise ValueError("Age must be positive")
+        else:
+            self._age: float = age
 
-    @staticmethod
+        if weight <= 0:
+            raise ValueError("Weight must be positive")
+        else:
+            self._weight: float = weight
+
+        self._params: dict = params
+
+    def __str__(self):
+        return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'
+
     def increase_age(self):
-        self.age += 1
+        self._age += 1
         return True
 
-    def update_weight(self, change):
-        self.weight += change
-
-    def update_fitness(self):
-        """
-        Update fitness based on given function in document
-        """
+    def death(self):
         pass
+    # TODO update correct type
+    def give_birth(self, gamma: float, phi: float, N: float) -> Union[object, int]:
+        p = min(1, gamma*phi*(N-1))
+        if random.random() < p:
+            return type(self)(0, 3)
+        else:
+            return 0
 
-    def die(self):
-        pass
+    def update_weight(self, change: float) -> None:
+        self._weight += change
 
-    def get_child(self, probability):
-        """
-        Spawn a child. Probability given by probability parameter.
-        """
-        pass
+    def new_year(self) -> None:
+        self._age += 1
 
-    def migration(self):
-        # Check surroundings
-        # if: self.pos = blabla
-        pass
+    # (phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
 
-    def update_parameters(self, **kwargs):
-        """ 
-        Update parameters for a given animal
-        """
-        pass
+    def get_fitness(self) -> Union[int, float]:
+        if self._weight < 0:
+            return 0
+        else:
+            self._fitness = fitness_calc(self._params["phi_age"], self._age, self._params["a_half"],
+                                         self._params["phi_weight"], self._weight, self._params["weight_half"])
+
+        return self._fitness
+
+    @property
+    def age(self):
+        return self._age
+
+    @property
+    def weight(self):
+        return self._weight
+
+
+if __name__ == "__main__":
+    a = Animal(10, 3)
+    print(a)
