@@ -4,9 +4,9 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 import random
 from math import exp
 
-def fitness_calc(phi_age, a, a_half, phi_weight, w, w_half):
+def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
 
-    def q(x, x_half, phi, sign): 
+    def q(x: float, x_half: float, phi: float, sign: int) -> float: 
             return 1/ (1 + exp(sign * phi*(x - x_half)))
     
     return q(a, a_half, phi_age, 1) * q(w, w_half, phi_weight, -1) 
@@ -34,14 +34,15 @@ class Animal:
     def death(self):
         pass
 
-    def give_birth(self, gamma: float, phi: float, N: float) -> None: # TODO update correct type
+    def give_birth(self, gamma: float, phi: float, N: float) -> object: # TODO update correct type
         p = min(1, gamma*phi*(N-1))
         if random.random() < p:
             return type(self)(0, 3)
-
+        else:
+            return 0
     
     def update_weight(self, change: float) -> None:
-        self.weight += change
+        self._weight += change
 
 
     def new_year(self) -> None:
