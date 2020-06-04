@@ -3,11 +3,13 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 
 import pytest
+import numpy as np
 
 from biosim.animals.carnivore import Carnivore
 
 #@pytest.mark.skip(reason="Not implemented yet")
 def test_init_carnivore():
+    np.random.seed(1)
     c: Carnivore = Carnivore()
     assert c.weight == 10.436518045494863
     assert c.age == 0
