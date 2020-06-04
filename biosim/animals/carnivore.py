@@ -36,5 +36,5 @@ class Carnivore(Animal):
 
 
 if __name__ == "__main__":
-    c = Carnivore(0, 10)
+    c = Carnivore()
     print(c.weight)

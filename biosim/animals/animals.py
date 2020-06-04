@@ -61,7 +61,7 @@ class Animal:
     def give_birth(self, gamma: float, phi: float, N: float) -> Union[object, int]:
         p = min(1, gamma*phi*(N-1))
         if random.random() < p:
-            return type(self)(0, 3)
+            return type(self)()
         else:
             return 0
 
