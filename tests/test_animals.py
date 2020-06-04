@@ -8,7 +8,7 @@ import pytest
 from biosim.animals.animals import Animal
 
 # @pytest.mark.skip(reason="Not implemented yet")
-def test_init_animal():
+def test_init_animal() -> None:
     a: Animal = Animal(age=2, weight=10)
     assert a.age == 2
     assert a.weight == 10
@@ -23,12 +23,12 @@ def test_init_animal():
         a = Animal(age=2, weight=-10)
 
 
-def test_aging():
+def test_aging() -> None:
     a: Animal = Animal(age=4, weight=10)
     a.increase_age()
     assert a.age == 5
 
-def test_weight():
+def test_weight() -> None:
     a: Animal = Animal(age=4, weight=10)
     a.update_weight(10)
     assert a.weight == 20
@@ -37,7 +37,7 @@ def test_weight():
     a.update_weight(-5)
     assert a.weight == 5
 
-def test_fitness():
+def test_fitness() -> None:
 
     # Check that fitness decreases when age increases
     a: Animal = Animal(age=2, weight=10)

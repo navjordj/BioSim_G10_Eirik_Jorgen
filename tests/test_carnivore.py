@@ -7,7 +7,7 @@ import pytest
 from biosim.animals.carnivore import Carnivore
 
 #@pytest.mark.skip(reason="Not implemented yet")
-def test_init_carnivore():
+def test_init_carnivore() -> None:
     c: Carnivore = Carnivore(age=2, weight=10)
     assert c.weight == 10
     assert c.age == 2
@@ -23,12 +23,12 @@ def test_init_carnivore():
         c: Carnivore = Carnivore(age=2, weight=-10)
 
 # TODO Nødvendig å teste subclassene?
-def test_aging():
+def test_aging() -> None:
     c: Carnivore = Carnivore(age=4, weight=10)
     c.increase_age()
     assert c.age == 5
 
-def test_weight():
+def test_weight() -> None:
     c: Carnivore = Carnivore(age=4, weight=10)
     c.update_weight(10)
     assert c.weight == 20
@@ -37,7 +37,7 @@ def test_weight():
     c.update_weight(-5)
     assert c.weight == 5
 
-def test_fitness():
+def test_fitness() -> None:
 
     # Check that fitness decreases when age increases
     c: Carnivore = Carnivore(age=2, weight=10)
