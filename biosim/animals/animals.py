@@ -6,6 +6,8 @@ from math import exp
 from typing import Union
 import numpy as np
 
+np.random.seed(1)
+
  
 def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
 
@@ -102,6 +104,7 @@ class Animal:
         """
         Initializes the weight using a normal distribution
         """
+        print(self._params["w_birth"], self._params["sigma_birth"])
         return np.random.normal(self._params["w_birth"], self._params["sigma_birth"])
 
     def move(self) -> bool:
@@ -119,5 +122,5 @@ class Animal:
 
 if __name__ == "__main__":
     a = Animal()
-    print(a)
+    print(a.weight)
 
