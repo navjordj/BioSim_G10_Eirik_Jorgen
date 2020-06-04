@@ -4,6 +4,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 import random
 from math import exp
 from typing import Union
+import numpy as np
 
 
 def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
@@ -35,7 +36,10 @@ params = {
 
 class Animal:
 
-    def __init__(self, age, weight):
+    def __init__(self, age=0, weight=0): # TODO Fix standard weight value
+
+        self._params: dict = params
+
         if age < 0:
             raise ValueError("Age must be positive")
         else:
@@ -44,9 +48,8 @@ class Animal:
         if weight <= 0:
             raise ValueError("Weight must be positive")
         else:
-            self._weight: float = weight
+            self._weight: float = self.initialize_weight()
 
-        self._params: dict = params
 
     def __str__(self):
         return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'
@@ -81,6 +84,9 @@ class Animal:
                                          self._params["phi_weight"], self._weight, self._params["weight_half"])
 
         return self._fitness
+
+    def initialize_weight(self) -> float:
+        return np.random.normal(self._params["w_birth"], self._params["sigma_birth"])
 
     @property
     def age(self):
