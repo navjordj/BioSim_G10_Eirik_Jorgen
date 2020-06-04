@@ -25,4 +25,4 @@ def test_eat_herbivore() -> None:
     food_fillup = 300
     k.fodder = food_fillup
     v = k.eat_herbivore
-
+    pass

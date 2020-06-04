@@ -6,6 +6,8 @@ import pytest
 
 from biosim.cells.water import Water
 
-@pytest.mark.skip(reason="Not implemented yet")
-def test_ocean():
-    pass
+
+def test_water() -> None:
+    w = Water()
+    assert w.fodder == 0
+    assert w.allowed_move_to is False
