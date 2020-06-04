@@ -36,20 +36,11 @@ params = {
 
 class Animal:
     # TODO remove age. Age is always 0 at birth
-    def __init__(self, age=0, weight=0): # TODO Fix standard weight value
+    def __init__(self): # TODO Fix standard weight value
 
         self._params: dict = params
-
-        if age < 0:
-            raise ValueError("Age must be positive")
-        else:
-            self._age: float = age
-
-        if weight <= 0:
-            raise ValueError("Weight must be positive")
-        else:
-            self._weight: float = self.initialize_weight()
-
+        self._age: float = 0
+        self._weight: float = self.initialize_weight()
         self._fitness = self.get_fitness()
         self.alive = True # Might not be necessary
 
@@ -127,7 +118,6 @@ class Animal:
 
 
 if __name__ == "__main__":
-    a = Animal(10, 3)
-    a.new_year()
+    a = Animal()
     print(a)
 
