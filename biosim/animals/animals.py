@@ -35,7 +35,7 @@ params = {
 
 
 class Animal:
-
+    # TODO remove age. Age is always 0 at birth
     def __init__(self, age=0, weight=0): # TODO Fix standard weight value
 
         self._params: dict = params
@@ -72,8 +72,13 @@ class Animal:
         self._weight += change
 
     def new_year(self) -> None:
+        """
+        Increase age by one year and decrease weight by eta * weight
+        """
         self._age += 1
-
+        weight_change: float = -self._params["eta"] * self._weight
+        self.update_weight(weight_change)
+ 
     # (phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
 
     def get_fitness(self) -> Union[int, float]:
@@ -99,4 +104,5 @@ class Animal:
 
 if __name__ == "__main__":
     a = Animal(10, 3)
+    a.new_year()
     print(a)
