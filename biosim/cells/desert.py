@@ -1,7 +1,7 @@
 from biosim.cells.cell import Cell
 
 
-class Savannah(Cell):
+class Desert(Cell):
     def __init__(self, pos, animals):
-        super().__init__(pos, animals)
+        super(Cell, self).__init__(pos, animals)
         pass
