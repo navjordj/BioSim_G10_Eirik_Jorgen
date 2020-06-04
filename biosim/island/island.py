@@ -1,11 +1,11 @@
-from biosim.cells.ocean import Ocean
+from biosim.cells.water import Water
 from biosim.cells.desert import Desert
 from biosim.cells.lowland import Lowland
 from biosim.cells.highland import Highland
 
 
 class Island:
-    map_params = {'W': Ocean,
+    map_params = {'W': Water,
                   'D': Desert,
                   'L': Lowland,
                   'H': Highland}
