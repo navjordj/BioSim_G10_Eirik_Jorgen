@@ -1,2 +1,4 @@
 .vscode/*
 *.pyc
+.mypy_cache/*
+.noseids

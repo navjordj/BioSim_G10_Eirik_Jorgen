@@ -6,3 +6,4 @@ pytest-mock
 coverage
 numba
 cython
+mypy
