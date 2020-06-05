@@ -1,4 +1,4 @@
-from biosim.cells.cell import Cell
+from .cell import Cell
 
 
 class Desert(Cell):

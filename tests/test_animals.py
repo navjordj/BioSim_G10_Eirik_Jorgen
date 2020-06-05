@@ -6,7 +6,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 import pytest
 import numpy as np
 
-from biosim.animals.animals import Animal
+from biosim.animals import Animal
 
 
 # @pytest.mark.skip(reason="Not implemented yet")

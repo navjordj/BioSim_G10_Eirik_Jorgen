@@ -1,8 +1,8 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-from biosim.animals.carnivore import Carnivore
-from biosim.animals.herbivore import Herbivore
+from .carnivore import Carnivore
+from .herbivore import Herbivore
 from typing import Union
 from typing import List
 

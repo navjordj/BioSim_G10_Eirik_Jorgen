@@ -1,7 +1,7 @@
-from biosim.cells.water import Water
-from biosim.cells.desert import Desert
-from biosim.cells.lowland import Lowland
-from biosim.cells.highland import Highland
+from .water import Water
+from .desert import Desert
+from .lowland import Lowland
+from .highland import Highland
 from typing import List
 
 
