@@ -106,7 +106,7 @@ class Cell:
 
     def remove_dead_carnivore(self) -> None:
         # Remove dead herbivores:
-        keep_carnivores: List[Herbivore] = []
+        keep_carnivores: List[Carnivore] = []
         for c in self.carnivores:
             if c.alive == True:
                 keep_carnivores.append(c)
