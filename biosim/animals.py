@@ -20,7 +20,7 @@ def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: 
 class Animal:
     def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
 
-        self._params: dict = {
+        self.params: dict = {
             "w_birth": 8.0,
             "sigma_birth": 1.5,
             "beta": 0.9,
@@ -67,13 +67,13 @@ class Animal:
         if self._fitness <= 0:
             return True
         else:
-            p: float = self._params["omega"] * (1-self._fitness)
+            p: float = self.params["omega"] * (1-self._fitness)
             return random.random() < p
 
     # TODO update correct type
     def give_birth(self, N: int) -> Union[object, int]:
         # What is phi?
-        p: float = min(1, self._params["gamma"]*self._params["phi_age"]*(N-1))
+        p: float = min(1, self.params["gamma"]*self.params["phi_age"]*(N-1))
         if random.random() < p:
             return type(self)()
         else:
@@ -83,7 +83,7 @@ class Animal:
         """ 
         Takes in a certain amount of fodder. Weight change is beta * intake
         """
-        fodder_eaten: float = self._params["beta"] * intake
+        fodder_eaten: float = self.params["beta"] * intake
         self.update_weight(fodder_eaten)
 
     # TODO: Return value? Bool to confirm success?
@@ -98,7 +98,7 @@ class Animal:
         Increase age by one year and decrease weight by eta * weight
         """
         self._age += 1
-        weight_change: float = -self._params["eta"] * self._weight
+        weight_change: float = -self.params["eta"] * self._weight
         self.update_weight(weight_change)
         self._fitness = self.get_fitness()
 
@@ -109,8 +109,8 @@ class Animal:
         if self._weight < 0:
             return 0
         else:
-            self._fitness = fitness_calc(self._params["phi_age"], self._age, self._params["a_half"],
-                                         self._params["phi_weight"], self._weight, self._params["weight_half"])
+            self._fitness = fitness_calc(self.params["phi_age"], self._age, self.params["a_half"],
+                                         self.params["phi_weight"], self._weight, self.params["weight_half"])
 
         return self._fitness
 
@@ -118,10 +118,10 @@ class Animal:
         """
         Initializes the weight using a normal distribution
         """
-        return np.random.normal(self._params["w_birth"], self._params["sigma_birth"])
+        return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
     def move(self) -> bool:
-        prob = self._params["mu"] * self._fitness
+        prob = self.params["mu"] * self._fitness
         return np.random.rand() < prob
 
     @property
@@ -137,7 +137,7 @@ class Herbivore(Animal):
 
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
-        self._params: dict = {
+        self.params: dict = {
             "w_birth": 8.0,
             "sigma_birth": 1.5,
             "beta": 0.9,
@@ -157,14 +157,14 @@ class Herbivore(Animal):
 
     @classmethod
     def set_params(cls, params: dict) -> None:
-        cls._params = params
+        cls.params = params
 
 
 class Carnivore(Animal):
 
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
-        self._params: dict = {
+        self.params: dict = {
             "w_birth": 6.0,
             "sigma_birth": 1.0,
             "beta": 0.75,
@@ -184,7 +184,7 @@ class Carnivore(Animal):
 
     @classmethod
     def set_params(cls, params: dict) -> None:
-        cls._params = params
+        cls.params = params
 
 
 if __name__ == "__main__":
