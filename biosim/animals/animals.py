@@ -41,7 +41,7 @@ class Animal:
     def __init__(self): # TODO Fix standard weight value
 
         self._params: dict = params
-        self._age: float = 0
+        self._age: int = 0
         self._weight: float = self.initialize_weight()
         self._fitness = self.get_fitness()
         self.alive = True # Might not be necessary
@@ -71,7 +71,7 @@ class Animal:
         else:
             return 0
 
-    def eat(self, intake: Union[int, float]):
+    def eat(self, intake: Union[int, float]) -> None:
         """ 
         Takes in a certain amount of fodder. Weight change is beta * intake
         """
@@ -94,7 +94,7 @@ class Animal:
         self._fitness = self.get_fitness()
  
 
-    def get_fitness(self) -> Union[int, float]:
+    def get_fitness(self) -> float:
         """
         Returns the current fitness of a animal
         """
@@ -115,14 +115,14 @@ class Animal:
 
     def move(self) -> bool:
         prob = self._params["mu"] * self._fitness
-        return np.random.random < prob
+        return np.random.rand() < prob
 
     @property
-    def age(self):
+    def age(self) -> int:
         return self._age
 
     @property
-    def weight(self):
+    def weight(self) -> float:
         return self._weight
 
 
