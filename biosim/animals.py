@@ -18,7 +18,7 @@ def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: 
 
 
 class Animal:
-    def __init__(self):  # TODO Fix standard weight value
+    def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
 
         self._params: dict = {
             "w_birth": 8.0,
@@ -37,8 +37,15 @@ class Animal:
             "F": 10.0,
             "delta_phi_max": None
         }
-        self._age: int = 0
-        self._weight: float = self.initialize_weight()
+        if age == None:
+            self._age: int = 0
+        else:
+            self._age: int = age
+        if weight == None:
+            self._weight: float = self.initialize_weight()
+        else:
+            self._weight: float = weight
+            
         self._fitness = self.get_fitness()
         self.alive = True  # Might not be necessary
 
