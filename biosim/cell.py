@@ -97,8 +97,14 @@ class Cell:
         else:
             raise ValueError("species is neither carnivore er herbivore")
 
-    def remove_animals(self) -> None:
-        raise NotImplementedError("Remove animals is not implemented yet")
+    # TODO Add test for removing eaten herbovores
+    def remove_eaten_herbivore(self) -> None:
+        # Remove dead herbivores:
+        keep_herbivores: List[Herbivore] = []
+        for h in self.herbivores:
+            if h.alive == True:
+                keep_herbivores.append(h)
+        self.herbivores = keep_herbivores
 
     def new_year(self) -> None:
 
@@ -107,6 +113,7 @@ class Cell:
 
         self.eat_carnivore()
 
+        self.remove_eaten_herbivore()
         # MIGRATION:
         # not implemented yet
 
