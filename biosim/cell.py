@@ -54,3 +54,38 @@ class Cell:
         if herbivore is not None:
             for animal in herbivore:
                 self.herbivores.append(animal)
+
+
+class Desert(Cell):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class Highland(Cell):
+
+    max_fodder = 300
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.fodder = self.max_fodder
+
+    def grow(self) -> None:
+        self.fodder = self.max_fodder
+
+        
+class Lowland(Cell):
+
+    max_fodder = 800
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.fodder = self.max_fodder
+
+    def grow(self) -> None:
+        self.fodder = self.max_fodder
+
+
+class Water(Cell):
+    def __init__(self) -> None:
+        super().__init__()
+        self.allowed_move_to = False

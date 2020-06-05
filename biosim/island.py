@@ -1,7 +1,4 @@
-from .water import Water
-from .desert import Desert
-from .lowland import Lowland
-from .highland import Highland
+from .cell import Highland, Water, Lowland, Desert
 from typing import List
 
 
