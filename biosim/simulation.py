@@ -71,10 +71,10 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         for c in self.island_map:
-            print(c.carnivores[0])
+            #print(c.carnivores[0])
             c.grow()
             c.new_year()
-            print(c.carnivores[0])
+            #print(c.carnivores[0])
 
     def add_population(self, population):
         """

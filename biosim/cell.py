@@ -119,6 +119,13 @@ class Cell:
 
         # TODO Check when the age increases
         # Increase age of all animals
+        N = len(self.carnivores)
+        if N >= 2:
+            for carni in self.carnivores:
+                give_birth = carni.give_birth(N)
+                if give_birth:
+                    self.carnivores.append(Carnivore())
+
         for h in self.herbivores:
             h.new_year()
 

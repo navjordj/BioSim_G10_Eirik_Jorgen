@@ -73,7 +73,7 @@ class Animal:
     # TODO update correct type
     def give_birth(self, N: int) -> bool:
         # What is phi?
-        p: float = min(1, self.params["gamma"]*self.fitness*(N-1))
+        p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
         if random.random() < p:
             return True
         else:

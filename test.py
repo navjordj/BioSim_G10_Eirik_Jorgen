@@ -1,9 +1,9 @@
 from biosim.simulation import BioSim
 
-ini_herbs = [{'species': 'Herbivore', 'age': 6, 'weight': 10}
+ini_herbs = [{'species': 'Herbivore', 'age': 6, 'weight': None}
              for _ in range(100)]
 ini_carn = [{'species': 'Carnivore', 'age': 6, 'weight': 12.5}
-            for _ in range(3)]
+            for _ in range(25)]
 
 
 b = BioSim(seed=1, ini_pop=ini_herbs)
