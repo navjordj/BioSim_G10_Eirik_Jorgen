@@ -12,6 +12,12 @@ class Cell:
         self.herbivores: List[Herbivore] = []
         self.fodder: Union[float, int] = 0
         self.allowed_move_to = True
+        self.n_carnivores: int = 0
+        self.n_herbivores: int = 0
+
+
+    def __str__(self):
+        return f'{type(self)} \n number of carnivores: {self.n_carnivores} \n number of herbivores: {self.n_herbivores}'
 
     # TODO make it so it's possible to move to then move
     def migrate(self) -> bool:
@@ -46,13 +52,18 @@ class Cell:
         return True
 
     # TODO add None
-    def add_animals(self, carnivore: List, herbivore: List) -> None:
+    def add_animals(self, carnivore: List, herbivore: List) -> None: # TODO Add optional animal parameter
         if carnivore is not None:
             for animal in carnivore:
                 self.carnivores.append(animal)
+                self.n_carnivores += 1
         if herbivore is not None:
             for animal in herbivore:
                 self.herbivores.append(animal)
+                self.n_herbivores += 1
+
+    def remove_animals(self):
+        raise NotImplementedError("Remove animals is not implemented yet")
 
 
 class Desert(Cell):
