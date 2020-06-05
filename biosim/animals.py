@@ -42,9 +42,9 @@ class Animal:
         else:
             self._age: int = age
         if weight == None:
-            self._weight: float = self.initialize_weight()
+            self.weight: float = self.initialize_weight()
         else:
-            self._weight: float = weight
+            self.weight: float = weight
 
         self._fitness = self.get_fitness()
         self.alive = True  # Might not be necessary
@@ -89,7 +89,8 @@ class Animal:
     # TODO: Return value? Bool to confirm success?
 
     def update_weight(self, change: float) -> None:
-        self._weight += change
+        self.weight += change
+        self._fitness = self.get_fitness()
 
     # TODO: Return value? Bool to confirm success?
 
@@ -98,7 +99,7 @@ class Animal:
         Increase age by one year and decrease weight by eta * weight
         """
         self._age += 1
-        weight_change: float = -self.params["eta"] * self._weight
+        weight_change: float = -self.params["eta"] * self.weight
         self.update_weight(weight_change)
         self._fitness = self.get_fitness()
 
@@ -106,11 +107,11 @@ class Animal:
         """
         Returns the current fitness of a animal
         """
-        if self._weight < 0:
+        if self.weight < 0:
             return 0
         else:
             self._fitness = fitness_calc(self.params["phi_age"], self._age, self.params["a_half"],
-                                         self.params["phi_weight"], self._weight, self.params["weight_half"])
+                                         self.params["phi_weight"], self.weight, self.params["weight_half"])
 
         return self._fitness
 
@@ -123,15 +124,6 @@ class Animal:
     def move(self) -> bool:
         prob = self.params["mu"] * self._fitness
         return np.random.rand() < prob
-
-    @property
-    def age(self) -> int:
-        return self._age
-
-    @property
-    def weight(self) -> float:
-        return self._weight
-
 
 class Herbivore(Animal):
 
