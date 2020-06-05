@@ -106,6 +106,14 @@ class Cell:
                 keep_herbivores.append(h)
         self.herbivores = keep_herbivores
 
+    def remove_dead_carnivore(self) -> None:
+        # Remove dead herbivores:
+        keep_carnivores: List[Herbivore] = []
+        for c in self.carnivores:
+            if c.alive == True:
+                keep_carnivores.append(c)
+        self.carnivores = keep_carnivores
+
     def new_year(self) -> None:
 
         if type(self) == Lowland or type(self) == Highland:
@@ -157,10 +165,10 @@ class Cell:
         
         for herbi in self.herbivores:
             if herbi.should_die():
-                carni.alive = False
+                herbi.alive = False
 
         self.remove_dead_herbivore()
-        print(len(self.carnivores), len(self.herbivores))
+        self.remove_dead_carnivore()
 
 class Desert(Cell):
     def __init__(self) -> None:

@@ -9,4 +9,4 @@ ini_carn = [{'species': 'Carnivore', 'age': 6, 'weight': None}
 b = BioSim(seed=1, ini_pop=ini_herbs)
 b.add_population(ini_carn)
 
-b.simulate(5)
+b.simulate(10)

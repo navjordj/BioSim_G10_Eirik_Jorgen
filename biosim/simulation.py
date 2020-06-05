@@ -96,7 +96,6 @@ class BioSim:
             else:
                 raise ValueError("species is neither carnivore er herbivore") # TODO add test
 
-
     @property
     def year(self):
         """Last year simulated."""
