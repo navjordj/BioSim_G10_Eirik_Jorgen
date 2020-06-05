@@ -46,7 +46,7 @@ class Cell:
 
     # TODO must know what's inside Animals to do well
     def eat_herbivore(self) -> None:
-        fodder_left: int = self.fodder
+        fodder_left: Union[int, float] = self.fodder
         shuffled_herbivores = self.herbivores.copy() # Avoid shuffling original herbivore list
         random.shuffle(shuffled_herbivores) # TODO refactor code
 
@@ -67,7 +67,7 @@ class Cell:
         sorted_h = sorted(self.herbivores, key= lambda animal: animal.get_fitness(), reverse=False)
 
         for i, carni in enumerate(reverse_sort_c):
-            f_eaten = 0
+            f_eaten: Union[int, float] = 0
             for j, herbi in enumerate(sorted_h):
                 if herbi.alive:
                     p = p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["delta_phi_max"])
