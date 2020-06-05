@@ -79,10 +79,8 @@ class Cell:
                               carni.params["delta_phi_max"])
                     if random.random() < p:
                         herbi.alive = False
-                        # print(f'Herbivore nr. {j} got eaten by Carnivore nr. {i}')
                         f_eaten += herbi.weight
                         carni.update_weight(carni.params["beta"] * f_eaten)
-                        # print(f'Carnivore nr. {i} has eaten {f_eaten} kg herbi')
                         if f_eaten >= carni.params["F"]:  # TODO Check if there are leftovers
                             break
 
