@@ -38,19 +38,19 @@ class Animal:
             "delta_phi_max": None
         }
         if age == None:
-            self._age: int = 0
+            self.age: int = 0
         else:
-            self._age: int = age
+            self.age: int = age
         if weight == None:
             self.weight: float = self.initialize_weight()
         else:
             self.weight: float = weight
 
-        self._fitness = self.get_fitness()
+        self.fitness = self.get_fitness()
         self.alive = True  # Might not be necessary
 
     def __str__(self) -> str:
-        return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'
+        return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
 
     # TODO implement set_params
     def set_params(self, parameter: Dict[str, Union[int, float]]) -> None:
@@ -58,16 +58,16 @@ class Animal:
 
     # TODO: Return value? Bool to confirm success?
     def increase_age(self) -> None:
-        self._age += 1
+        self.age += 1
 
     def death(self) -> bool:
         """
         Returns a boolean saying if the animal should die or not
         """
-        if self._fitness <= 0:
+        if self.fitness <= 0:
             return True
         else:
-            p: float = self.params["omega"] * (1-self._fitness)
+            p: float = self.params["omega"] * (1-self.fitness)
             return random.random() < p
 
     # TODO update correct type
@@ -90,7 +90,7 @@ class Animal:
 
     def update_weight(self, change: float) -> None:
         self.weight += change
-        self._fitness = self.get_fitness()
+        self.fitness = self.get_fitness()
 
     # TODO: Return value? Bool to confirm success?
 
@@ -98,10 +98,10 @@ class Animal:
         """
         Increase age by one year and decrease weight by eta * weight
         """
-        self._age += 1
+        self.age += 1
         weight_change: float = -self.params["eta"] * self.weight
         self.update_weight(weight_change)
-        self._fitness = self.get_fitness()
+        self.fitness = self.get_fitness()
 
     def get_fitness(self) -> float:
         """
@@ -110,10 +110,10 @@ class Animal:
         if self.weight < 0:
             return 0
         else:
-            self._fitness = fitness_calc(self.params["phi_age"], self._age, self.params["a_half"],
+            self.fitness = fitness_calc(self.params["phi_age"], self.age, self.params["a_half"],
                                          self.params["phi_weight"], self.weight, self.params["weight_half"])
 
-        return self._fitness
+        return self.fitness
 
     def initialize_weight(self) -> float:
         """
@@ -122,7 +122,7 @@ class Animal:
         return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
     def move(self) -> bool:
-        prob = self.params["mu"] * self._fitness
+        prob = self.params["mu"] * self.fitness
         return np.random.rand() < prob
 
 class Herbivore(Animal):
