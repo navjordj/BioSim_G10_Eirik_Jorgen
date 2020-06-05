@@ -2,6 +2,6 @@ from biosim.cells.cell import Cell
 
 
 class Water(Cell):
-    def __init__(self, pos, animals):
-        super().__init__(pos, animals)
-        pass
+    def __init__(self) -> None:
+        super().__init__()
+        self.allowed_move_to = False
