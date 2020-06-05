@@ -7,12 +7,14 @@ from typing import List
 
 import random
 
+
 # TODO implement test
-def p_eat(phi_carn, phi_herb, delta_phi_max):
+# TODO move insie carnivore
+def p_eat(phi_carn: float, phi_herb: float, delta_phi_max: Union[int, float]) -> Union[int, float]:
     if phi_carn <= phi_herb:
         return 0
     elif (0 < phi_carn - phi_herb) and (phi_carn - phi_herb < delta_phi_max):
-        return (phi_carn - phi_herb)/(delta_phi_max)
+        return (phi_carn - phi_herb) / (delta_phi_max)
     else:
         return 1
 
@@ -22,10 +24,9 @@ class Cell:
         self.carnivores: List[Carnivore] = []
         self.herbivores: List[Herbivore] = []
         self.fodder: Union[float, int] = 0
-        self.allowed_move_to = True
+        self.allowed_move_to: bool = True
         self.n_carnivores: int = 0
         self.n_herbivores: int = 0
-
 
     def __str__(self):
         return f'{type(self)} \n number of carnivores: {self.n_carnivores} \n number of herbivores: {self.n_herbivores}'
@@ -47,12 +48,13 @@ class Cell:
     # TODO must know what's inside Animals to do well
     def eat_herbivore(self) -> None:
         fodder_left: Union[int, float] = self.fodder
-        shuffled_herbivores = self.herbivores.copy() # Avoid shuffling original herbivore list
-        random.shuffle(shuffled_herbivores) # TODO refactor code
+        shuffled_herbivores: List[
+            Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
+        random.shuffle(shuffled_herbivores)  # TODO refactor code
 
         for herbi in shuffled_herbivores:
             if fodder_left == 0:
-                break # Break out of loop when there is no food left
+                break  # Break out of loop when there is no food left
             elif fodder_left - herbi.params["F"] < 0:
                 fodder_eaten = fodder_left
             else:
@@ -63,38 +65,28 @@ class Cell:
 
     def eat_carnivore(self) -> None:
 
-        reverse_sort_c = sorted(self.carnivores, key= lambda animal: animal.get_fitness(), reverse=True)
-        sorted_h = sorted(self.herbivores, key= lambda animal: animal.get_fitness(), reverse=False)
+        reverse_sort_c: List[Carnivore] = sorted(self.carnivores,
+                                                 key=lambda animal: animal.get_fitness(),
+                                                 reverse=True)
+        sorted_h: List[Herbivore] = sorted(self.herbivores, key=lambda animal: animal.get_fitness(),
+                                           reverse=False)
 
         for i, carni in enumerate(reverse_sort_c):
             f_eaten: Union[int, float] = 0
             for j, herbi in enumerate(sorted_h):
                 if herbi.alive:
-                    p = p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["delta_phi_max"])
+                    p = p_eat(carni.get_fitness(), herbi.get_fitness(),
+                              carni.params["delta_phi_max"])
                     if random.random() < p:
                         herbi.alive = False
-                        print(f'Herbivore nr. {j} got eaten by Carnivore nr. {i}')
-                        f_eaten +=  herbi.weight
+                        # print(f'Herbivore nr. {j} got eaten by Carnivore nr. {i}')
+                        f_eaten += herbi.weight
                         carni.update_weight(carni.params["beta"] * f_eaten)
-                        #print(f'Carnivore nr. {i} has eaten {f_eaten} kg herbi')
-                        if f_eaten >= carni.params["F"]: # TODO Check if there are leftovers
+                        # print(f'Carnivore nr. {i} has eaten {f_eaten} kg herbi')
+                        if f_eaten >= carni.params["F"]:  # TODO Check if there are leftovers
                             break
 
-
-
-    """# TODO add None
-    def add_animals(self, carnivore: int, herbivore: int) -> None: # TODO Add optional animal parameter
-        if carnivore is not None:
-            for _ in range(carnivore):
-                self.carnivores.append(Carnivore())
-                self.n_carnivores += 1
-
-                
-        if herbivore is not None:
-            for _ in range(herbivore):
-                self.herbivores.append(Herbivore())
-                self.n_herbivores += 1"""
-
+    # TODO add type
     def add_animal(self, animal):
         if type(animal) == Herbivore:
             self.herbivores.append(animal)
@@ -105,19 +97,16 @@ class Cell:
         else:
             raise ValueError("species is neither carnivore er herbivore")
 
-    def remove_animals(self):
+    def remove_animals(self) -> None:
         raise NotImplementedError("Remove animals is not implemented yet")
 
-
-    def new_year(self):
+    def new_year(self) -> None:
 
         if type(self) == Lowland or type(self) == Highland:
             self.eat_herbivore()
 
-
         self.eat_carnivore()
 
-        
         # MIGRATION:
         # not implemented yet
 
@@ -125,11 +114,9 @@ class Cell:
         # Increase age of all animals
         for h in self.herbivores:
             h.new_year()
-        
+
         for c in self.carnivores:
             c.new_year()
-
-        
 
 
 class Desert(Cell):
@@ -138,7 +125,6 @@ class Desert(Cell):
 
 
 class Highland(Cell):
-
     max_fodder = 300
 
     def __init__(self) -> None:
@@ -150,7 +136,6 @@ class Highland(Cell):
 
 
 class Lowland(Cell):
-
     max_fodder = 800
 
     def __init__(self) -> None:
