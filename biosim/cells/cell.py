@@ -1,16 +1,17 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-# from biosim.animals import carnovere.Carnivore, herbivore.Herbivore
+from biosim.animals.carnivore import Carnivore
+from biosim.animals.herbivore import Herbivore
 from typing import Union
 from typing import List
 
 
 class Cell:
     def __init__(self) -> None:
-        self.carnivores = []
-        self.herbivores = []
-        self.fodder = 0
+        self.carnivores: List[Carnivore] = []
+        self.herbivores: List[Herbivore] = []
+        self.fodder: Union[float, int] = 0
         self.allowed_move_to = True
 
     # TODO make it so it's possible to move to then move

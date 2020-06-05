@@ -3,7 +3,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 
-from biosim.island.island import Island
+from biosim.island.island import Island  # type: ignore
 
 
 class Test_island:
