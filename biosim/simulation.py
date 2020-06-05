@@ -42,9 +42,7 @@ class BioSim:
         img_base should contain a path and beginning of a file name.
         """
         self.island_map = [Lowland()]
-
-        self._pop = self.add_population(ini_pop)
-
+        self.add_population(ini_pop)
         np.random.seed(seed)
 
     def set_animal_parameters(self, species, params):
@@ -73,7 +71,10 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         for c in self.island_map:
+            print(c.carnivores[0])
+            c.grow()
             c.new_year()
+            print(c.carnivores[0])
 
     def add_population(self, population):
         """
