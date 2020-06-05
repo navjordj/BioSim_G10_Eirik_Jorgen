@@ -4,7 +4,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 
-from biosim.highland import Highland
+from biosim.cell import Highland
 
 
 def test_highland() -> None:

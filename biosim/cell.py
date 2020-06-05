@@ -72,7 +72,7 @@ class Highland(Cell):
     def grow(self) -> None:
         self.fodder = self.max_fodder
 
-        
+
 class Lowland(Cell):
 
     max_fodder = 800
