@@ -3,7 +3,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import random
 from math import exp
-from typing import Union
+from typing import Union, Dict
 import numpy as np
 
 np.random.seed(1)
@@ -37,7 +37,6 @@ params = {
 
 
 class Animal:
-    # TODO remove age. Age is always 0 at birth
     def __init__(self): # TODO Fix standard weight value
 
         self._params: dict = params
@@ -50,6 +49,11 @@ class Animal:
     def __str__(self) -> str:
         return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'
 
+    # TODO implement set_params 
+    def set_params(self, parameter: dict[str, Union[int, float]]) -> bool:
+        raise NotImplementedError("set_params is not implemented yet")
+
+    # TODO: Return value? Bool to confirm success?
     def increase_age(self) -> None:
         self._age += 1
 
@@ -67,7 +71,7 @@ class Animal:
     def give_birth(self, gamma: float, phi: float, N: float) -> Union[object, int]:
         p = min(1, gamma*phi*(N-1))
         if random.random() < p:
-            return type(self)()
+            return type(self)() 
         else:
             return 0
 
@@ -80,10 +84,12 @@ class Animal:
 
 
 
+    # TODO: Return value? Bool to confirm success?
     def update_weight(self, change: float) -> None:
         self._weight += change
     
 
+    # TODO: Return value? Bool to confirm success?
     def new_year(self) -> None:
         """
         Increase age by one year and decrease weight by eta * weight
