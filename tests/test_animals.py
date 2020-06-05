@@ -18,6 +18,10 @@ def test_init_animal():
     assert a.age == 0
     assert a.weight == 10.436518045494863 #TODO Fix hardcoded random values
 
+    a: Animal = Animal(age=2, weight=10)
+    assert a.age == 2
+    assert a.weight == 10
+
 
 def test_aging():
     a: Animal = Animal()
@@ -35,9 +39,19 @@ def test_weight():
     a.update_weight(-5)
     assert a.weight == weight_before - 5
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_death():
-    pass
+    np.random.seed(1)
+    a = Animal()
+    assert a.should_die() == False
+
+    a = Animal()
+    a.fitness = 0
+    assert a.should_die() == True
+
+    a = Animal()
+    a.fitness = 1
+    assert a.should_die() == False
 
 
 @pytest.mark.skip(reason="Not implemented yet")
