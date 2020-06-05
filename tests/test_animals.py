@@ -16,7 +16,7 @@ def test_init_animal():
     a: Animal = Animal()
     print(a.weight)
     assert a.age == 0
-    assert a.weight == 10.436518045494863
+    assert a.weight == 10.436518045494863 #TODO Fix hardcoded random values
 
 
 def test_aging():
@@ -34,6 +34,11 @@ def test_weight():
     weight_before = a.weight
     a.update_weight(-5)
     assert a.weight == weight_before - 5
+
+@pytest.mark.skip(reason="Not implemented yet")
+def test_death():
+    pass
+
 
 def test_fitness():
 
@@ -61,6 +66,7 @@ def test_fitness():
     a: Animal = Animal()
     a.update_weight(10000)
     assert a.get_fitness() == pytest.approx(1)
+
 
 
 
