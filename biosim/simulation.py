@@ -1,7 +1,7 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-from .cell import Lowland
+from .cell import Lowland, Highland
 from .animals import Herbivore, Carnivore
 
 import numpy as np
