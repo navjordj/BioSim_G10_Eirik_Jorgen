@@ -47,15 +47,21 @@ class Animal:
         self.alive = True # Might not be necessary
 
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'
 
-    def increase_age(self):
+    def increase_age(self) -> None:
         self._age += 1
-        return True
 
-    def death(self):
-        pass
+    def death(self) -> bool:
+        """
+        Returns a boolean saying if the animal should die or not
+        """
+        if self._fitness <= 0:
+            return True
+        else:
+            p: float = self._params["omega"] * (1-self._fitness)
+            return random.random() < p
     
     # TODO update correct type
     def give_birth(self, gamma: float, phi: float, N: float) -> Union[object, int]:
