@@ -1,9 +1,13 @@
-from biosim.cells.cell import Cell
+__author__ = 'Eirik Høyheim, Jørgen Navjord'
+__email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 
-class Lowland(Cell):
+from .cell import Cell
 
-    max_fodder = 800
+
+class Highland(Cell):
+
+    max_fodder = 300
 
     def __init__(self) -> None:
         super().__init__()

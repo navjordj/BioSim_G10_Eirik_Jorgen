@@ -1,7 +1,7 @@
-from biosim.cells.water import Water
-from biosim.cells.desert import Desert
-from biosim.cells.lowland import Lowland
-from biosim.cells.highland import Highland
+from .water import Water
+from .desert import Desert
+from .lowland import Lowland
+from .highland import Highland
 from typing import List
 
 
@@ -18,7 +18,7 @@ class Island:
 
 
     @staticmethod
-    def make_map_ready(map_string: str) -> List[str]:
+    def make_map_ready(map_string: str) -> List[List[str]]:
         geo = [list(rows) for rows in
                map_string.replace(" ", "").split("\n")]
 

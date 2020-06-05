@@ -4,7 +4,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 
-from biosim.cells.desert import Desert
+from biosim.desert import Desert
 
 
 def test_desert() -> None:
