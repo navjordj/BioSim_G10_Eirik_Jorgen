@@ -103,6 +103,7 @@ class Cell:
             if h.alive == True:
                 keep_herbivores.append(h)
         self.herbivores = keep_herbivores
+        self.n_herbivores = len(keep_herbivores)
 
     def remove_dead_carnivore(self) -> None:
         # Remove dead herbivores:
@@ -111,9 +112,10 @@ class Cell:
             if c.alive == True:
                 keep_carnivores.append(c)
         self.carnivores = keep_carnivores
+        self.n_carnivores = len(keep_carnivores)
 
     def new_year(self) -> None:
-
+        # TODO make the fodder grow after they are done eating, either here or in the sim file
         if type(self) == Lowland or type(self) == Highland:
             self.eat_herbivore()
 
