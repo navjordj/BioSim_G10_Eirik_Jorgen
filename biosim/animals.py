@@ -111,7 +111,6 @@ class Animal:
         """
         Initializes the weight using a normal distribution
         """
-        print(self._params["w_birth"], self._params["sigma_birth"])
         return np.random.normal(self._params["w_birth"], self._params["sigma_birth"])
 
     def move(self) -> bool:
