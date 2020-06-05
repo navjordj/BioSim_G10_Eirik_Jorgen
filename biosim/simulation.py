@@ -1,13 +1,18 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
+from .cell import Lowland, Highland
+from .animals import Herbivore, Carnivore
+
+import numpy as np
 
 class BioSim:
     def __init__(
         self,
-        island_map,
-        ini_pop,
         seed,
+        ini_pop,
+
+        island_map=None,
         ymax_animals=None,
         cmax_animals=None,
         img_base=None,
@@ -36,6 +41,9 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
+        self.island_map = [Lowland()]
+        self.add_population(ini_pop)
+        np.random.seed(seed)
 
     def set_animal_parameters(self, species, params):
         """
@@ -62,6 +70,12 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
+        for i in range(num_years):
+            print(f'Year {i}: ')
+            for c in self.island_map:
+                c.grow()
+                c.new_year()
+            print(c)
 
     def add_population(self, population):
         """
@@ -69,12 +83,23 @@ class BioSim:
 
         :param population: List of dictionaries specifying population
         """
+        cell = self.island_map[0]
 
+        for species in population:
+            if species["species"] == 'Herbivore':
+                h = Herbivore(age=species["age"], weight=species["weight"])
+                cell.add_animal(h)
+
+            elif species["species"] == 'Carnivore':
+                c = Carnivore(age=species["age"], weight=species["weight"])
+                cell.add_animal(c)
+            else:
+                raise ValueError("species is neither carnivore er herbivore") # TODO add test
 
     @property
     def year(self):
         """Last year simulated."""
-
+        pass
 
     @property
     def num_animals(self):
