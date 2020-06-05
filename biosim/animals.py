@@ -45,7 +45,7 @@ class Animal:
             self._weight: float = self.initialize_weight()
         else:
             self._weight: float = weight
-            
+
         self._fitness = self.get_fitness()
         self.alive = True  # Might not be necessary
 
@@ -135,8 +135,8 @@ class Animal:
 
 class Herbivore(Animal):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, age=None, weight=None) -> None:
+        super().__init__(age, weight)
         self._params: dict = {
             "w_birth": 8.0,
             "sigma_birth": 1.5,
@@ -162,8 +162,8 @@ class Herbivore(Animal):
 
 class Carnivore(Animal):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, age=None, weight=None) -> None:
+        super().__init__(age, weight)
         self._params: dict = {
             "w_birth": 6.0,
             "sigma_birth": 1.0,
