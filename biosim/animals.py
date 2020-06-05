@@ -71,13 +71,13 @@ class Animal:
             return random.random() < p
 
     # TODO update correct type
-    def give_birth(self, N: int) -> Union[object, int]:
+    def give_birth(self, N: int) -> bool:
         # What is phi?
-        p: float = min(1, self.params["gamma"]*self.params["phi_age"]*(N-1))
+        p: float = min(1, self.params["gamma"]*self.fitness*(N-1))
         if random.random() < p:
-            return type(self)()
+            return True
         else:
-            return 0
+            return False
 
     def eat(self, intake: Union[int, float]) -> None:
         """ 
