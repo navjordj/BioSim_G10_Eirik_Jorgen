@@ -29,7 +29,7 @@ class Cell:
         self.n_herbivores: int = 0
 
     def __str__(self):
-        return f'{type(self)} \n number of carnivores: {self.n_carnivores} \n number of herbivores: {self.n_herbivores}'
+        return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
     # TODO make it so it's possible to move to then move
     def migrate(self) -> bool:
@@ -98,7 +98,7 @@ class Cell:
             raise ValueError("species is neither carnivore er herbivore")
 
     # TODO Add test for removing eaten herbovores
-    def remove_eaten_herbivore(self) -> None:
+    def remove_dead_herbivore(self) -> None:
         # Remove dead herbivores:
         keep_herbivores: List[Herbivore] = []
         for h in self.herbivores:
@@ -113,25 +113,54 @@ class Cell:
 
         self.eat_carnivore()
 
-        self.remove_eaten_herbivore()
+        self.remove_dead_herbivore()
         # MIGRATION:
-        # not implemented yet
-
-        # TODO Check when the age increases
-        # Increase age of all animals
-        N = len(self.carnivores)
-        if N >= 2:
+        n_carnivores = len(self.carnivores)
+        carnivore_babies: List[Carnivore] = []
+        if n_carnivores >= 2:
             for carni in self.carnivores:
-                give_birth = carni.give_birth(N)
+                give_birth = carni.give_birth(n_carnivores)
                 if give_birth:
-                    self.carnivores.append(Carnivore())
+                    baby_carnivore = Carnivore()
+                    baby_weight = baby_carnivore.weight
+                    carni.update_weight(- carni.params["xi"] * baby_weight)
+                    carnivore_babies.append(baby_carnivore)
+        self.carnivores.extend(carnivore_babies)
 
+
+        herbivore_babies: List[Herbivore] = []
+        n_herbivores = len(self.herbivores)
+        if n_herbivores >= 2:
+            for herbi in self.herbivores:
+                give_birth = herbi.give_birth(n_herbivores)
+                if give_birth:
+                    baby_herbivore = Herbivore()
+                    baby_weight = baby_herbivore.weight
+                    herbi.update_weight(- herbi.params["xi"] * baby_weight)
+                    herbivore_babies.append(baby_herbivore)
+        self.herbivores.extend(herbivore_babies)
+
+        # Age animals one year.
+        # 
         for h in self.herbivores:
             h.new_year()
 
         for c in self.carnivores:
             c.new_year()
 
+        
+
+        # TODO Fikse denne dritten
+        for carni in self.carnivores:
+            if carni.should_die():
+                carni.alive = False
+        
+        for herbi in self.herbivores:
+            if herbi.should_die():
+                carni.alive = False
+
+        self.remove_dead_herbivore()
+        print(len(self.carnivores), len(self.herbivores))
 
 class Desert(Cell):
     def __init__(self) -> None:

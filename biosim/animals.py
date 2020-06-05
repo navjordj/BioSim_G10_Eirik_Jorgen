@@ -60,7 +60,7 @@ class Animal:
     def increase_age(self) -> None:
         self.age += 1
 
-    def death(self) -> bool:
+    def should_die(self) -> bool:
         """
         Returns a boolean saying if the animal should die or not
         """

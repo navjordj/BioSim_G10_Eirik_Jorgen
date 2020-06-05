@@ -70,11 +70,12 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
-        for c in self.island_map:
-            #print(c.carnivores[0])
-            c.grow()
-            c.new_year()
-            #print(c.carnivores[0])
+        for i in range(num_years):
+            print(f'Year {i}: ')
+            for c in self.island_map:
+                c.grow()
+                c.new_year()
+            print(c)
 
     def add_population(self, population):
         """
