@@ -18,7 +18,7 @@ class Island:
 
 
     @staticmethod
-    def make_map_ready(map_string: str) -> List[str]:
+    def make_map_ready(map_string: str) -> List[List[str]]:
         geo = [list(rows) for rows in
                map_string.replace(" ", "").split("\n")]
 
