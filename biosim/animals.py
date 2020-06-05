@@ -8,7 +8,7 @@ import numpy as np
 
 np.random.seed(1)
 
- 
+
 def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
 
     def q(x: float, x_half: float, phi: float, sign: int) -> float:
@@ -17,39 +17,35 @@ def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: 
     return q(a, a_half, phi_age, 1) * q(w, w_half, phi_weight, -1)
 
 
-params = {
-    "w_birth": 8.0,
-    "sigma_birth": 1.5,
-    "beta": 0.9,
-    "eta": 0.05,
-    "a_half": 40.0,
-    "phi_age": 0.6,
-    "weight_half": 10.0,
-    "phi_weight": 0.1,
-    "mu": 0.25,
-    "gamma": 0.2,
-    "zeta": 3.5,
-    "xi": 1.2,
-    "omega": 0.4,
-    "F": 10.0,
-    "delta_phi_max": None
-}
-
-
 class Animal:
-    def __init__(self): # TODO Fix standard weight value
+    def __init__(self):  # TODO Fix standard weight value
 
-        self._params: dict = params
+        self._params: dict = {
+            "w_birth": 8.0,
+            "sigma_birth": 1.5,
+            "beta": 0.9,
+            "eta": 0.05,
+            "a_half": 40.0,
+            "phi_age": 0.6,
+            "weight_half": 10.0,
+            "phi_weight": 0.1,
+            "mu": 0.25,
+            "gamma": 0.2,
+            "zeta": 3.5,
+            "xi": 1.2,
+            "omega": 0.4,
+            "F": 10.0,
+            "delta_phi_max": None
+        }
         self._age: int = 0
         self._weight: float = self.initialize_weight()
         self._fitness = self.get_fitness()
-        self.alive = True # Might not be necessary
-
+        self.alive = True  # Might not be necessary
 
     def __str__(self) -> str:
         return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'
 
-    # TODO implement set_params 
+    # TODO implement set_params
     def set_params(self, parameter: Dict[str, Union[int, float]]) -> None:
         raise NotImplementedError("set_params is not implemented yet")
 
@@ -66,12 +62,13 @@ class Animal:
         else:
             p: float = self._params["omega"] * (1-self._fitness)
             return random.random() < p
-    
+
     # TODO update correct type
     def give_birth(self, N: int) -> Union[object, int]:
-        p: float = min(1, self._params["gamma"]*self._params["phi_age"]*(N-1)) # What is phi?
+        # What is phi?
+        p: float = min(1, self._params["gamma"]*self._params["phi_age"]*(N-1))
         if random.random() < p:
-            return type(self)() 
+            return type(self)()
         else:
             return 0
 
@@ -82,14 +79,13 @@ class Animal:
         fodder_eaten: float = self._params["beta"] * intake
         self.update_weight(fodder_eaten)
 
-
-
     # TODO: Return value? Bool to confirm success?
+
     def update_weight(self, change: float) -> None:
         self._weight += change
-    
 
     # TODO: Return value? Bool to confirm success?
+
     def new_year(self) -> None:
         """
         Increase age by one year and decrease weight by eta * weight
@@ -98,7 +94,6 @@ class Animal:
         weight_change: float = -self._params["eta"] * self._weight
         self.update_weight(weight_change)
         self._fitness = self.get_fitness()
- 
 
     def get_fitness(self) -> float:
         """
@@ -132,8 +127,60 @@ class Animal:
         return self._weight
 
 
+class Herbivore(Animal):
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._params: dict = {
+            "w_birth": 8.0,
+            "sigma_birth": 1.5,
+            "beta": 0.9,
+            "eta": 0.05,
+            "a_half": 40.0,
+            "phi_age": 0.6,
+            "weight_half": 10.0,
+            "phi_weight": 0.1,
+            "mu": 0.25,
+            "gamma": 0.2,
+            "zeta": 3.5,
+            "xi": 1.2,
+            "omega": 0.4,
+            "F": 10.0,
+            "delta_phi_max": None
+        }
+
+    @classmethod
+    def set_params(cls, params: dict) -> None:
+        cls._params = params
+
+
+class Carnivore(Animal):
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._params: dict = {
+            "w_birth": 6.0,
+            "sigma_birth": 1.0,
+            "beta": 0.75,
+            "eta": 0.125,
+            "a_half": 40.0,
+            "phi_age": 0.3,
+            "weight_half": 4.0,
+            "phi_weight": 0.4,
+            "mu": 0.4,
+            "gamma": 0.8,
+            "zeta": 3.5,
+            "xi": 1.1,
+            "omega": 0.8,
+            "F": 50.0,
+            "delta_phi_max": 10
+        }
+
+    @classmethod
+    def set_params(cls, params: dict) -> None:
+        cls._params = params
+
+
 if __name__ == "__main__":
-    a = Animal()
-    # print(a)
-    np.random.seed(1)
-    print(a.give_birth(100))
+    h = Herbivore()
+    c = Carnivore()
