@@ -50,7 +50,7 @@ class Animal:
         return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'
 
     # TODO implement set_params 
-    def set_params(self, parameter: dict[str, Union[int, float]]) -> bool:
+    def set_params(self, parameter: Dict[str, Union[int, float]]) -> None:
         raise NotImplementedError("set_params is not implemented yet")
 
     # TODO: Return value? Bool to confirm success?
@@ -68,8 +68,8 @@ class Animal:
             return random.random() < p
     
     # TODO update correct type
-    def give_birth(self, gamma: float, phi: float, N: float) -> Union[object, int]:
-        p = min(1, gamma*phi*(N-1))
+    def give_birth(self, N: int) -> Union[object, int]:
+        p: float = min(1, self._params["gamma"]*self._params["phi_age"]*(N-1)) # What is phi?
         if random.random() < p:
             return type(self)() 
         else:
@@ -134,5 +134,6 @@ class Animal:
 
 if __name__ == "__main__":
     a = Animal()
-    print(a.weight)
-
+    # print(a)
+    np.random.seed(1)
+    print(a.give_birth(100))
