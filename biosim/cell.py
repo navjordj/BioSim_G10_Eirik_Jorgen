@@ -2,8 +2,7 @@ __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 from .animals import Carnivore, Herbivore
-from typing import Union
-from typing import List
+from typing import Union, List, Any
 
 import random
 
@@ -85,13 +84,13 @@ class Cell:
                             break
 
     # TODO add type
-    def add_animal(self, animal):
+    def add_animal(self, animal: Any) -> None:  # choose Any because hard to name type
         if type(animal) == Herbivore:
             self.herbivores.append(animal)
-            self.n_carnivores += 1
+            self.n_herbivores += 1
         elif type(animal) == Carnivore:
             self.carnivores.append(animal)
-            self.n_herbivores += 1
+            self.n_carnivores += 1
         else:
             raise ValueError("species is neither carnivore er herbivore")
 
