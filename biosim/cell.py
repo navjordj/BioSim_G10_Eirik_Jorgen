@@ -31,6 +31,7 @@ class Cell:
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
     # TODO make it so it's possible to move to then move
+    # TODO evaluate if this function is necessary
     def migrate(self) -> bool:
 
         if self.allowed_move_to is False:
@@ -46,20 +47,20 @@ class Cell:
 
     # TODO must know what's inside Animals to do well
     def eat_herbivore(self) -> None:
-        fodder_left: Union[int, float] = self.fodder
+        # fodder_left: Union[int, float] = self.fodder
         shuffled_herbivores: List[
             Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
         random.shuffle(shuffled_herbivores)  # TODO refactor code
-
+        # TODO test if fodder newer gets below zero
         for herbi in shuffled_herbivores:
-            if fodder_left == 0:
+            if self.fodder == 0:
                 break  # Break out of loop when there is no food left
-            elif fodder_left - herbi.params["F"] < 0:
-                fodder_eaten = fodder_left
+            elif self.fodder - herbi.params["F"] < 0:
+                fodder_eaten = self.fodder
             else:
                 fodder_eaten = herbi.params["F"]
 
-            fodder_left -= fodder_eaten
+            self.fodder -= fodder_eaten
             herbi.update_weight(herbi.params["beta"] * fodder_eaten)
 
     def eat_carnivore(self) -> None:
