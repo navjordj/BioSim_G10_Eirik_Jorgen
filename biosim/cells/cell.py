@@ -34,7 +34,7 @@ class Cell:
 
         eaten = {}
         for animal in self.herbivores:
-            if self.fodder is 0:
+            if self.fodder == 0:
                 eaten[animal] = self.fodder
             elif self.fodder > amount:
                 eaten[animal] = amount
