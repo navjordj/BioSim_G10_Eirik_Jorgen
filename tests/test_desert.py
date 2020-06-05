@@ -6,6 +6,8 @@ import pytest
 
 from biosim.cells.desert import Desert
 
-@pytest.mark.skip(reason="Not implemented yet")
-def test_desert():
-    pass
+
+def test_desert() -> None:
+    d = Desert()
+    assert d.fodder == 0
+    assert d.allowed_move_to is True

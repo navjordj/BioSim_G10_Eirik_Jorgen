@@ -6,6 +6,14 @@ import pytest
 
 from biosim.cells.lowland import Lowland
 
-@pytest.mark.skip(reason="Not implemented yet")
-def test_lowland():
-    pass
+
+def test_lowland() -> None:
+    """
+    Checks tht the fodder has been updated
+    from 0 too a new number just by starting the function
+
+    Checks if allowed_move_to is the default boll (True)
+    """
+    l = Lowland()
+    assert l.fodder != 0
+    assert l.allowed_move_to is True

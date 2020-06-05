@@ -6,6 +6,14 @@ import pytest
 
 from biosim.cells.highland import Highland
 
-@pytest.mark.skip(reason="Not implemented yet")
-def test_lowland():
-    pass
+
+def test_highland() -> None:
+    """
+        Checks tht the fodder has been updated
+        from 0 too a new number just by starting the function
+
+        Checks if allowed_move_to is the default boll (True)
+        """
+    h = Highland()
+    assert h.fodder != 0
+    assert h.allowed_move_to is True
