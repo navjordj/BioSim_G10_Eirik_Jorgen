@@ -5,6 +5,8 @@ from .animals import Carnivore, Herbivore
 from typing import Union
 from typing import List
 
+import random
+
 
 class Cell:
     def __init__(self) -> None:
@@ -51,19 +53,44 @@ class Cell:
 
         return True
 
-    # TODO add None
-    def add_animals(self, carnivore: List, herbivore: List) -> None: # TODO Add optional animal parameter
+    """# TODO add None
+    def add_animals(self, carnivore: int, herbivore: int) -> None: # TODO Add optional animal parameter
         if carnivore is not None:
-            for animal in carnivore:
-                self.carnivores.append(animal)
+            for _ in range(carnivore):
+                self.carnivores.append(Carnivore())
                 self.n_carnivores += 1
+
+                
         if herbivore is not None:
-            for animal in herbivore:
-                self.herbivores.append(animal)
-                self.n_herbivores += 1
+            for _ in range(herbivore):
+                self.herbivores.append(Herbivore())
+                self.n_herbivores += 1"""
+
+    def add_animal(self, animal):
+        if type(animal) == Herbivore:
+            self.herbivores.append(animal)
+            self.n_carnivores += 1
+        elif type(animal) == Carnivore:
+            self.carnivores.append(animal)
+            self.n_herbivores += 1
+        else:
+            raise ValueError("species is neither carnivore er herbivore")
 
     def remove_animals(self):
         raise NotImplementedError("Remove animals is not implemented yet")
+
+
+    def new_year(self):
+        reverse_sort_c = sorted(self.carnivores, key= lambda animal: animal.get_fitness(), reverse=True)
+        for c in reverse_sort_c:
+            print(c)
+
+        sorted_h = sorted(self.herbivores, key= lambda animal: animal.get_fitness(), reverse=False)
+        for h in sorted_h:
+            print(h)
+
+
+        
 
 
 class Desert(Cell):
