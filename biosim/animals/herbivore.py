@@ -25,8 +25,8 @@ params = {
 
 class Herbivore(Animal):
     
-    def __init__(self, age: int, weight: float) -> None:
-        super().__init__(age, weight)
+    def __init__(self) -> None:
+        super().__init__()
         self._params = params
 
 
@@ -36,7 +36,7 @@ class Herbivore(Animal):
 
 
 if __name__ == "__main__":
-    h = Herbivore(3, 10)
+    h = Herbivore()
     print(h)
     h.increase_age()
     print(h)

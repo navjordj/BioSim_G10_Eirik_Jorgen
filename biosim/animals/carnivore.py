@@ -25,8 +25,8 @@ params = {
 
 class Carnivore(Animal):
 
-    def __init__(self, age: int, weight: float) -> None:
-        super().__init__(age, weight)
+    def __init__(self) -> None:
+        super().__init__()
         self._params = params
         
 
@@ -36,5 +36,5 @@ class Carnivore(Animal):
 
 
 if __name__ == "__main__":
-    c = Carnivore(0, 10)
+    c = Carnivore()
     print(c.weight)
