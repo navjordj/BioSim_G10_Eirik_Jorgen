@@ -40,6 +40,11 @@ def test_death():
     pass
 
 
+@pytest.mark.skip(reason="Not implemented yet")
+def test_birth():
+    a: Animal = Animal()
+    pass
+
 def test_fitness():
 
     # Check that fitness decreases when age increases
