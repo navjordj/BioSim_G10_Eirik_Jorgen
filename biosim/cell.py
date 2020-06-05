@@ -7,6 +7,15 @@ from typing import List
 
 import random
 
+# TODO implement test
+def p_eat(phi_carn, phi_herb, delta_phi_max):
+    if phi_carn <= phi_herb:
+        return 0
+    elif (0 < phi_carn - phi_herb) and (phi_carn - phi_herb < delta_phi_max):
+        return (phi_carn - phi_herb)/(delta_phi_max)
+    else:
+        return 1
+
 
 class Cell:
     def __init__(self) -> None:
@@ -36,22 +45,42 @@ class Cell:
             raise ValueError('Fodder must be a positive number')
 
     # TODO must know what's inside Animals to do well
-    def eat_herbivore(self, amount: Union[float, int]) -> bool:
-        if self.herbivores == []:
-            return False
+    def eat_herbivore(self) -> None:
+        fodder_left: int = self.fodder
+        shuffled_herbivores = self.herbivores.copy() # Avoid shuffling original herbivore list
+        random.shuffle(shuffled_herbivores) # TODO refactor code
 
-        eaten = {}
-        for animal in self.herbivores:
-            if self.fodder == 0:
-                eaten[animal] = self.fodder
-            elif self.fodder > amount:
-                eaten[animal] = amount
-                self.fodder -= amount
-            elif self.fodder <= amount:
-                eaten[animal] = amount - self.fodder
-                self.fodder = 0
+        for herbi in shuffled_herbivores:
+            if fodder_left == 0:
+                break # Break out of loop when there is no food left
+            elif fodder_left - herbi.params["F"] < 0:
+                fodder_eaten = fodder_left
+            else:
+                fodder_eaten = herbi.params["F"]
 
-        return True
+            fodder_left -= fodder_eaten
+            herbi.update_weight(herbi.params["beta"] * fodder_eaten)
+
+    def eat_carnivore(self) -> None:
+
+        reverse_sort_c = sorted(self.carnivores, key= lambda animal: animal.get_fitness(), reverse=True)
+        sorted_h = sorted(self.herbivores, key= lambda animal: animal.get_fitness(), reverse=False)
+
+        for i, carni in enumerate(reverse_sort_c):
+            f_eaten = 0
+            for j, herbi in enumerate(sorted_h):
+                if herbi.alive:
+                    p = p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["delta_phi_max"])
+                    if random.random() < p:
+                        herbi.alive = False
+                        print(f'Herbivore nr. {j} got eaten by Carnivore nr. {i}')
+                        f_eaten +=  herbi.weight
+                        carni.update_weight(carni.params["beta"] * f_eaten)
+                        #print(f'Carnivore nr. {i} has eaten {f_eaten} kg herbi')
+                        if f_eaten >= carni.params["F"]: # TODO Check if there are leftovers
+                            break
+
+
 
     """# TODO add None
     def add_animals(self, carnivore: int, herbivore: int) -> None: # TODO Add optional animal parameter
@@ -81,14 +110,24 @@ class Cell:
 
 
     def new_year(self):
-        reverse_sort_c = sorted(self.carnivores, key= lambda animal: animal.get_fitness(), reverse=True)
-        for c in reverse_sort_c:
-            print(c)
 
-        sorted_h = sorted(self.herbivores, key= lambda animal: animal.get_fitness(), reverse=False)
-        for h in sorted_h:
-            print(h)
+        if type(self) == Lowland or type(self) == Highland:
+            self.eat_herbivore()
 
+
+        self.eat_carnivore()
+
+        
+        # MIGRATION:
+        # not implemented yet
+
+        # TODO Check when the age increases
+        # Increase age of all animals
+        for h in self.herbivores:
+            h.new_year()
+        
+        for c in self.carnivores:
+            c.new_year()
 
         
 
