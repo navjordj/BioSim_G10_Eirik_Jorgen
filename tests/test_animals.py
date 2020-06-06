@@ -85,8 +85,3 @@ def test_fitness():
     a: Animal = Animal()
     a.update_weight(10000)
     assert a.get_fitness() == pytest.approx(1)
-
-
-
-
-    
