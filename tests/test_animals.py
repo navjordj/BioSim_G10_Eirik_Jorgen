@@ -28,7 +28,7 @@ def test_aging():
     a.increase_age()
     assert a.age == 1
 
-def test_weight():
+def test_update_weight():
     a: Animal = Animal()
     weight_before = a.weight
     a.update_weight(10)
@@ -62,14 +62,23 @@ def test_birth():
 
 def test_eat():
     a: Animal = Animal()
+    
     weight_before = a.weight
     intake = 10
     a.eat(10)
     assert a.weight == (weight_before + a.params["beta"]*intake)
 
+    # Eat negative amount should raise a ValueError
     with pytest.raises(ValueError) as error:
         a: Animal = Animal()
         a.eat(-10)
+
+def test_new_year():
+    a: Animal = Animal()
+
+    weight_before = a.weight
+    a.new_year()
+    assert a.weight == (weight_before - a.params["eta"]*weight_before)
 
 def test_fitness():
 
