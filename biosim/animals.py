@@ -81,8 +81,11 @@ class Animal:
         """ 
         Takes in a certain amount of fodder. Weight change is beta * intake
         """
-        fodder_eaten: float = self.params["beta"] * intake
-        self.update_weight(fodder_eaten)
+        if intake < 0:
+            raise ValueError("Cant eat negative amount")
+        else:
+            weight_change: float = self.params["beta"] * intake
+            self.update_weight(weight_change)
 
     # TODO: Return value? Bool to confirm success?
 
