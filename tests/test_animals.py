@@ -41,9 +41,6 @@ def test_weight():
 
 # @pytest.mark.skip(reason="Not implemented yet")
 def test_death():
-    np.random.seed(1)
-    a = Animal()
-    assert a.should_die() == False
 
     a = Animal()
     a.fitness = 0
@@ -54,10 +51,25 @@ def test_death():
     assert a.should_die() == False
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_birth():
     a: Animal = Animal()
-    pass
+    N = 1000
+    assert a.give_birth(N) == True
+
+    N = 0
+    assert a.give_birth(N) == False
+
+def test_eat():
+    a: Animal = Animal()
+    weight_before = a.weight
+    intake = 10
+    a.eat(10)
+    assert a.weight == (weight_before + a.params["beta"]*intake)
+
+    with pytest.raises(ValueError) as error:
+        a: Animal = Animal()
+        a.eat(-10)
 
 def test_fitness():
 
