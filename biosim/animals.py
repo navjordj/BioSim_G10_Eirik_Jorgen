@@ -19,7 +19,6 @@ def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: 
 
 class Animal:
     def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
-
         self.params: dict = {
             "w_birth": 8.0,
             "sigma_birth": 1.5,
@@ -72,7 +71,6 @@ class Animal:
 
     # TODO update correct type
     def give_birth(self, N: int) -> bool:
-        # What is phi?
         p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
         if random.random() < p:
             return True
@@ -83,8 +81,11 @@ class Animal:
         """ 
         Takes in a certain amount of fodder. Weight change is beta * intake
         """
-        fodder_eaten: float = self.params["beta"] * intake
-        self.update_weight(fodder_eaten)
+        if intake < 0:
+            raise ValueError("Cant eat negative amount")
+        else:
+            weight_change: float = self.params["beta"] * intake
+            self.update_weight(weight_change)
 
     # TODO: Return value? Bool to confirm success?
 

@@ -18,13 +18,17 @@ def test_init_animal():
     assert a.age == 0
     assert a.weight == 10.436518045494863 #TODO Fix hardcoded random values
 
+    a: Animal = Animal(age=2, weight=10)
+    assert a.age == 2
+    assert a.weight == 10
+
 
 def test_aging():
     a: Animal = Animal()
     a.increase_age()
     assert a.age == 1
 
-def test_weight():
+def test_update_weight():
     a: Animal = Animal()
     weight_before = a.weight
     a.update_weight(10)
@@ -35,15 +39,46 @@ def test_weight():
     a.update_weight(-5)
     assert a.weight == weight_before - 5
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_death():
-    pass
+
+    a = Animal()
+    a.fitness = 0
+    assert a.should_die() == True
+
+    a = Animal()
+    a.fitness = 1
+    assert a.should_die() == False
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_birth():
     a: Animal = Animal()
-    pass
+    N = 1000
+    assert a.give_birth(N) == True
+
+    N = 0
+    assert a.give_birth(N) == False
+
+def test_eat():
+    a: Animal = Animal()
+    
+    weight_before = a.weight
+    intake = 10
+    a.eat(10)
+    assert a.weight == (weight_before + a.params["beta"]*intake)
+
+    # Eat negative amount should raise a ValueError
+    with pytest.raises(ValueError) as error:
+        a: Animal = Animal()
+        a.eat(-10)
+
+def test_new_year():
+    a: Animal = Animal()
+
+    weight_before = a.weight
+    a.new_year()
+    assert a.weight == (weight_before - a.params["eta"]*weight_before)
 
 def test_fitness():
 
@@ -71,8 +106,3 @@ def test_fitness():
     a: Animal = Animal()
     a.update_weight(10000)
     assert a.get_fitness() == pytest.approx(1)
-
-
-
-
-    
