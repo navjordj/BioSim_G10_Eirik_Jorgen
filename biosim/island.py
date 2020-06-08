@@ -15,10 +15,17 @@ class Island:
 
 
     def __str__(self):
+        map_str = ""
         for i in range(self.row_len):
             for j in range(self.column_len):
-                pass
-        return ""
+
+                #TODO Refactor to use map_params
+                if type(self.map[i][j]) == Water:
+                    map_str += 'W'
+                else:
+                    map_str += "L"
+            map_str += "\n"
+        return map_str
 
     @staticmethod
     def make_map_ready(map_string: str) -> List[List[str]]:

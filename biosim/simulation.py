@@ -1,7 +1,7 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-from .cell import Lowland, Highland
+from .cell import Lowland, Highland, Water, Desert
 from .animals import Herbivore, Carnivore
 from .island import Island
 
@@ -82,8 +82,11 @@ class BioSim:
         for i in range(num_years):
             print(f'Year {i}: ')
             for c in self.island_map:
-                c.grow()
-                c.new_year()
+                if type(c) == Water:
+                    continue
+                else:
+                    c.grow()
+                    c.new_year()
             print(c)
             # self.year += 1
 

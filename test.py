@@ -7,9 +7,6 @@ ini_carn = [{'species': 'Carnivore', 'age': 6, 'weight': None}
 
 
 kart = "WWW\nWLW\nWWW"
-# print(kart)
-
-
 
 
 b = BioSim(seed=1, ini_pop=ini_herbs, island_map=kart)
