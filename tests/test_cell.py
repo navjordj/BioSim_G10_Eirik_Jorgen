@@ -1,7 +1,6 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-
 import pytest
 
 from biosim.cell import Cell, Water, Lowland, Highland, Desert
@@ -57,7 +56,7 @@ def test_eat_herbivore() -> None:
     and tests if there is no food the weight is the same
     """
     l = Lowland()
-    l.add_animal(Herbivore())
+    l.add_animal('Herbivore')
     start_weight_lowland = 0.0  # mypy refused to take in anything other than a float (see animals)
     for herb in l.herbivores:
         start_weight_lowland += herb.weight
@@ -75,7 +74,7 @@ def test_eat_herbivore() -> None:
     # to the standard amount of fodder (max fodder)
 
     d = Desert()
-    d.add_animal(Herbivore())
+    d.add_animal('Herbivore')
     fodder_before_eating_desert = d.fodder
     start_weight_desert = 0.0
     for herb in d.herbivores:
@@ -92,11 +91,11 @@ def test_eat_herbivore() -> None:
 
 def test_add_animal() -> None:
     c = Cell()
-    h = Herbivore()
-    a = Animal()
+    h = 'Herbivore'
+    a = 'Animal'
     c.add_animal(h)
     assert len(c.herbivores) == 1
-    assert c.herbivores[0] == h
+    assert type(c.herbivores[0]) == type(Herbivore())
     with pytest.raises(ValueError):
         c.add_animal(a)
 
@@ -108,13 +107,13 @@ def test_remove_dead_herbivore() -> None:
     l = Lowland()
     n = 5
     for _ in range(n):
-        l.add_animal(Herbivore())
+        l.add_animal('Herbivore')
     for herb in l.herbivores:
         assert herb.alive is True
     assert l.n_herbivores == n
     l.herbivores[0].alive = False
     l.remove_dead_herbivore()
-    assert l.n_herbivores == n-1
+    assert l.n_herbivores == n - 1
 
 
 # TODO find a way to test eat_carnivore function, have to implement more
@@ -125,9 +124,9 @@ def test_eat_carnivore() -> None:
     d = Desert()
     n = 10
     for _ in range(n):
-        d.add_animal(Herbivore())
+        d.add_animal('Herbivore')
     for _ in range(n):
-        d.add_animal(Carnivore())
+        d.add_animal('Carnivore')
     start_weight_carnivore = 0.0
     for carn in d.carnivores:
         start_weight_carnivore += carn.weight
@@ -142,7 +141,7 @@ def test_remove_dead_carnivore() -> None:
     l = Lowland()
     n = 5
     for _ in range(n):
-        l.add_animal(Carnivore())
+        l.add_animal('Carnivore')
     for carn in l.carnivores:
         assert carn.alive is True
     assert l.n_carnivores == n
@@ -158,7 +157,7 @@ def test_carnivore_babies() -> None:
     assert l.n_carnivores == 0
     n = 100
     for _ in range(n):
-        l.add_animal(Carnivore())
+        l.add_animal('Carnivore')
     num_carni_pre_procreation = l.n_carnivores
     l.carnivore_babies()
     assert num_carni_pre_procreation < l.n_carnivores
@@ -171,7 +170,7 @@ def test_herbivore_babies() -> None:
     assert l.n_herbivores == 0
     n = 100
     for _ in range(n):
-        l.add_animal(Herbivore())
+        l.add_animal('Herbivore')
     num_herb_pre_procreation = l.n_herbivores
     l.herbivore_babies()
     assert num_herb_pre_procreation < l.n_herbivores
@@ -182,7 +181,7 @@ def test_prob_death_herb() -> None:
     d = Desert()
     n = 100
     for _ in range(n):
-        d.add_animal(Herbivore())
+        d.add_animal('Herbivore')
     num_herb_pre_prob = d.n_herbivores
     d.prob_death_herb()
     assert num_herb_pre_prob > d.n_herbivores
@@ -193,7 +192,7 @@ def test_prob_death_carni() -> None:
     d = Desert()
     n = 100
     for _ in range(n):
-        d.add_animal(Carnivore())
+        d.add_animal('Carnivore')
     num_carni_pre_prob = d.n_carnivores
     d.prob_death_carni()
     assert num_carni_pre_prob > d.n_herbivores
@@ -202,8 +201,5 @@ def test_prob_death_carni() -> None:
 # TODO test new year
 def test_new_year_function() -> None:
     l = Lowland()
-    l.add_animal(Herbivore())
+    l.add_animal('Herbivore')
     l.new_year()
-
-
-
