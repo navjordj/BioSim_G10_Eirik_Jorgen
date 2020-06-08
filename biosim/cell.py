@@ -2,8 +2,7 @@ __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 from .animals import Carnivore, Herbivore
-from typing import Union
-from typing import List
+from typing import Union, List, Any
 
 import random
 
@@ -32,6 +31,7 @@ class Cell:
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
     # TODO make it so it's possible to move to then move
+    # TODO evaluate if this function is necessary
     def migrate(self) -> bool:
 
         if self.allowed_move_to is False:
@@ -47,20 +47,20 @@ class Cell:
 
     # TODO must know what's inside Animals to do well
     def eat_herbivore(self) -> None:
-        fodder_left: Union[int, float] = self.fodder
+        # fodder_left: Union[int, float] = self.fodder
         shuffled_herbivores: List[
             Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
         random.shuffle(shuffled_herbivores)  # TODO refactor code
-
+        # TODO test if fodder newer gets below zero
         for herbi in shuffled_herbivores:
-            if fodder_left == 0:
+            if self.fodder == 0:
                 break  # Break out of loop when there is no food left
-            elif fodder_left - herbi.params["F"] < 0:
-                fodder_eaten = fodder_left
+            elif self.fodder - herbi.params["F"] < 0:
+                fodder_eaten = self.fodder
             else:
                 fodder_eaten = herbi.params["F"]
 
-            fodder_left -= fodder_eaten
+            self.fodder -= fodder_eaten
             herbi.update_weight(herbi.params["beta"] * fodder_eaten)
 
     def eat_carnivore(self) -> None:
@@ -85,13 +85,13 @@ class Cell:
                             break
 
     # TODO add type
-    def add_animal(self, animal):
+    def add_animal(self, animal: Any) -> None:  # choose Any because hard to name type
         if type(animal) == Herbivore:
             self.herbivores.append(animal)
-            self.n_carnivores += 1
+            self.n_herbivores += 1
         elif type(animal) == Carnivore:
             self.carnivores.append(animal)
-            self.n_herbivores += 1
+            self.n_carnivores += 1
         else:
             raise ValueError("species is neither carnivore er herbivore")
 
@@ -103,6 +103,7 @@ class Cell:
             if h.alive == True:
                 keep_herbivores.append(h)
         self.herbivores = keep_herbivores
+        self.n_herbivores = len(keep_herbivores)
 
     def remove_dead_carnivore(self) -> None:
         # Remove dead herbivores:
@@ -111,9 +112,50 @@ class Cell:
             if c.alive == True:
                 keep_carnivores.append(c)
         self.carnivores = keep_carnivores
+        self.n_carnivores = len(keep_carnivores)
+
+    def carnivore_babies(self) -> None:
+        carnivore_babies: List[Carnivore] = []
+        if self.n_carnivores >= 2:
+            for carni in self.carnivores:
+                give_birth = carni.give_birth(self.n_carnivores)
+                if give_birth:
+                    baby_carnivore = Carnivore()
+                    baby_weight = baby_carnivore.weight
+                    carni.update_weight(- carni.params["xi"] * baby_weight)
+                    carnivore_babies.append(baby_carnivore)
+        self.carnivores.extend(carnivore_babies)
+        self.n_carnivores = self.n_carnivores + len(carnivore_babies)
+
+    def herbivore_babies(self) -> None:
+        herbivore_babies: List[Herbivore] = []
+        if self.n_herbivores >= 2:
+            for herbi in self.herbivores:
+                give_birth = herbi.give_birth(self.n_herbivores)
+                if give_birth:
+                    baby_herbivore = Herbivore()
+                    baby_weight = baby_herbivore.weight
+                    herbi.update_weight(- herbi.params["xi"] * baby_weight)
+                    herbivore_babies.append(baby_herbivore)
+        self.herbivores.extend(herbivore_babies)
+        self.n_herbivores = self.n_herbivores + len(herbivore_babies)
+
+    def prob_death_herb(self) -> None:
+        for herb in self.herbivores:
+            if herb.should_die():
+                herb.alive = False
+
+        self.remove_dead_herbivore()
+
+    def prob_death_carni(self) -> None:
+        for carni in self.carnivores:
+            if carni.should_die():
+                carni.alive = False
+
+        self.remove_dead_carnivore()
 
     def new_year(self) -> None:
-
+        # TODO make the fodder grow after they are done eating, either here or in the sim file
         if type(self) == Lowland or type(self) == Highland:
             self.eat_herbivore()
 
@@ -121,52 +163,22 @@ class Cell:
 
         self.remove_dead_herbivore()
         # MIGRATION:
-        n_carnivores = len(self.carnivores)
-        carnivore_babies: List[Carnivore] = []
-        if n_carnivores >= 2:
-            for carni in self.carnivores:
-                give_birth = carni.give_birth(n_carnivores)
-                if give_birth:
-                    baby_carnivore = Carnivore()
-                    baby_weight = baby_carnivore.weight
-                    carni.update_weight(- carni.params["xi"] * baby_weight)
-                    carnivore_babies.append(baby_carnivore)
-        self.carnivores.extend(carnivore_babies)
 
+        # Procreation:
+        self.herbivore_babies()
+        self.carnivore_babies()
 
-        herbivore_babies: List[Herbivore] = []
-        n_herbivores = len(self.herbivores)
-        if n_herbivores >= 2:
-            for herbi in self.herbivores:
-                give_birth = herbi.give_birth(n_herbivores)
-                if give_birth:
-                    baby_herbivore = Herbivore()
-                    baby_weight = baby_herbivore.weight
-                    herbi.update_weight(- herbi.params["xi"] * baby_weight)
-                    herbivore_babies.append(baby_herbivore)
-        self.herbivores.extend(herbivore_babies)
-
-        # Age animals one year.
-        # 
+        # Age animals one year:
         for h in self.herbivores:
             h.new_year()
 
         for c in self.carnivores:
             c.new_year()
 
-        
+        # DEATH
+        self.prob_death_carni()
+        self.prob_death_herb()
 
-        # TODO Fikse denne dritten
-        for carni in self.carnivores:
-            if carni.should_die():
-                carni.alive = False
-        
-        for herbi in self.herbivores:
-            if herbi.should_die():
-                herbi.alive = False
-
-        self.remove_dead_herbivore()
-        self.remove_dead_carnivore()
 
 class Desert(Cell):
     def __init__(self) -> None:
