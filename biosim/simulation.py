@@ -46,12 +46,12 @@ class BioSim:
         # self.year = 0
 
         # self.island_map = [Lowland()]
-        self.add_population(ini_pop)
         np.random.seed(seed)
 
 
         self.island_map = Island(map = island_map)
-        print(self.island_map)
+        self.add_population(ini_pop)
+
 
 
     def set_animal_parameters(self, species, params):
@@ -79,16 +79,19 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
+        # TODO fix map.map.map.map
         for i in range(num_years):
             print(f'Year {i}: ')
-            for c in self.island_map:
-                if type(c) == Water:
-                    continue
-                else:
-                    c.grow()
-                    c.new_year()
-            print(c)
-            # self.year += 1
+            # TODO make a proper iterator
+            for i in range(self.island_map.row_len):
+                for j in range(self.island_map.column_len):
+                    c = self.island_map.map[i][j]
+                    if type(c) == Water:
+                        print(c)
+                    else:
+                        c.grow()
+                        c.new_year()
+                        print(c)
 
     def add_population(self, population):
         """
@@ -97,6 +100,21 @@ class BioSim:
         :param population: List of dictionaries specifying population
         """
         pass
+        # [{loc: (1, 1), pop: [{species: Herbi, age: 4, weight: 3}]}]
+        for cell in population:
+            loc = cell["loc"]
+            pop = cell["pop"]
+
+            for animal in pop:
+                #TODO age and weight might be none
+                type_animal = animal["species"]
+                age = animal["age"]
+                weight = animal["weight"]
+                print(type_animal, age, weight)
+                if type(self.island_map.map[loc[0]-1][loc[1]-1]) == Water:
+                    raise ValueError(f"Cant add animals on water landscape ({loc[0], loc[1]})")
+                else:
+                    self.island_map.map[loc[0]-1][loc[1]-1].add_animal(animal=type_animal, age=age, weight=weight)
 
     @property
     def year(self):
