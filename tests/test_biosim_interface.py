@@ -26,24 +26,22 @@ import os.path
 
 from biosim.simulation import BioSim
 
-@pytest.mark.skip(reason="Not implemented yet")
+
 def test_empty_island():
     """Empty island can be created"""
     BioSim(island_map="WW\nWW", ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 def test_minimal_island():
     """Island of single jungle cell"""
     BioSim(island_map="WWW\nWLW\nWWW", ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 def test_all_types():
     """All types of landscape can be created"""
     BioSim(island_map="WWWW\nWLHW\nWWDW\nWWWW", ini_pop=[], seed=1)
 
-@pytest.mark.skip(reason="Not implemented yet")
+
 @pytest.mark.parametrize('bad_boundary',
                          ['L', 'H', 'D'])
 def test_invalid_boundary(bad_boundary):
@@ -53,14 +51,12 @@ def test_invalid_boundary(bad_boundary):
                ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 def test_invalid_landscape():
     """Invalid landscape type must raise error"""
     with pytest.raises(ValueError):
         BioSim(island_map="WWW\nWRW\nWWW", ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 def test_inconsistent_length():
     """Inconsistent line length must raise error"""
     with pytest.raises(ValueError):
@@ -103,7 +99,7 @@ def test_set_param_landscape(lscape, params):
     BioSim(island_map="W", ini_pop=[], seed=1).set_landscape_parameters(lscape, params)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_initial_population():
     """Test that population can be placed on construction"""
 
@@ -117,7 +113,7 @@ def test_initial_population():
            seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 @pytest.fixture
 def plain_sim():
     """Return a simple island for used in various tests below"""
@@ -126,7 +122,7 @@ def plain_sim():
                   seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_add_population(plain_sim):
     """Test that population can be added to simulation"""
 
@@ -138,14 +134,14 @@ def test_add_population(plain_sim):
                                        {'species': 'Carnivore', 'age': 1, 'weight': 10.}]}])
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_simulate(plain_sim):
     """Test that simulation can be called with visualization step values"""
 
     plain_sim.simulate(num_years=10, vis_years=100, img_years=100)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_multi_simulate(plain_sim):
     """Test that simulation can be called repeatedly"""
 

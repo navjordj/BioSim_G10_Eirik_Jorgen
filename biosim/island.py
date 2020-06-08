@@ -60,6 +60,8 @@ class Island:
         # TODO make a list comp with None instead of using geo
         for i, row in enumerate(geo):
             for j, cell in enumerate(row):
+                if cell not in self.map_params.keys():
+                    raise ValueError(f'{cell} is not a valid landscape')
                 geo[i][j] = self.map_params[cell]()
 
         return geo
