@@ -51,11 +51,8 @@ class Island:
         self.row_len = len(geo)
         self.column_len = len(geo[0])
 
-        full_map = [[None]*self.column_len]*self.row_len
-
         for i, row in enumerate(geo):
             for j, cell in enumerate(row):
-                print((i, j), ": ", cell)
-                full_map[j][i] = cell
-                print(full_map)
-        #print(full_map)
+                geo[i][j] = self.map_params[cell]()
+
+        return geo
