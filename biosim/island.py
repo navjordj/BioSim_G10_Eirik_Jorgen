@@ -57,7 +57,7 @@ class Island:
 
         self.row_len = len(geo)
         self.column_len = len(geo[0])
-
+        # TODO make a list comp with None instead of using geo
         for i, row in enumerate(geo):
             for j, cell in enumerate(row):
                 geo[i][j] = self.map_params[cell]()
