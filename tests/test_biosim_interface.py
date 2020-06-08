@@ -26,24 +26,24 @@ import os.path
 
 from biosim.simulation import BioSim
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_empty_island():
     """Empty island can be created"""
     BioSim(island_map="WW\nWW", ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_minimal_island():
     """Island of single jungle cell"""
     BioSim(island_map="WWW\nWLW\nWWW", ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_all_types():
     """All types of landscape can be created"""
     BioSim(island_map="WWWW\nWLHW\nWWDW\nWWWW", ini_pop=[], seed=1)
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 @pytest.mark.parametrize('bad_boundary',
                          ['L', 'H', 'D'])
 def test_invalid_boundary(bad_boundary):
@@ -53,7 +53,7 @@ def test_invalid_boundary(bad_boundary):
                ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_invalid_landscape():
     """Invalid landscape type must raise error"""
     with pytest.raises(ValueError):
