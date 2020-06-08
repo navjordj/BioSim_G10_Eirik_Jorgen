@@ -6,7 +6,13 @@ ini_carn = [{'species': 'Carnivore', 'age': 6, 'weight': None}
             for _ in range(1)]
 
 
-b = BioSim(seed=1, ini_pop=ini_herbs)
+kart = "WWW\nWLW\nWWW"
+# print(kart)
+
+
+
+
+b = BioSim(seed=1, ini_pop=ini_herbs, island_map=kart)
 b.add_population(ini_carn)
 
-b.simulate(100)
+# b.simulate(100)

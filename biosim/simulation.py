@@ -3,6 +3,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 from .cell import Lowland, Highland
 from .animals import Herbivore, Carnivore
+from .island import Island
 
 import numpy as np
 from typing import Dict
@@ -44,9 +45,13 @@ class BioSim:
         """
         # self.year = 0
 
-        self.island_map = [Lowland()]
+        # self.island_map = [Lowland()]
         self.add_population(ini_pop)
         np.random.seed(seed)
+
+
+        self.island_map = Island(map = island_map)
+        print(self.island_map)
 
 
     def set_animal_parameters(self, species, params):
@@ -88,18 +93,7 @@ class BioSim:
 
         :param population: List of dictionaries specifying population
         """
-        cell = self.island_map[0]
-
-        for species in population:
-            if species["species"] == 'Herbivore':
-                h = Herbivore(age=species["age"], weight=species["weight"])
-                cell.add_animal(h)
-
-            elif species["species"] == 'Carnivore':
-                c = Carnivore(age=species["age"], weight=species["weight"])
-                cell.add_animal(c)
-            else:
-                raise ValueError("species is neither carnivore er herbivore") # TODO add test
+        pass
 
     @property
     def year(self):
