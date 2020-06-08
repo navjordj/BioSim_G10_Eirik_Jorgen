@@ -198,12 +198,12 @@ def test_prob_death_carni() -> None:
     d.prob_death_carni()
     assert num_carni_pre_prob > d.n_herbivores
 
+
 # TODO test new year
-@pytest.mark.skip(reason="Not implemented yet")
 def test_new_year_function() -> None:
     l = Lowland()
     l.add_animal(Herbivore())
-    pass
+    l.new_year()
 
 
 
