@@ -164,12 +164,9 @@ class Cell:
         self.remove_dead_herbivore()
         # MIGRATION:
 
-
-        # BABIES:
+        # Procreation:
         self.herbivore_babies()
         self.carnivore_babies()
-
-
 
         # Age animals one year:
         for h in self.herbivores:
@@ -177,8 +174,6 @@ class Cell:
 
         for c in self.carnivores:
             c.new_year()
-
-        
 
         # DEATH
         self.prob_death_carni()

@@ -151,7 +151,33 @@ def test_remove_dead_carnivore() -> None:
     assert l.n_carnivores == n - 1
 
 
-# TODO try to make mock or a statististical method for the test
+# TODO try to make mock or statistic method
+def test_carnivore_babies() -> None:
+    l = Lowland()
+    l.carnivore_babies()
+    assert l.n_carnivores == 0
+    n = 100
+    for _ in range(n):
+        l.add_animal(Carnivore())
+    num_carni_pre_procreation = l.n_carnivores
+    l.carnivore_babies()
+    assert num_carni_pre_procreation < l.n_carnivores
+
+
+# TODO try to make mock or a statistic method
+def test_herbivore_babies() -> None:
+    l = Lowland()
+    l.herbivore_babies()
+    assert l.n_herbivores == 0
+    n = 100
+    for _ in range(n):
+        l.add_animal(Herbivore())
+    num_herb_pre_procreation = l.n_herbivores
+    l.herbivore_babies()
+    assert num_herb_pre_procreation < l.n_herbivores
+
+
+# TODO try to make mock or a statistic method for the test
 def test_prob_death_herb() -> None:
     d = Desert()
     n = 100
@@ -162,7 +188,7 @@ def test_prob_death_herb() -> None:
     assert num_herb_pre_prob > d.n_herbivores
 
 
-# TODO try to make mock or a statististical method for the test
+# TODO try to make mock or a statistic method for the test
 def test_prob_death_carni() -> None:
     d = Desert()
     n = 100
