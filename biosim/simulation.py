@@ -1,8 +1,9 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-from .cell import Lowland, Highland
+from .cell import Lowland, Highland, Water, Desert
 from .animals import Herbivore, Carnivore
+from .island import Island
 
 import numpy as np
 from typing import Dict
@@ -44,9 +45,13 @@ class BioSim:
         """
         # self.year = 0
 
-        self.island_map = [Lowland()]
-        self.add_population(ini_pop)
+        # self.island_map = [Lowland()]
         np.random.seed(seed)
+
+
+        self.island_map = Island(map = island_map)
+        self.add_population(ini_pop)
+
 
 
     def set_animal_parameters(self, species, params):
@@ -74,13 +79,19 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
+        # TODO fix map.map.map.map
         for i in range(num_years):
             print(f'Year {i}: ')
-            for c in self.island_map:
-                c.grow()
-                c.new_year()
-            print(c)
-            # self.year += 1
+            # TODO make a proper iterator
+            for i in range(self.island_map.row_len):
+                for j in range(self.island_map.column_len):
+                    c = self.island_map.map[i][j]
+                    if type(c) == Water:
+                        print(c)
+                    else:
+                        c.grow()
+                        c.new_year()
+                        print(c)
 
     def add_population(self, population):
         """
@@ -88,18 +99,22 @@ class BioSim:
 
         :param population: List of dictionaries specifying population
         """
-        cell = self.island_map[0]
+        pass
+        # [{loc: (1, 1), pop: [{species: Herbi, age: 4, weight: 3}]}]
+        for cell in population:
+            loc = cell["loc"]
+            pop = cell["pop"]
 
-        for species in population:
-            if species["species"] == 'Herbivore':
-                h = Herbivore(age=species["age"], weight=species["weight"])
-                cell.add_animal(h)
-
-            elif species["species"] == 'Carnivore':
-                c = Carnivore(age=species["age"], weight=species["weight"])
-                cell.add_animal(c)
-            else:
-                raise ValueError("species is neither carnivore er herbivore") # TODO add test
+            for animal in pop:
+                #TODO age and weight might be none
+                type_animal = animal["species"]
+                age = animal["age"]
+                weight = animal["weight"]
+                print(type_animal, age, weight)
+                if type(self.island_map.map[loc[0]-1][loc[1]-1]) == Water:
+                    raise ValueError(f"Cant add animals on water landscape ({loc[0], loc[1]})")
+                else:
+                    self.island_map.map[loc[0]-1][loc[1]-1].add_animal(animal=type_animal, age=age, weight=weight)
 
     @property
     def year(self):

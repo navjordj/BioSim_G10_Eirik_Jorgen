@@ -1,12 +1,14 @@
 from biosim.simulation import BioSim
 
-ini_herbs = [{'species': 'Herbivore', 'age': 6, 'weight': None}
-             for _ in range(10)]
-ini_carn = [{'species': 'Carnivore', 'age': 6, 'weight': None}
-            for _ in range(1)]
+ini_herbs = [{'loc': (2, 2), 'pop': [{'species': 'Herbivore', 'age': 6, 'weight': 10} for _ in range(10)]}]
+            
+ini_carn = [{'loc': (3, 3), 'pop': [{'species': 'Carnivore', 'age': 6, 'weight': 10} for _ in range(3)]}]
 
 
-b = BioSim(seed=1, ini_pop=ini_herbs)
+kart = "WWW\nWLW\nWWW"
+
+
+b = BioSim(seed=1, ini_pop=ini_herbs, island_map=kart)
 b.add_population(ini_carn)
 
-b.simulate(100)
+b.simulate(1)

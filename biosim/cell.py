@@ -85,12 +85,12 @@ class Cell:
                             break
 
     # TODO add type
-    def add_animal(self, animal: Any) -> None:  # choose Any because hard to name type
-        if type(animal) == Herbivore:
-            self.herbivores.append(animal)
+    def add_animal(self, animal: Any, age=None, weight=None) -> None:  # choose Any because hard to name type
+        if animal == 'Herbivore':
+            self.herbivores.append(Herbivore(age=age, weight=weight))
             self.n_herbivores += 1
-        elif type(animal) == Carnivore:
-            self.carnivores.append(animal)
+        elif animal == 'Carnivore':
+            self.carnivores.append(Carnivore(age=age, weight=weight))
             self.n_carnivores += 1
         else:
             raise ValueError("species is neither carnivore er herbivore")

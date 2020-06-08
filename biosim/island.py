@@ -14,6 +14,19 @@ class Island:
         self.map = self.make_a_map(map)
 
 
+    def __str__(self):
+        map_str = ""
+        for i in range(self.row_len):
+            for j in range(self.column_len):
+
+                #TODO Refactor to use map_params
+                if type(self.map[i][j]) == Water:
+                    map_str += 'W'
+                else:
+                    map_str += "L"
+            map_str += "\n"
+        return map_str
+
     @staticmethod
     def make_map_ready(map_string: str) -> List[List[str]]:
         geo = [list(rows) for rows in
@@ -32,6 +45,7 @@ class Island:
 
         return geo
 
+
     def make_a_map(self, string_map):
         """
         Makes a map and puts a cell in each position
@@ -39,20 +53,13 @@ class Island:
         :return:
         Full map
         """
-        full_map = {}
         geo = self.make_map_ready(string_map)
 
         self.row_len = len(geo)
         self.column_len = len(geo[0])
+        # TODO make a list comp with None instead of using geo
+        for i, row in enumerate(geo):
+            for j, cell in enumerate(row):
+                geo[i][j] = self.map_params[cell]()
 
-        for y, row in enumerate(geo):
-            for x, cell in enumerate(row):
-                if cell in self.map_params.keys():
-                    full_map[(y + 1, x + 1)] = self.map_params[cell]
-                else:
-                    raise ValueError(
-                        f'All letters must be uppercase, and all'
-                        f'letters must be in '
-                        f'{self.map_params.keys()}')
-
-        return full_map
+        return geo
