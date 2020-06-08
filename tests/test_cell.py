@@ -70,6 +70,9 @@ def test_eat_herbivore() -> None:
     assert new_weight_lowland >= start_weight_lowland  # see if weight has increased
     assert fodder_before_eating_lowland >= fodder_end_of_eating_lowland  # see if the amount of
     # fodder is lower after eating
+    l.grow()
+    assert l.fodder >= fodder_end_of_eating_lowland and l.fodder == l.max_fodder  # fodder is set
+    # to the standard amount of fodder (max fodder)
 
     d = Desert()
     d.add_animal(Herbivore())
@@ -98,7 +101,7 @@ def test_add_animal() -> None:
         c.add_animal(a)
 
 
-def test_dead_herbivore():
+def test_remove_dead_herbivore() -> None:
     """
     Tests if the herbivore list gets shorter when one dies
     """
@@ -115,7 +118,7 @@ def test_dead_herbivore():
 
 
 # TODO find a way to test eat_carnivore function, have to implement more
-def test_eat_carnivore():
+def test_eat_carnivore() -> None:
     """
     Sees if 10 carnivores gain any weight after trying to eat 10 herbivores
     """
@@ -135,8 +138,43 @@ def test_eat_carnivore():
     assert start_weight_carnivore < end_weight_carnivore
 
 
+def test_remove_dead_carnivore() -> None:
+    l = Lowland()
+    n = 5
+    for _ in range(n):
+        l.add_animal(Carnivore())
+    for carn in l.carnivores:
+        assert carn.alive is True
+    assert l.n_carnivores == n
+    l.carnivores[0].alive = False
+    l.remove_dead_carnivore()
+    assert l.n_carnivores == n - 1
+
+
+# TODO try to make mock or a statististical method for the test
+def test_prob_death_herb() -> None:
+    d = Desert()
+    n = 100
+    for _ in range(n):
+        d.add_animal(Herbivore())
+    num_herb_pre_prob = d.n_herbivores
+    d.prob_death_herb()
+    assert num_herb_pre_prob > d.n_herbivores
+
+
+# TODO try to make mock or a statististical method for the test
+def test_prob_death_carni() -> None:
+    d = Desert()
+    n = 100
+    for _ in range(n):
+        d.add_animal(Carnivore())
+    num_carni_pre_prob = d.n_carnivores
+    d.prob_death_carni()
+    assert num_carni_pre_prob > d.n_herbivores
+
 # TODO test new year
-def test_new_year_function():
+@pytest.mark.skip(reason="Not implemented yet")
+def test_new_year_function() -> None:
     l = Lowland()
     l.add_animal(Herbivore())
     pass
