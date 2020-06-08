@@ -5,6 +5,7 @@ from .cell import Lowland, Highland
 from .animals import Herbivore, Carnivore
 
 import numpy as np
+from typing import Dict
 
 class BioSim:
     def __init__(
@@ -45,6 +46,8 @@ class BioSim:
         self.add_population(ini_pop)
         np.random.seed(seed)
 
+        self.year = 0
+
     def set_animal_parameters(self, species, params):
         """
         Set parameters for animal species.
@@ -76,6 +79,7 @@ class BioSim:
                 c.grow()
                 c.new_year()
             print(c)
+            self.year += 1
 
     def add_population(self, population):
         """
@@ -99,15 +103,24 @@ class BioSim:
     @property
     def year(self):
         """Last year simulated."""
-        pass
+        return self.year
 
     @property
-    def num_animals(self):
+    def num_animals(self) -> int:
         """Total number of animals on island."""
+        animal_count = self.num_animals_per_species
+        return animal_count["herbivores"] + animal_count["carnivores"]
 
     @property
-    def num_animals_per_species(self):
+    def num_animals_per_species(self) -> Dict[str, int]:
         """Number of animals per species in island, as dictionary."""
+        animal_count: Dict[str, int] = {"herbivores": 0, "carnivores": 0} # TODO Refactor with standard values
+        
+        for c in self.island_map:
+            animal_count["herbivores"] += len(c.herbivores)
+            animal_count["carnivores"] += len(c.carnivores)
+        
+        return animal_count
 
     @property
     def animal_distribution(self):
