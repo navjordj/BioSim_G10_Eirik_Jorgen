@@ -87,11 +87,14 @@ class BioSim:
                 for j in range(self.island_map.column_len):
                     c = self.island_map.map[i][j]
                     if type(c) == Water:
-                        print(c)
+                        #print(c)
+                        pass
                     else:
                         c.grow()
                         c.new_year()
-                        print(c)
+                        #print(c)
+
+        print(self.num_animals_per_species)
 
     def add_population(self, population):
         """
@@ -110,7 +113,7 @@ class BioSim:
                 type_animal = animal["species"]
                 age = animal["age"]
                 weight = animal["weight"]
-                print(type_animal, age, weight)
+                # print(type_animal, age, weight)
                 if type(self.island_map.map[loc[0]-1][loc[1]-1]) == Water:
                     raise ValueError(f"Cant add animals on water landscape ({loc[0], loc[1]})")
                 else:
@@ -133,10 +136,10 @@ class BioSim:
     def num_animals_per_species(self) -> Dict[str, int]:
         """Number of animals per species in island, as dictionary."""
         animal_count: Dict[str, int] = {"herbivores": 0, "carnivores": 0} # TODO Refactor with standard values
-        
-        for c in self.island_map:
-            animal_count["herbivores"] += len(c.herbivores)
-            animal_count["carnivores"] += len(c.carnivores)
+        for i, row in enumerate(self.island_map.map):
+            for j , cell in enumerate(row):
+                animal_count["herbivores"] += len(cell.herbivores)
+                animal_count["carnivores"] += len(cell.carnivores)
         
         return animal_count
 
