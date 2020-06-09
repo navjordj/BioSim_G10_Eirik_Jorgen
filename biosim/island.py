@@ -45,7 +45,6 @@ class Island:
 
         return geo
 
-
     def make_a_map(self, string_map):
         """
         Makes a map and puts a cell in each position

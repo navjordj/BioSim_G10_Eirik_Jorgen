@@ -25,7 +25,6 @@ class Test_island:
         else:
             assert False
 
-
     def test_same_len(self) -> None:
         """
         Checks if it raises ValueError when the rows does not have same length
@@ -33,7 +32,7 @@ class Test_island:
         with pytest.raises(ValueError):
             Island("WWW\nWLLW\nWWW")
 
-    def test_edges_water(self) -> None:
+    def test_make_map_ready(self) -> None:
         """
         Checks if it raises ValueError when the edges is not water
         """
@@ -45,6 +44,11 @@ class Test_island:
 
         with pytest.raises(ValueError):
             Island("WWW\nWLW\nWLW")
+
+        
+def test_make_a_map() -> None:
+    with pytest.raises(ValueError):
+        Island("WWW\nWKW\nWWW")
 
     def test_if_len_is_not_none(self) -> None:
         k = Island('WWW\nWLW\nWLW\nWWW')
