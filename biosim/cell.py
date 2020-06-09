@@ -112,7 +112,6 @@ class Cell:
         self.carnivores = keep_carnivores
         self.n_carnivores = len(keep_carnivores)
 
-    # TODO check for use of Carnivore()
     def carnivore_babies(self) -> None:
         carnivore_babies: List[Carnivore] = []
         if self.n_carnivores >= 2:
@@ -132,7 +131,6 @@ class Cell:
         self.carnivores.extend(carnivore_babies)
         self.n_carnivores = self.n_carnivores + len(carnivore_babies)
 
-    # TODO check for use of Herbivore()
     def herbivore_babies(self) -> None:
         herbivore_babies: List[Herbivore] = []
         if self.n_herbivores >= 2:
@@ -141,8 +139,13 @@ class Cell:
                 if give_birth:
                     baby_herbivore = Herbivore()
                     baby_weight = baby_herbivore.weight
-                    herbi.update_weight(- herbi.params["xi"] * baby_weight)
-                    herbivore_babies.append(baby_herbivore)
+                    mother_weight_change = -herbi.params["xi"] * baby_weight
+                    if mother_weight_change > herbi.weight:
+                        print('no baby born')
+                        continue
+                    else:
+                        herbi.update_weight(mother_weight_change)
+                        herbivore_babies.append(baby_herbivore)
         self.herbivores.extend(herbivore_babies)
         self.n_herbivores = self.n_herbivores + len(herbivore_babies)
 
