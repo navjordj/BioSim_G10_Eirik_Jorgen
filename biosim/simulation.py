@@ -94,7 +94,7 @@ class BioSim:
                         c.new_year()
                         #print(c)
 
-        print(self.num_animals_per_species)
+            print(self.num_animals_per_species)
 
     def add_population(self, population):
         """

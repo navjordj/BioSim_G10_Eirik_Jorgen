@@ -101,7 +101,7 @@ class Cell:
         for h in self.herbivores:
             if h.alive == True:
                 keep_herbivores.append(h)
-        self.herbivores = keep_herbivores
+        self.herbivores = keep_herbivores.copy()
         self.n_herbivores = len(keep_herbivores)
 
     def remove_dead_carnivore(self) -> None:
@@ -121,8 +121,14 @@ class Cell:
                 if give_birth:
                     baby_carnivore = Carnivore()
                     baby_weight = baby_carnivore.weight
-                    carni.update_weight(- carni.params["xi"] * baby_weight)
-                    carnivore_babies.append(baby_carnivore)
+                    mother_weight_change = - carni.params["xi"] * baby_weight
+
+                    if mother_weight_change > carni.weight:
+                        print("no baby born")
+                        continue
+                    else:
+                        carni.update_weight(mother_weight_change)
+                        carnivore_babies.append(baby_carnivore)
         self.carnivores.extend(carnivore_babies)
         self.n_carnivores = self.n_carnivores + len(carnivore_babies)
 

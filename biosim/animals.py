@@ -9,7 +9,7 @@ import numpy as np
 np.random.seed(1)
 
 
-def fitness_calc(phi_age: float, a: float, a_half: float, phi_weight: float, w: float, w_half: float) -> float:
+def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
 
     def q(x: float, x_half: float, phi: float, sign: int) -> float:
         return 1 / (1 + exp(sign * phi*(x - x_half)))
@@ -25,7 +25,7 @@ class Animal:
             "beta": 0.9,
             "eta": 0.05,
             "a_half": 40.0,
-            "phi_age": 0.6,
+            "phi_age": 0.2,
             "weight_half": 10.0,
             "phi_weight": 0.1,
             "mu": 0.25,
@@ -63,14 +63,19 @@ class Animal:
         """
         Returns a boolean saying if the animal should die or not
         """
-        if self.fitness <= 0:
+        if self.weight <= 0:
             return True
         else:
-            p: float = self.params["omega"] * (1-self.fitness)
+            p: float = self.params["omega"] * (1 - self.fitness)
             return random.random() < p
 
     # TODO update correct type
     def give_birth(self, N: int) -> bool:
+
+        if self.weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
+            p = 0
+            return False
+
         p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
         if random.random() < p:
             return True
@@ -111,8 +116,8 @@ class Animal:
         if self.weight < 0:
             return 0
         else:
-            self.fitness = fitness_calc(self.params["phi_age"], self.age, self.params["a_half"],
-                                         self.params["phi_weight"], self.weight, self.params["weight_half"])
+            self.fitness = fitness_calc(self.age, self.params["a_half"], self.params["phi_age"], 
+                                         self.weight, self.params["weight_half"], self.params["phi_weight"] )
 
         return self.fitness
 
