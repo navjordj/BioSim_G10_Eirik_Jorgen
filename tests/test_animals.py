@@ -5,18 +5,24 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 import numpy as np
+import scipy.stats as stats
 
 from biosim.animals import Animal
 
 
 # @pytest.mark.skip(reason="Not implemented yet")
 def test_init_animal():
-    np.random.seed(1)
-
-    a: Animal = Animal()
-    print(a.weight)
+    alpha = 0.05
+    n = 10000
+    prob_list = []
+    for _ in range(n):
+        a: Animal = Animal()
+        z = (a.weight - a.params["w_birth"])/a.params["sigma_birth"]
+        prob = stats.norm.sf(z)
+        if prob > alpha:
+            prob_list.append(prob)
     assert a.age == 0
-    assert a.weight == 10.436518045494863 #TODO Fix hardcoded random values
+    assert len(prob_list) > 1-(n*alpha)
 
     a: Animal = Animal(age=2, weight=10)
     assert a.age == 2
@@ -27,6 +33,7 @@ def test_aging():
     a: Animal = Animal()
     a.increase_age()
     assert a.age == 1
+
 
 def test_update_weight():
     a: Animal = Animal()
@@ -39,16 +46,18 @@ def test_update_weight():
     a.update_weight(-5)
     assert a.weight == weight_before - 5
 
-@pytest.mark.skip(reason="Not implemented yet")
+
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_death():
     np.random.seed(1)
     a = Animal()
-    a.fitness = 0
-    assert a.should_die() == True
+    a.weight = 0
+    print(a.fitness)
+    assert a.should_die() is True
 
     a = Animal()
     a.fitness = 1
-    assert a.should_die() == False
+    assert a.should_die() is False
 
 
 # @pytest.mark.skip(reason="Not implemented yet")

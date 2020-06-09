@@ -45,7 +45,7 @@ class Test_island:
         with pytest.raises(ValueError):
             Island("WWW\nWLW\nWLW")
 
-        
+
 def test_make_a_map() -> None:
     with pytest.raises(ValueError):
         Island("WWW\nWKW\nWWW")
