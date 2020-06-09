@@ -39,9 +39,9 @@ def test_update_weight():
     a.update_weight(-5)
     assert a.weight == weight_before - 5
 
-# @pytest.mark.skip(reason="Not implemented yet")
+@pytest.mark.skip(reason="Not implemented yet")
 def test_death():
-
+    np.random.seed(1)
     a = Animal()
     a.fitness = 0
     assert a.should_die() == True
