@@ -179,6 +179,9 @@ class Cell:
         self.prob_death_carni()
         self.prob_death_herb()
 
+        self.n_herbivores = len(self.herbivores)
+        self.n_carnivores = len(self.carnivores)
+
 
 class Desert(Cell):
     def __init__(self) -> None:
