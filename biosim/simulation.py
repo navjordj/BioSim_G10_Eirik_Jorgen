@@ -6,19 +6,21 @@ from .animals import Herbivore, Carnivore
 from .island import Island
 
 import numpy as np
+import matplotlib.pyplot as plt
 from typing import Dict
+
 
 class BioSim:
     def __init__(
-        self,
-        seed,
-        ini_pop,
+            self,
+            seed,
+            ini_pop,
 
-        island_map=None,
-        ymax_animals=None,
-        cmax_animals=None,
-        img_base=None,
-        img_fmt="png",
+            island_map=None,
+            ymax_animals=None,
+            cmax_animals=None,
+            img_base=None,
+            img_fmt="png",
     ):
         """
         :param island_map: Multi-line string specifying island geography
@@ -48,11 +50,8 @@ class BioSim:
         # self.island_map = [Lowland()]
         np.random.seed(seed)
 
-
-        self.island_map = Island(map = island_map)
+        self.island_map = Island(map=island_map)
         self.add_population(ini_pop)
-
-
 
     def set_animal_parameters(self, species, params):
         """
@@ -86,13 +85,9 @@ class BioSim:
             for i in range(self.island_map.row_len):
                 for j in range(self.island_map.column_len):
                     c = self.island_map.map[i][j]
-                    if type(c) == Water:
-                        #print(c)
-                        pass
-                    else:
+                    if type(c) == Lowland or type(c) == Highland:
                         c.grow()
-                        c.new_year()
-                        #print(c)
+                    c.new_year()
 
             print(self.num_animals_per_species)
 
@@ -102,29 +97,27 @@ class BioSim:
 
         :param population: List of dictionaries specifying population
         """
-        pass
         # [{loc: (1, 1), pop: [{species: Herbi, age: 4, weight: 3}]}]
         for cell in population:
             loc = cell["loc"]
             pop = cell["pop"]
 
             for animal in pop:
-                #TODO age and weight might be none
+                # TODO age and weight might be none
                 type_animal = animal["species"]
                 age = animal["age"]
                 weight = animal["weight"]
                 # print(type_animal, age, weight)
-                if type(self.island_map.map[loc[0]-1][loc[1]-1]) == Water:
+                if type(self.island_map.map[loc[0] - 1][loc[1] - 1]) == Water:
                     raise ValueError(f"Cant add animals on water landscape ({loc[0], loc[1]})")
                 else:
-                    self.island_map.map[loc[0]-1][loc[1]-1].add_animal(animal=type_animal, age=age, weight=weight)
+                    self.island_map.map[loc[0] - 1][loc[1] - 1].add_animal(animal=type_animal,
+                                                                           age=age, weight=weight)
 
     @property
     def year(self):
         """Last year simulated."""
         # return self.year
-
-        
 
     @property
     def num_animals(self) -> int:
@@ -135,12 +128,13 @@ class BioSim:
     @property
     def num_animals_per_species(self) -> Dict[str, int]:
         """Number of animals per species in island, as dictionary."""
-        animal_count: Dict[str, int] = {"herbivores": 0, "carnivores": 0} # TODO Refactor with standard values
+        animal_count: Dict[str, int] = {"herbivores": 0,
+                                        "carnivores": 0}  # TODO Refactor with standard values
         for i, row in enumerate(self.island_map.map):
-            for j , cell in enumerate(row):
+            for j, cell in enumerate(row):
                 animal_count["herbivores"] += len(cell.herbivores)
                 animal_count["carnivores"] += len(cell.carnivores)
-        
+
         return animal_count
 
     @property
