@@ -203,3 +203,15 @@ def test_new_year_function() -> None:
     l = Lowland()
     l.add_animal('Herbivore')
     l.new_year()
+
+
+def test_grow() -> None:
+    l = Lowland()
+    n = 10
+    for _ in range(n):
+        l.add_animal('Herbivore')
+    l.eat_herbivore()
+    finished_eating = l.fodder
+    l.grow()
+    assert l.fodder == l.max_fodder
+    assert l.fodder > finished_eating
