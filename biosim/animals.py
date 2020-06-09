@@ -73,7 +73,6 @@ class Animal:
     def give_birth(self, N: int) -> bool:
 
         if self.weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
-            p = 0
             return False
 
         p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))

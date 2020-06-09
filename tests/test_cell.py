@@ -160,7 +160,7 @@ def test_carnivore_babies() -> None:
         l.add_animal('Carnivore')
     num_carni_pre_procreation = l.n_carnivores
     l.carnivore_babies()
-    assert num_carni_pre_procreation < l.n_carnivores
+    assert num_carni_pre_procreation <= l.n_carnivores
 
 
 # TODO try to make mock or a statistic method
@@ -173,7 +173,7 @@ def test_herbivore_babies() -> None:
         l.add_animal('Herbivore')
     num_herb_pre_procreation = l.n_herbivores
     l.herbivore_babies()
-    assert num_herb_pre_procreation < l.n_herbivores
+    assert num_herb_pre_procreation <= l.n_herbivores
 
 
 # TODO try to make mock or a statistic method for the test
