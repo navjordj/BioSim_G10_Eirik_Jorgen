@@ -95,9 +95,8 @@ class Cell:
         else:
             raise ValueError("species is neither carnivore er herbivore")
 
-    # TODO Add test for removing eaten herbovores
+    # TODO Add test for removing eaten herbivores
     def remove_dead_herbivore(self) -> None:
-        # Remove dead herbivores:
         keep_herbivores: List[Herbivore] = []
         for h in self.herbivores:
             if h.alive == True:
@@ -106,7 +105,6 @@ class Cell:
         self.n_herbivores = len(keep_herbivores)
 
     def remove_dead_carnivore(self) -> None:
-        # Remove dead herbivores:
         keep_carnivores: List[Carnivore] = []
         for c in self.carnivores:
             if c.alive == True:
@@ -114,6 +112,7 @@ class Cell:
         self.carnivores = keep_carnivores
         self.n_carnivores = len(keep_carnivores)
 
+    # TODO check for use of Carnivore()
     def carnivore_babies(self) -> None:
         carnivore_babies: List[Carnivore] = []
         if self.n_carnivores >= 2:
@@ -127,6 +126,7 @@ class Cell:
         self.carnivores.extend(carnivore_babies)
         self.n_carnivores = self.n_carnivores + len(carnivore_babies)
 
+    # TODO check for use of Herbivore()
     def herbivore_babies(self) -> None:
         herbivore_babies: List[Herbivore] = []
         if self.n_herbivores >= 2:
@@ -178,6 +178,9 @@ class Cell:
         # DEATH
         self.prob_death_carni()
         self.prob_death_herb()
+
+        self.n_herbivores = len(self.herbivores)
+        self.n_carnivores = len(self.carnivores)
 
 
 class Desert(Cell):
