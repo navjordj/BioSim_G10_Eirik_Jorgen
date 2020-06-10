@@ -116,7 +116,6 @@ def test_remove_dead_herbivore() -> None:
     assert l.n_herbivores == n - 1
 
 
-# TODO find a way to test eat_carnivore function, have to implement test for random
 def test_eat_carnivore(mocker) -> None:
     """
     Sees if 10 carnivores gain any weight after trying to eat 10 herbivores
@@ -175,7 +174,6 @@ def test_herbivore_babies() -> None:
     assert num_herb_pre_procreation <= l.n_herbivores
 
 
-# TODO try to make mock or a statistic method for the test
 def test_prob_death_herb() -> None:
     d = Desert()
     n = 100
@@ -186,7 +184,6 @@ def test_prob_death_herb() -> None:
     assert num_herb_pre_prob > d.n_herbivores
 
 
-# TODO try to make mock or a statistic method for the test
 def test_prob_death_carni() -> None:
     d = Desert()
     n = 100
