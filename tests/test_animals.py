@@ -51,14 +51,13 @@ def test_update_weight():
     assert a.weight == weight_before - 5
 
 
-def test_death():
-    np.random.seed(1)
+def test_death(mocker):
     a = Animal()
     a.weight = 0
     assert a.should_die() is True
-
+    
+    mocker.patch('random.random', return_value=1)
     a = Animal()
-    a.fitness = 1
     assert a.should_die() is False
 
 
