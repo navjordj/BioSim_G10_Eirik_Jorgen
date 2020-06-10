@@ -10,19 +10,22 @@ import scipy.stats as stats
 from biosim.animals import Animal
 
 
-# @pytest.mark.skip(reason="Not implemented yet")
 def test_init_animal():
-    alpha = 0.05
+    alpha = 0.001
     n = 10000
-    prob_list = []
+    a = Animal()
+    norm_disp = np.random.normal(a.params["w_birth"], a.params["sigma_birth"], n)
+    weight_list = []
     for _ in range(n):
-        a: Animal = Animal()
-        z = (a.weight - a.params["w_birth"])/a.params["sigma_birth"]
-        prob = stats.norm.sf(z)
-        if prob > alpha:
-            prob_list.append(prob)
+        a = Animal()
+        weight_list.append(a.weight)
+    x = np.concatenate((weight_list, norm_disp))
+    k2, p = stats.normaltest(x)
+    if p >= alpha:
+        assert True
+    else:
+        assert False
     assert a.age == 0
-    assert len(prob_list) > 1-(n*alpha)
 
     a: Animal = Animal(age=2, weight=10)
     assert a.age == 2
@@ -47,12 +50,10 @@ def test_update_weight():
     assert a.weight == weight_before - 5
 
 
-# @pytest.mark.skip(reason="Not implemented yet")
 def test_death():
     np.random.seed(1)
     a = Animal()
     a.weight = 0
-    print(a.fitness)
     assert a.should_die() is True
 
     a = Animal()
@@ -60,14 +61,18 @@ def test_death():
     assert a.should_die() is False
 
 
-# @pytest.mark.skip(reason="Not implemented yet")
+# TODO random number test, Mocking?
 def test_birth():
-    a: Animal = Animal()
+    a = Animal()
     N = 1000
-    assert a.give_birth(N) == False
+    assert a.give_birth(N) is False
+    b = Animal(age=4, weight=100)
+    b.params["gamma"] = 1
+    assert b.give_birth(N) is True
 
     N = 0
-    assert a.give_birth(N) == False
+    assert a.give_birth(N) is False
+
 
 def test_eat():
     a: Animal = Animal()
@@ -82,12 +87,14 @@ def test_eat():
         a: Animal = Animal()
         a.eat(-10)
 
+
 def test_new_year():
     a: Animal = Animal()
 
     weight_before = a.weight
     a.new_year()
     assert a.weight == (weight_before - a.params["eta"]*weight_before)
+
 
 def test_fitness():
 
@@ -113,5 +120,5 @@ def test_fitness():
 
     # Test that fitness goes towards 1 as weight increases
     a: Animal = Animal()
-    a.update_weight(1000000)
+    a.update_weight(1000000) # TODO see if I can make it "right"
     #assert a.get_fitness() == pytest.approx(1)

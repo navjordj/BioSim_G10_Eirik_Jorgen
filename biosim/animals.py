@@ -6,7 +6,7 @@ from math import exp
 from typing import Union, Dict
 import numpy as np
 
-np.random.seed(1)
+#np.random.seed(1)
 
 
 def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
