@@ -7,3 +7,4 @@ coverage
 numba
 cython
 mypy
+matplotlib

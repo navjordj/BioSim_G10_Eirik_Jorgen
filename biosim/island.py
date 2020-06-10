@@ -1,6 +1,8 @@
 from .cell import Highland, Water, Lowland, Desert
 from typing import List
 
+import random
+
 
 class Island:
     map_params = {'W': Water,
@@ -8,10 +10,11 @@ class Island:
                   'L': Lowland,
                   'H': Highland}
 
-    def __init__(self, map: str) -> None:
+    def __init__(self, map_str: str) -> None:
         self.row_len = None
         self.column_len = None
-        self.map = self.make_a_map(map)
+        self.map_str = map_str
+        self.map = self.make_a_map(map_str)
 
 
     def __str__(self):
@@ -64,3 +67,31 @@ class Island:
                 geo[i][j] = self.map_params[cell]()
 
         return geo
+
+
+    def migration(self):
+        for i, row in enumerate(self.map):
+            for j, cell in enumerate(row):
+
+                for herbi in cell.herbivores:
+                    if herbi.will_migrate():
+                        adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i-1][j], self.map[i+1][j], self.map[i][j-1], self.map[i][j+1]]
+                        cell_destination = random.choice(adj_cells)
+                        if type(cell_destination) != Water:
+                            cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)
+                            cell.remove_animal(herbi)
+                            # print(f'Migrated from {type(cell).__name__} {(i, j)} to {type(cell_destination).__name__}')
+                        else:
+                            continue
+
+                for carni in cell.carnivores:
+                    if carni.will_migrate():
+                        adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i-1][j], self.map[i+1][j], self.map[i][j-1], self.map[i][j+1]]
+                        cell_destination = random.choice(adj_cells)
+                        if type(cell_destination) != Water:
+                            cell_destination.add_animal("Carnivore", carni.age, carni.weight)
+                            cell.remove_animal(carni)
+                            # print(f'Migrated from {(i, j)} to {cell_destination}')
+                        else:
+                            continue
+
