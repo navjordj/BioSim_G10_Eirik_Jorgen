@@ -47,6 +47,7 @@ class Animal:
 
         self.fitness = self.get_fitness()
         self.alive = True  # Might not be necessary
+        self.has_migrated = False
 
     def __str__(self) -> str:
         return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
@@ -103,6 +104,7 @@ class Animal:
         """
         Increase age by one year and decrease weight by eta * weight
         """
+        self.has_migrated = False
         self.age += 1
         weight_change: float = -self.params["eta"] * self.weight
         self.update_weight(weight_change)
@@ -126,9 +128,13 @@ class Animal:
         """
         return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
-    def move(self) -> bool:
-        prob = self.params["mu"] * self.fitness
-        return np.random.rand() < prob
+    def will_migrate(self) -> bool:
+        prob = self.params["mu"] * self.get_fitness()
+        if np.random.rand() < prob:
+            self.has_migrated = True
+            return True
+        else:
+            return False
 
 class Herbivore(Animal):
 

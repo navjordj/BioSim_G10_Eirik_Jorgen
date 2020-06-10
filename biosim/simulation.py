@@ -103,7 +103,11 @@ class BioSim:
                     c = self.island_map.map[i][j]
                     if type(c) == Lowland or type(c) == Highland:
                         c.grow()
-                    c.new_year()
+                    
+                    if type(c) == Water:
+                        c.new_year(self.island_map)
+                    else:
+                        continue
 
             print(self.num_animals_per_species)
             """

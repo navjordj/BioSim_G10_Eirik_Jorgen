@@ -45,6 +45,16 @@ class Cell:
         else:
             raise ValueError('Fodder must be a positive number')
 
+
+    def remove_animal(self, animal):
+        try:
+            if type(animal) == Herbivore:
+                self.herbivores.remove(animal)
+            else:
+                self.carnivores.remove(animal)
+        except ValueError as error:
+            print(error)
+
     # TODO must know what's inside Animals to do well
     def eat_herbivore(self) -> None:
         # fodder_left: Union[int, float] = self.fodder
@@ -163,7 +173,7 @@ class Cell:
 
         self.remove_dead_carnivore()
 
-    def new_year(self) -> None:
+    def new_year(self, island) -> None:
         # TODO make the fodder grow after they are done eating, either here or in the sim file
         if type(self) == Lowland or type(self) == Highland:
             self.eat_herbivore()
@@ -172,6 +182,8 @@ class Cell:
 
         self.remove_dead_herbivore()
         # MIGRATION:
+
+        #island.migration()
 
         # Procreation:
         self.herbivore_babies()
