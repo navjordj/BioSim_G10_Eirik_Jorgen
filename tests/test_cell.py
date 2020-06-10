@@ -117,24 +117,23 @@ def test_remove_dead_herbivore() -> None:
 
 
 # TODO find a way to test eat_carnivore function, have to implement test for random
-def test_eat_carnivore() -> None:
+def test_eat_carnivore(mocker) -> None:
     """
     Sees if 10 carnivores gain any weight after trying to eat 10 herbivores
     """
+    mocker.patch('random.random', return_value=0)
+
     d = Desert()
-    n = 10
-    for _ in range(n):
-        d.add_animal('Herbivore')
-    for _ in range(n):
-        d.add_animal('Carnivore')
-    start_weight_carnivore = 0.0
-    for carn in d.carnivores:
-        start_weight_carnivore += carn.weight
+    d.add_animal('Carnivore')
+    start_weight_carnivore = d.carnivores[0].weight
     d.eat_carnivore()
-    end_weight_carnivore = 0.0
-    for carn in d.carnivores:
-        end_weight_carnivore += carn.weight
+    assert start_weight_carnivore == d.carnivores[0].weight
+    d.add_animal('Herbivore')
+    start_weight_carnivore = d.carnivores[0].weight
+    d.eat_carnivore()
+    end_weight_carnivore = d.carnivores[0].weight
     assert start_weight_carnivore < end_weight_carnivore
+    assert d.herbivores[0].alive is False
 
 
 def test_remove_dead_carnivore() -> None:
@@ -150,7 +149,7 @@ def test_remove_dead_carnivore() -> None:
     assert l.n_carnivores == n - 1
 
 
-# TODO try to make mock or statistic method
+# TODO try to make mock or statistic method (already done in animals?)
 def test_carnivore_babies() -> None:
     l = Lowland()
     l.carnivore_babies()
@@ -163,7 +162,7 @@ def test_carnivore_babies() -> None:
     assert num_carni_pre_procreation <= l.n_carnivores
 
 
-# TODO try to make mock or a statistic method
+# TODO try to make mock or a statistic method (already done in animals?)
 def test_herbivore_babies() -> None:
     l = Lowland()
     l.herbivore_babies()
