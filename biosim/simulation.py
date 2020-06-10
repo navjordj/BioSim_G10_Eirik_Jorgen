@@ -53,7 +53,7 @@ class BioSim:
         np.random.seed(seed)
 
         self.island_map = Island(map_str=island_map)
-        plot_map(self.island_map)
+        # plot_map(self.island_map)
         self.add_population(ini_pop)
 
     def set_animal_parameters(self, species, params):

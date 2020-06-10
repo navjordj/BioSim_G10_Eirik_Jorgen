@@ -173,7 +173,7 @@ class Cell:
 
         self.remove_dead_carnivore()
 
-    def new_year(self, island) -> None:
+    def new_year(self, island=None) -> None:
         # TODO make the fodder grow after they are done eating, either here or in the sim file
         if type(self) == Lowland or type(self) == Highland:
             self.eat_herbivore()
@@ -183,7 +183,8 @@ class Cell:
         self.remove_dead_herbivore()
         # MIGRATION:
 
-        island.migration()
+        if island != None:
+            island.migration()
 
         # Procreation:
         self.herbivore_babies()
