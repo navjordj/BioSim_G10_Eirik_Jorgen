@@ -148,7 +148,7 @@ class Herbivore(Animal):
             "zeta": 3.5,
             "xi": 1.2,
             "omega": 0.4,
-            "F": 10.0,
+            "F": 50.0,
             "delta_phi_max": None
         }
 
