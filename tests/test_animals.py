@@ -95,9 +95,32 @@ def test_new_year():
     a.new_year()
     assert a.weight == (weight_before - a.params["eta"]*weight_before)
 
-
+# TODO confidence interval
 def test_fitness():
+    alpha = 0.05
+    n = 1000
+    fitness_list = []
+    for _ in range(n):
+        a = Animal()
+        fitness_list.append(a.get_fitness())
 
+    mean = np.median(np.array(fitness_list))
+
+    df = n - 1
+    expected_value = mean
+    standard_error = (expected_value*(1-expected_value)/n)**0.5
+    sd = stats.t.std(df)
+    critical_value = stats.t.ppf((1+alpha)/2, df)
+    norm_fitness = 0
+    for fitness in fitness_list:
+        diff = abs(expected_value - fitness)
+        t_score = diff/sd
+        p = stats.t.cdf(t_score, df=df)*2
+        print(p, critical_value)
+        if p > 1-alpha:
+            norm_fitness += 1
+    print(norm_fitness)
+    assert n-(n*alpha) < norm_fitness
     # Check that fitness decreases when age increases
     a: Animal = Animal()
     fit_before: float = a.get_fitness()
