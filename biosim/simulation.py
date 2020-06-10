@@ -53,7 +53,7 @@ class BioSim:
         np.random.seed(seed)
 
         self.island_map = Island(map_str=island_map)
-        #plot_map(self.island_map)
+        # plot_map(self.island_map)
         self.add_population(ini_pop)
 
     def set_animal_parameters(self, species, params):
@@ -85,7 +85,7 @@ class BioSim:
         fig = plt.figure()
         ax = fig.add_subplot(1, 1, 1)
         ax.set_xlim(0, num_years)
-        ax.set_ylim(0, 300)
+        ax.set_ylim(0, 1500)
 
         line_carnivore = ax.plot(np.arange(num_years),
                     np.full(num_years, np.nan), 'b-', color='r', label="carnivore")[0]
@@ -103,10 +103,14 @@ class BioSim:
                     c = self.island_map.map[i][j]
                     if type(c) == Lowland or type(c) == Highland:
                         c.grow()
-                    c.new_year()
+                    
+                    if type(c) != Water:
+                        c.new_year(self.island_map)
+                    else:
+                        continue
 
             print(self.num_animals_per_species)
-            """
+            
             ydata_carnivore = line_carnivore.get_ydata()
             ydata_carnivore[year] = self.num_animals_per_species["carnivores"]
 
@@ -118,12 +122,12 @@ class BioSim:
             line_herbivore.set_ydata(ydata_herbivore)
 
             plt.legend()
-
+            plt.grid(axis='y', c='g', lw=1.5)
 
             plt.xlabel("Num years")
             plt.ylabel("Num animals")
             plt.title("Carnivores vs Herbivores")
-            plt.pause(1e-6)"""
+            plt.pause(1e-6)
         
 
     def add_population(self, population):
