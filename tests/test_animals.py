@@ -6,6 +6,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 import pytest
 import numpy as np
 import scipy.stats as stats
+from pytest_mock import mocker
 
 from biosim.animals import Animal
 
@@ -61,17 +62,18 @@ def test_death():
     assert a.should_die() is False
 
 
-# TODO random number test, Mocking?
-def test_birth():
+def test_birth(mocker):
     a = Animal()
     N = 1000
     assert a.give_birth(N) is False
-    b = Animal(age=4, weight=100)
-    b.params["gamma"] = 1
-    assert b.give_birth(N) is True
 
     N = 0
     assert a.give_birth(N) is False
+
+    mocker.patch('random.random', return_value=-10000)
+    b = Animal(weight=40)
+    print(min(1, b.params["gamma"]*b.fitness*(N-1)))
+    assert b.give_birth(100) is True
 
 
 def test_eat():

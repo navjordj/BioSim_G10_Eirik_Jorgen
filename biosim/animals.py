@@ -130,6 +130,7 @@ class Animal:
         prob = self.params["mu"] * self.fitness
         return np.random.rand() < prob
 
+
 class Herbivore(Animal):
 
     def __init__(self, age=None, weight=None) -> None:
