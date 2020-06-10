@@ -45,7 +45,6 @@ class Cell:
         else:
             raise ValueError('Fodder must be a positive number')
 
-
     def remove_animal(self, animal):
         try:
             if type(animal) == Herbivore:
@@ -75,6 +74,8 @@ class Cell:
 
     def eat_carnivore(self) -> None:
 
+        self.remove_dead_herbivore()
+
         reverse_sort_c: List[Carnivore] = sorted(self.carnivores,
                                                  key=lambda animal: animal.get_fitness(),
                                                  reverse=True)
@@ -84,15 +85,14 @@ class Cell:
         for i, carni in enumerate(reverse_sort_c):
             f_eaten: Union[int, float] = 0
             for j, herbi in enumerate(sorted_h):
-                if herbi.alive:
-                    p = p_eat(carni.get_fitness(), herbi.get_fitness(),
-                              carni.params["delta_phi_max"])
-                    if random.random() < p:
-                        herbi.alive = False
-                        f_eaten += herbi.weight
-                        carni.update_weight(carni.params["beta"] * f_eaten)
-                        if f_eaten >= carni.params["F"]:  # TODO Check if there are leftovers
-                            break
+                p = p_eat(carni.get_fitness(), herbi.get_fitness(),
+                            carni.params["delta_phi_max"])
+                if random.random() < p:
+                    herbi.alive = False
+                    f_eaten += herbi.weight
+                    carni.update_weight(carni.params["beta"] * f_eaten)
+                    if f_eaten >= carni.params["F"]:  # TODO Check if there are leftovers
+                        break
 
     # TODO add type
     def add_animal(self, animal: Any, age=None, weight=None) -> None:  # choose Any because hard to name type

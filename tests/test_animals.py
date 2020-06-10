@@ -72,7 +72,6 @@ def test_birth(mocker):
 
     mocker.patch('random.random', return_value=-10000)
     b = Animal(weight=40)
-    print(min(1, b.params["gamma"]*b.fitness*(N-1)))
     assert b.give_birth(100) is True
 
 
