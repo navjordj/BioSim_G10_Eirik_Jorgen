@@ -4,6 +4,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 from .cell import Lowland, Highland, Water, Desert
 from .animals import Herbivore, Carnivore
 from .island import Island
+from .viz import Viz
 
 from .plotting import plot_map
 
@@ -56,6 +57,7 @@ class BioSim:
         # plot_map(self.island_map)
         self.add_population(ini_pop)
 
+
     def set_animal_parameters(self, species, params):
         """
         Set parameters for animal species.
@@ -82,18 +84,8 @@ class BioSim:
         Image files will be numbered consecutively.
         """
 
-        fig = plt.figure()
-        ax = fig.add_subplot(1, 1, 1)
-        ax.set_xlim(0, num_years)
-        ax.set_ylim(0, 1500)
-
-        line_carnivore = ax.plot(np.arange(num_years),
-                    np.full(num_years, np.nan), 'b-', color='r', label="carnivore")[0]
-
-        line_herbivore = ax.plot(np.arange(num_years),
-                    np.full(num_years, np.nan), 'b-', color='b', label="herbivore")[0]
-
-
+        viz = Viz(self.island_map, num_years)
+        
         # TODO fix map.map.map.map
         for year in range(num_years):
             print(f'Year {year}: ')
@@ -109,26 +101,11 @@ class BioSim:
                     else:
                         continue
 
-            print(self.num_animals_per_species)
-            
-            ydata_carnivore = line_carnivore.get_ydata()
-            ydata_carnivore[year] = self.num_animals_per_species["carnivores"]
-
-            ydata_herbivore = line_herbivore.get_ydata()
-            ydata_herbivore[year] = self.num_animals_per_species["herbivores"]   
-
-            #print(ydata)
-            line_carnivore.set_ydata(ydata_carnivore)
-            line_herbivore.set_ydata(ydata_herbivore)
-
-            plt.legend()
-            plt.grid(axis='y', c='g', lw=1.5)
-
-            plt.xlabel("Num years")
-            plt.ylabel("Num animals")
-            plt.title("Carnivores vs Herbivores")
-            plt.pause(1e-6)
-        
+            self.island_map.num_herbivores_data.append(self.num_animals_per_species["herbivores"])
+            self.island_map.year += 1
+            viz.update_fig(self.island_map)        
+            # print(self.num_animals_per_species)
+                    
 
     def add_population(self, population):
         """
@@ -182,3 +159,5 @@ class BioSim:
 
     def make_movie(self):
         """Create MPEG4 movie from visualization images saved."""
+
+    

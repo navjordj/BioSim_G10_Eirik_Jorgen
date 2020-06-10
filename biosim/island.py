@@ -16,6 +16,10 @@ class Island:
         self.map_str = map_str
         self.map = self.make_a_map(map_str)
 
+        self.year = 0
+
+        self.num_herbivores_data = []
+
 
     def __str__(self):
         map_str = ""
