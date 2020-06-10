@@ -2,6 +2,7 @@ __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
+from pytest_mock import mocker
 
 from biosim.cell import Cell, Water, Lowland, Highland, Desert
 from biosim.animals import Animal, Herbivore, Carnivore
@@ -19,7 +20,6 @@ def test_change_params() -> None:
     assert k.fodder == 300
 
 
-#  is this the right way to check migration?
 def test_allowed_to_move_to() -> None:
     """
     Tests the parameter inside every landscape type to see if allowed to move to
@@ -116,7 +116,7 @@ def test_remove_dead_herbivore() -> None:
     assert l.n_herbivores == n - 1
 
 
-# TODO find a way to test eat_carnivore function, have to implement more
+# TODO find a way to test eat_carnivore function, have to implement test for random
 def test_eat_carnivore() -> None:
     """
     Sees if 10 carnivores gain any weight after trying to eat 10 herbivores
