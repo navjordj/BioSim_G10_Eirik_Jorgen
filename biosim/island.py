@@ -80,7 +80,7 @@ class Island:
                         if type(cell_destination) != Water:
                             cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)
                             cell.remove_animal(herbi)
-                            print(f'Migrated from {type(cell).__name__} {(i, j)} to {type(cell_destination).__name__}')
+                            # print(f'Migrated from {type(cell).__name__} {(i, j)} to {type(cell_destination).__name__}')
                         else:
                             continue
 
@@ -91,7 +91,7 @@ class Island:
                         if type(cell_destination) != Water:
                             cell_destination.add_animal("Carnivore", carni.age, carni.weight)
                             cell.remove_animal(carni)
-                            print(f'Migrated from {(i, j)} to {cell_destination}')
+                            # print(f'Migrated from {(i, j)} to {cell_destination}')
                         else:
                             continue
 

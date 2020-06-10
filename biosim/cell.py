@@ -183,7 +183,7 @@ class Cell:
         self.remove_dead_herbivore()
         # MIGRATION:
 
-        #island.migration()
+        island.migration()
 
         # Procreation:
         self.herbivore_babies()
