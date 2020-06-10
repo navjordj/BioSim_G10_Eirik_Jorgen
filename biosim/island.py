@@ -8,10 +8,11 @@ class Island:
                   'L': Lowland,
                   'H': Highland}
 
-    def __init__(self, map: str) -> None:
+    def __init__(self, map_str: str) -> None:
         self.row_len = None
         self.column_len = None
-        self.map = self.make_a_map(map)
+        self.map_str = map_str
+        self.map = self.make_a_map(map_str)
 
 
     def __str__(self):

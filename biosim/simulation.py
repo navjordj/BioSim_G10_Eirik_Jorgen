@@ -5,10 +5,12 @@ from .cell import Lowland, Highland, Water, Desert
 from .animals import Herbivore, Carnivore
 from .island import Island
 
+from .plotting import plot_map
+
 import numpy as np
 # import matplotlib.pyplot as plt
 from typing import Dict
-
+import matplotlib.pyplot as plt
 
 class BioSim:
     def __init__(
@@ -50,7 +52,8 @@ class BioSim:
         # self.island_map = [Lowland()]
         np.random.seed(seed)
 
-        self.island_map = Island(map=island_map)
+        self.island_map = Island(map_str=island_map)
+        #plot_map(self.island_map)
         self.add_population(ini_pop)
 
     def set_animal_parameters(self, species, params):
@@ -78,9 +81,22 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
+
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
+        ax.set_xlim(0, num_years)
+        ax.set_ylim(0, 300)
+
+        line_carnivore = ax.plot(np.arange(num_years),
+                    np.full(num_years, np.nan), 'b-', color='r', label="carnivore")[0]
+
+        line_herbivore = ax.plot(np.arange(num_years),
+                    np.full(num_years, np.nan), 'b-', color='b', label="herbivore")[0]
+
+
         # TODO fix map.map.map.map
-        for i in range(num_years):
-            print(f'Year {i}: ')
+        for year in range(num_years):
+            print(f'Year {year}: ')
             # TODO make a proper iterator
             for i in range(self.island_map.row_len):
                 for j in range(self.island_map.column_len):
@@ -90,6 +106,25 @@ class BioSim:
                     c.new_year()
 
             print(self.num_animals_per_species)
+            """
+            ydata_carnivore = line_carnivore.get_ydata()
+            ydata_carnivore[year] = self.num_animals_per_species["carnivores"]
+
+            ydata_herbivore = line_herbivore.get_ydata()
+            ydata_herbivore[year] = self.num_animals_per_species["herbivores"]   
+
+            #print(ydata)
+            line_carnivore.set_ydata(ydata_carnivore)
+            line_herbivore.set_ydata(ydata_herbivore)
+
+            plt.legend()
+
+
+            plt.xlabel("Num years")
+            plt.ylabel("Num animals")
+            plt.title("Carnivores vs Herbivores")
+            plt.pause(1e-6)"""
+        
 
     def add_population(self, population):
         """
