@@ -28,7 +28,7 @@ class Cell:
         self.carnivores: List[Carnivore] = []
         self.herbivores: List[Herbivore] = []
         self.allowed_move_to: bool = True
-        self.fodder = 0
+        self.fodder = self.max_fodder
         self.n_carnivores: int = 0
         self.n_herbivores: int = 0
 
@@ -238,7 +238,11 @@ class Lowland(Cell):
 
     def __init__(self) -> None:
         super().__init__()
+<<<<<<< HEAD
         self.fodder = self.grow()
+=======
+        self.fodder = 800
+>>>>>>> a98e86ec170c018222a02487317d627d90a140b1
 
     def grow(self) -> int:
         self.fodder = self.max_fodder
