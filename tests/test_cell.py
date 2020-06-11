@@ -16,11 +16,18 @@ def test_cell() -> None:
 
 
 def test_change_params() -> None:
-    k = Cell()
+    c = Cell()
     with pytest.raises(ValueError):
-        k.set_parameters(fodder=-1)
-    k.set_parameters(fodder=300)
-    assert k.fodder == 300
+        c.set_parameters(fodder=-1)
+    c.set_parameters(fodder=300)
+    assert c.max_fodder == 300
+
+    l = Lowland()
+    before = l.fodder
+    l.set_parameters(fodder=900)
+    l.grow
+    print(l.max_fodder, l.fodder)
+    assert l.fodder > before
 
 
 def test_allowed_to_move_to() -> None:
