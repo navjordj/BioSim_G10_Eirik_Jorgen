@@ -4,9 +4,9 @@ import numpy as np
 
 np.random.seed(1)
 
-ini_herbs = [{'loc': (2, 2), 'pop': [{'species': 'Herbivore', 'age': 6, 'weight': 10} for _ in range(20)]}]
+ini_herbs = [{'loc': (2, 2), 'pop': [{'species': 'Herbivore', 'age': 6, 'weight': None} for _ in range(50)]}]
             
-ini_carn = [{'loc': (2, 2), 'pop': [{'species': 'Carnivore', 'age': 6, 'weight': 10} for _ in range(0)]}]
+ini_carn = [{'loc': (2, 2), 'pop': [{'species': 'Carnivore', 'age': 6, 'weight': None} for _ in range(20)]}]
 
 
 kart = "WWW\nWLW\nWWW"
