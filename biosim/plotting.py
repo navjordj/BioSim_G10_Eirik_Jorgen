@@ -34,7 +34,7 @@ def plot_map(island):
                                     facecolor=rgb_value[name[0]]))
         axlg.text(0.35, ix * 0.2, name, transform=axlg.transAxes)
 
-    plt.show()
+    return fig
 
 def plot_hist():
 
