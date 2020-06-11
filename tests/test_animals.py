@@ -126,13 +126,18 @@ def test_fitness():
     for _ in range(n):
         a = Animal()
         fitness_list.append(a.get_fitness())
+    fitness_list2 = []
+    for _ in range(n):
+        a = Animal()
+        fitness_list.append(a.get_fitness())
     # Central limit theorem
     mean = np.mean(fitness_list)
     sd = np.std(fitness_list)
     assert n * mean >= 10 and n * (1 - mean) >= 10  # test if close to normal
     norm_approx = np.random.normal(mean, sd, n)
-    x = np.concatenate((fitness_list, norm_approx))
+    x = np.concatenate((fitness_list2, norm_approx))
     k2, p = stats.normaltest(x)
+    print(p)
     assert p > alpha
 
     # Check that fitness decreases when age increases
