@@ -51,7 +51,6 @@ def test_update_weight():
     assert a.weight == weight_before - 5
 
 
-# TODO check stat prob
 def test_death(mocker):
     a = Animal()
     a.weight = 0
@@ -62,6 +61,7 @@ def test_death(mocker):
     a = Animal()
     assert a.should_die() is False
 
+    # probability of death is close to a normal distribution
     alpha = 0.00001
     n = 1000
     death_list = []  # list o prob of death for animal
@@ -118,6 +118,8 @@ def test_new_year():
 
 # TODO confidence interval + stat problem
 def test_fitness():
+
+    # Tests that fitness is close to normal when a newborn is placed in the simulation
     alpha = 0.00001
     n = 1000
     fitness_list = []
