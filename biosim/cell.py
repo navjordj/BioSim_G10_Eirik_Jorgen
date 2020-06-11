@@ -4,7 +4,9 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 from .animals import Carnivore, Herbivore
 from typing import Union, List, Any
 
+import numpy as np
 import random
+np.random.seed(1)
 
 
 # TODO implement test
@@ -59,7 +61,7 @@ class Cell:
         # fodder_left: Union[int, float] = self.fodder
         shuffled_herbivores: List[
             Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
-        random.shuffle(shuffled_herbivores)  # TODO refactor code
+        np.random.shuffle(shuffled_herbivores)  # TODO refactor code
         # TODO test if fodder newer gets below zero
         for herbi in shuffled_herbivores:
             if self.fodder == 0:
@@ -87,7 +89,7 @@ class Cell:
             for j, herbi in enumerate(sorted_h):
                 p = p_eat(carni.get_fitness(), herbi.get_fitness(),
                             carni.params["delta_phi_max"])
-                if random.random() < p:
+                if random.random() < p: # TODO update to numpy
                     herbi.alive = False
                     f_eaten += herbi.weight
                     carni.update_weight(carni.params["beta"] * f_eaten)

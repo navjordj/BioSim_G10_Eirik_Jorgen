@@ -6,7 +6,7 @@ from math import exp
 from typing import Union, Dict
 import numpy as np
 
-#np.random.seed(1)
+np.random.seed(1)
 
 
 def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
@@ -75,7 +75,7 @@ class Animal:
             return True
         else:
             p: float = self.params["omega"] * (1 - self.fitness)
-            return random.random() < p
+            return np.random.random() < p
 
     # TODO update correct type
     def give_birth(self, N: int) -> bool:
@@ -84,7 +84,7 @@ class Animal:
             return False
 
         p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
-        if random.random() < p:
+        if np.random.random() < p:
             return True
         else:
             return False
