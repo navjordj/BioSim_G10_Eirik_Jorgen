@@ -7,6 +7,9 @@ from pytest_mock import mocker
 from biosim.cell import Cell, Water, Lowland, Highland, Desert
 from biosim.animals import Animal, Herbivore, Carnivore
 
+import numpy as np
+import random
+
 
 def test_cell() -> None:
     Cell()
@@ -120,7 +123,7 @@ def test_eat_carnivore(mocker) -> None:
     """
     Sees if 10 carnivores gain any weight after trying to eat 10 herbivores
     """
-    mocker.patch('random.random', return_value=0)
+    mocker.patch('random.random', return_value=0) # TODO update to numpy
 
     d = Desert()
     d.add_animal('Carnivore')
