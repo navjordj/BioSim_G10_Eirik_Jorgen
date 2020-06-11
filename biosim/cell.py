@@ -35,12 +35,6 @@ class Cell:
     def __str__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
-    @classmethod
-    def set_parameters(cls, fodder: Union[float, int]) -> None:
-        if fodder >= 0:
-            cls.max_fodder = fodder
-        else:
-            raise ValueError('Fodder must be a positive number')
 
     # TODO make it so it's possible to move to then move
     # TODO evaluate if this function is necessary
@@ -200,6 +194,7 @@ class Cell:
         for h in self.herbivores:
             h.new_year()
 
+
         for c in self.carnivores:
             c.new_year()
 
@@ -227,6 +222,15 @@ class Highland(Cell):
     def grow(self) -> None:
         self.fodder = self.max_fodder
 
+    @classmethod
+    def set_parameters(cls, max_fodder: Union[float, int]) -> None:
+        if max_fodder >= 0:
+            cls.max_fodder = max_fodder
+            cls.fodder = max_fodder
+        else:
+            raise ValueError('max_fodder must be a positive number')
+
+
 
 class Lowland(Cell):
 
@@ -234,10 +238,18 @@ class Lowland(Cell):
 
     def __init__(self) -> None:
         super().__init__()
-        self.fodder = self.max_fodder
+        self.fodder = self.grow()
 
-    def grow(self) -> None:
+    def grow(self) -> int:
         self.fodder = self.max_fodder
+        return self.fodder
+
+    @classmethod
+    def set_parameters(cls, max_fodder: Union[float, int]) -> None:
+        if max_fodder >= 0:
+            cls.max_fodder = max_fodder
+        else:
+            raise ValueError('max_fodder must be a positive number')
 
 
 class Water(Cell):

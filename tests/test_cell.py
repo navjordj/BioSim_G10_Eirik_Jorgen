@@ -16,10 +16,11 @@ def test_cell() -> None:
 
 
 def test_change_params() -> None:
-    k = Cell()
+    k = Lowland()
     with pytest.raises(ValueError):
-        k.set_parameters(fodder=-1)
-    k.set_parameters(fodder=300)
+        k.set_parameters(max_fodder=-1)
+    k.set_parameters(max_fodder=300)
+    k.grow() # Reset fodder in cell to max_fodder
     assert k.fodder == 300
 
 
