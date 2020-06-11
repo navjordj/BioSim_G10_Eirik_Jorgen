@@ -81,7 +81,6 @@ class Cell:
             elif appetite < food_left:
                 f_eaten += appetite
             else:
-                print(type(f_eaten), type(food_left))
                 f_eaten += food_left
 
             self.fodder -= f_eaten
