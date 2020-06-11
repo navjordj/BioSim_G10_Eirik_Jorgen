@@ -18,8 +18,8 @@ def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: flo
 
 
 class Animal:
-    def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
-        self.params: dict = {
+    # TODO Possible rewrite to normal attributes (no dict)
+    params: dict = {
             "w_birth": 8.0,
             "sigma_birth": 1.5,
             "beta": 0.9,
@@ -36,6 +36,8 @@ class Animal:
             "F": 10.0,
             "delta_phi_max": None
         }
+    
+    def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
         if age == None:
             self.age: int = 0
         else:
@@ -53,16 +55,17 @@ class Animal:
         return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
 
     # TODO implement set_params
-    def set_params(self, parameter: Dict[str, Union[int, float]]) -> None:
-        '''
-        if not all(key in self.params for key in parameter) and not all(parameter[key] >= 0 for key in parameter):
-            raise ValueError('All key got to be in parameters and all the new values got to be positive')
-        else:
-        for key in parameter:
-            self.params[key] = parameter[key]
-        '''
-        raise NotImplementedError("set_params is not implemented yet")
+    @classmethod
+    def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
 
+        for key in new_parameters:
+            try:
+                if new_parameters[key] >= 0:
+                    cls.params[key] = new_parameters[key]
+                else:
+                    raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
+            except ValueError as error:
+                print(error)
     # TODO: Return value? Bool to confirm success?
     def increase_age(self) -> None:
         self.age += 1
@@ -145,37 +148,29 @@ class Animal:
 
 
 class Herbivore(Animal):
-
+    params: dict = {
+                "w_birth": 8.0,
+                "sigma_birth": 1.5,
+                "beta": 0.9,
+                "eta": 0.05,
+                "a_half": 40.0,
+                "phi_age": 0.6,
+                "weight_half": 10.0,
+                "phi_weight": 0.1,
+                "mu": 0.25,
+                "gamma": 0.2,
+                "zeta": 3.5,
+                "xi": 1.2,
+                "omega": 0.4,
+                "F": 50.0,
+                "delta_phi_max": None
+            }
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
-        self.params: dict = {
-            "w_birth": 8.0,
-            "sigma_birth": 1.5,
-            "beta": 0.9,
-            "eta": 0.05,
-            "a_half": 40.0,
-            "phi_age": 0.6,
-            "weight_half": 10.0,
-            "phi_weight": 0.1,
-            "mu": 0.25,
-            "gamma": 0.2,
-            "zeta": 3.5,
-            "xi": 1.2,
-            "omega": 0.4,
-            "F": 50.0,
-            "delta_phi_max": None
-        }
-
-    @classmethod
-    def set_params(cls, params: dict) -> None:
-        cls.params = params
 
 
 class Carnivore(Animal):
-
-    def __init__(self, age=None, weight=None) -> None:
-        super().__init__(age, weight)
-        self.params: dict = {
+    params: dict = {
             "w_birth": 6.0,
             "sigma_birth": 1.0,
             "beta": 0.75,
@@ -193,11 +188,12 @@ class Carnivore(Animal):
             "delta_phi_max": 10
         }
 
-    @classmethod
-    def set_params(cls, params: dict) -> None:
-        cls.params = params
-
+    def __init__(self, age=None, weight=None) -> None:
+        super().__init__(age, weight)
 
 if __name__ == "__main__":
-    h = Herbivore()
-    c = Carnivore()
+    h1 = Herbivore()
+    h2 = Herbivore()
+    print(h2.params)
+    h1.set_params({"w_birth": 100})
+    print(h2.params)
