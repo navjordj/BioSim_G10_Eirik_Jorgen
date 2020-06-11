@@ -22,17 +22,18 @@ def test_change_params() -> None:
     k.set_parameters(max_fodder=300)
     k.grow() # Reset fodder in cell to max_fodder
     assert k.fodder == 300
-    
-    c = Cell()
+
+    c = Lowland()
     with pytest.raises(ValueError):
-        c.set_parameters(fodder=-1)
-    c.set_parameters(fodder=300)
+        c.set_parameters(max_fodder=-1)
+    c.set_parameters(max_fodder=300)
+    c.grow()
     assert c.max_fodder == 300
 
     l = Lowland()
     before = l.fodder
-    l.set_parameters(fodder=900)
-    l.grow
+    l.set_parameters(max_fodder=900)
+    l.grow()
     print(l.max_fodder, l.fodder)
     assert l.fodder > before
 

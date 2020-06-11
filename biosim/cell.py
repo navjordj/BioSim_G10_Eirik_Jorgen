@@ -223,7 +223,7 @@ class Highland(Cell):
         self.fodder = self.max_fodder
 
     @classmethod
-    def set_parameters(cls, max_fodder: Union[float, int]) -> None:
+    def set_parameters(cls, max_fodder) -> None: # TODO add type
         if max_fodder >= 0:
             cls.max_fodder = max_fodder
             cls.fodder = max_fodder
@@ -238,18 +238,14 @@ class Lowland(Cell):
 
     def __init__(self) -> None:
         super().__init__()
-<<<<<<< HEAD
         self.fodder = self.grow()
-=======
-        self.fodder = 800
->>>>>>> a98e86ec170c018222a02487317d627d90a140b1
 
     def grow(self) -> int:
         self.fodder = self.max_fodder
         return self.fodder
 
     @classmethod
-    def set_parameters(cls, max_fodder: Union[float, int]) -> None:
+    def set_parameters(cls, max_fodder) -> None: # TODO add type
         if max_fodder >= 0:
             cls.max_fodder = max_fodder
         else:
