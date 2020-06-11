@@ -18,7 +18,7 @@ class Island:
 
         self.year = 0
 
-        self.num_herbivores_data = []
+        self.num_herbivores_data: List[int] = []
 
 
     def __str__(self):
