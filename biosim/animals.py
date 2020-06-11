@@ -54,6 +54,13 @@ class Animal:
 
     # TODO implement set_params
     def set_params(self, parameter: Dict[str, Union[int, float]]) -> None:
+        '''
+        if not all(key in self.params for key in parameter) and not all(parameter[key] >= 0 for key in parameter):
+            raise ValueError('All key got to be in parameters and all the new values got to be positive')
+        else:
+        for key in parameter:
+            self.params[key] = parameter[key]
+        '''
         raise NotImplementedError("set_params is not implemented yet")
 
     # TODO: Return value? Bool to confirm success?
