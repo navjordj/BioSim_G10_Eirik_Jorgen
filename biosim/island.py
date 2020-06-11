@@ -35,6 +35,7 @@ class Island:
             map_str += "\n"
         return map_str
 
+    # TODO look at why mypy will not allow type
     @staticmethod
     def make_map_ready(map_string: str) -> List[List[str]]:
         map_string = map_string.splitlines()
