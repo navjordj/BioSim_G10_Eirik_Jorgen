@@ -51,15 +51,34 @@ def test_update_weight():
     assert a.weight == weight_before - 5
 
 
-def test_death():
-    np.random.seed(1)
+def test_death(mocker):
     a = Animal()
     a.weight = 0
     assert a.should_die() is True
 
+    mocker.patch('random.random', return_value=1)
+
     a = Animal()
-    a.fitness = 1
     assert a.should_die() is False
+
+    # probability of death is close to a normal distribution
+    alpha = 0.00001
+    n = 1000
+    death_list = []  # list o prob of death for animal
+    for _ in range(n):
+        a = Animal()
+        death_list.append(a.params["omega"] * (1 - a.fitness))
+    # Central limit theorem
+    mean = np.mean(death_list)
+    sd = np.std(death_list)
+    assert n * mean >= 30 and n * (1 - mean) >= 30  # test for close to normal
+    norm_approx = np.random.normal(mean, sd, n)
+    x = np.concatenate((death_list, norm_approx))
+    k2, p = stats.normaltest(x)
+    if p > alpha:
+        assert True
+    else:
+        assert False
 
 
 def test_birth(mocker):
@@ -72,7 +91,6 @@ def test_birth(mocker):
 
     mocker.patch('random.random', return_value=-10000)
     b = Animal(weight=40)
-    print(min(1, b.params["gamma"]*b.fitness*(N-1)))
     assert b.give_birth(100) is True
 
 
@@ -98,7 +116,27 @@ def test_new_year():
     assert a.weight == (weight_before - a.params["eta"]*weight_before)
 
 
+# TODO confidence interval + stat problem
 def test_fitness():
+
+    # Tests that fitness is close to normal when a newborn is placed in the simulation
+    alpha = 0.00001
+    n = 1000
+    fitness_list = []
+    for _ in range(n):
+        a = Animal()
+        fitness_list.append(a.get_fitness())
+    # Central limit theorem
+    mean = np.mean(fitness_list)
+    sd = np.std(fitness_list)
+    assert n * mean >= 10 and n * (1 - mean) >= 10  # test if close to normal
+    norm_approx = np.random.normal(mean, sd, n)
+    x = np.concatenate((fitness_list, norm_approx))
+    k2, p = stats.normaltest(x)
+    if p > alpha:
+        assert True
+    else:
+        assert False
 
     # Check that fitness decreases when age increases
     a: Animal = Animal()
