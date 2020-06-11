@@ -103,6 +103,8 @@ class BioSim:
 
             self.island_map.num_herbivores_data.append(self.num_animals_per_species["herbivores"])
             self.island_map.year += 1
+
+            # if self.island_map.year % 5 == 0:
             viz.update_fig(self.island_map)        
             # print(self.num_animals_per_species)
                     

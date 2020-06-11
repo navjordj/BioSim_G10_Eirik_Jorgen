@@ -17,22 +17,29 @@ class Viz:
         self.herbivores_over_time = None
 
 
-        self._setup_graphics()
+        self._setup_graphics(island)
         self._draw_map(island)
+        self._draw_animals_over_time(island)
 
-    def _setup_graphics(self):
+    def _setup_graphics(self, island):
         """Creates subplots."""
         if self.figure == None:
-            self.figure = plt.figure(constrained_layout=True, figsize=(16, 9))
+            self.figure = plt.figure(constrained_layout=True, figsize=(5, 2))
             self.grid = self.figure.add_gridspec(2, 24)
         
         if self.island_map_ax is None:
             self.island_map_ax = self.figure.add_subplot(self.grid[0, :10])
-            self.island_map_ax.set_title("Tittel")
+            self.island_map_ax.set_title(f'Year {island.year}')
             self.island_map_img_ax = None
 
         if self.animals_over_time_ax is None:
             self.animals_over_time_ax = self.figure.add_subplot(self.grid[0, 12:])
+            self.animals_over_time_ax.set_ylim(500)
+            self.animals_over_time_ax.invert_yaxis()
+
+            self.animals_over_time_ax.set_xlim(self.num_years)
+            self.animals_over_time_ax.invert_xaxis()
+            self.animals_over_time_ax.grid(axis='y', c='g')
 
 
     def _draw_map(self, island):
@@ -53,7 +60,7 @@ class Viz:
 
     def _draw_animals_over_time(self, island):
 
-        self.years = [year for year in range(island.year+1)]
+        self.years = [year for year in range(island.year)]
 
         self.herbivores_over_time = island.num_herbivores_data.copy()
 
@@ -64,18 +71,19 @@ class Viz:
             
         self.herbivores_over_time = np.array(self.herbivores_over_time)
 
-
         self.line_herbivore = self.animals_over_time_ax.plot(
             self.years, self.herbivores_over_time, color='b', label='Herbivore'
-        )
+        )[0]
+
+        self.animals_over_time_ax.set(xlabel='years', ylabel='Animals')
+        self.animals_over_time_ax.legend()
 
     def _update_animals_over_time(self, island):
-        print(len(island.num_herbivores_data))
-        self.herbivores_over_time[2] = island.num_herbivores_data[-1] # last elm
-
+        self.herbivores_over_time[island.year-1] = island.num_herbivores_data[-1] # last elm
         self.line_herbivore.set_ydata(self.herbivores_over_time)
 
 
 
     def update_fig(self, island):
         self._update_animals_over_time(island)
+        plt.pause(1e-6)
