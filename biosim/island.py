@@ -37,9 +37,10 @@ class Island:
 
     @staticmethod
     def make_map_ready(map_string: str) -> List[List[str]]:
-        geo = [list(rows) for rows in
-               map_string.replace(" ", "").split("\n")]
-
+        map_string = map_string.splitlines()
+        map_string = [rows.replace(' ', '').replace('\\', '') for rows in map_string]
+        geo = [list(rows) for rows in map_string]
+        print(geo)
         if not all(len(geo[0]) == len(line) for line in geo[1:]):
             raise ValueError('All rows must be equal length')
 
@@ -72,7 +73,6 @@ class Island:
                 geo[i][j] = self.map_params[cell]()
 
         return geo
-
 
     def migration(self):
         for i, row in enumerate(self.map):

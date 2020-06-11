@@ -50,6 +50,7 @@ class Viz:
                 'D': (1.0, 1.0, 0.5)}  # light yellow
 
         map_rgb = []
+        # TODO make it work with the "new way" to write the map
         for row in island.map_str.splitlines():
             map_rgb.append([rgb_value[elm] for elm in row])
 
