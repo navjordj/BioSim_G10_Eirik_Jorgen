@@ -56,12 +56,11 @@ class Cell:
 
     # TODO must know what's inside Animals to do well
     def eat_herbivore(self) -> None:
-        # fodder_left: Union[int, float] = self.fodder
-        shuffled_herbivores: List[
-            Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
+        shuffled_herbivores: List[Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
         np.random.shuffle(shuffled_herbivores)  # TODO refactor code
         # TODO test if fodder newer gets below zero
         for herbi in shuffled_herbivores:
+            appetite = herbi.params["F"]
             if self.fodder == 0:
                 break  # Break out of loop when there is no food left
             elif self.fodder - herbi.params["F"] < 0:
@@ -71,6 +70,22 @@ class Cell:
 
             self.fodder -= fodder_eaten
             herbi.update_weight(herbi.params["beta"] * fodder_eaten)
+
+        for herbi in shuffled_herbivores:
+            appetite = herbi.params["F"]
+            food_left = self.fodder
+            f_eaten = 0.
+
+            if food_left <= 0:
+                break
+            elif appetite < food_left:
+                f_eaten += appetite
+            else:
+                print(type(f_eaten), type(food_left))
+                f_eaten += food_left
+
+            self.fodder -= f_eaten
+            herbi.update_weight(herbi.params["beta"] * f_eaten)
 
     def eat_carnivore(self) -> None:
 
@@ -82,17 +97,29 @@ class Cell:
         sorted_h: List[Herbivore] = sorted(self.herbivores, key=lambda animal: animal.get_fitness(),
                                            reverse=False)
 
-        for i, carni in enumerate(reverse_sort_c):
-            f_eaten: Union[int, float] = 0
-            for j, herbi in enumerate(sorted_h):
-                p = p_eat(carni.get_fitness(), herbi.get_fitness(),
-                            carni.params["delta_phi_max"])
-                if random.random() < p: # TODO update to numpy
-                    herbi.alive = False
-                    f_eaten += herbi.weight
-                    carni.update_weight(carni.params["beta"] * f_eaten)
-                    if f_eaten >= carni.params["F"]:  # TODO Check if there are leftovers
-                        break
+
+        for carni in reverse_sort_c:
+            appetite = carni.params["F"]
+            f_eaten = 0.
+
+            for herbi in sorted_h:
+
+                if f_eaten >= appetite:
+                    break
+                
+                elif random.random() < p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["delta_phi_max"]):
+                    f_wanted = appetite - f_eaten
+
+                    if herbi.weight <= f_wanted:
+                        f_eaten += herbi.weight
+                        herbi.alive = False
+                    else:
+                        f_eaten += f_wanted
+                        herbi.alive = False
+
+            carni.update_weight(carni.params["beta"] * f_eaten)
+
+
 
     # TODO add type
     def add_animal(self, animal: Any, age=None, weight=None) -> None:  # choose Any because hard to name type
