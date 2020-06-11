@@ -52,7 +52,6 @@ def test_update_weight():
 
 
 # TODO check stat prob
-@pytest.mark.skip(reason='Not implemented yet')
 def test_death(mocker):
     a = Animal()
     a.weight = 0
@@ -65,19 +64,17 @@ def test_death(mocker):
 
     alpha = 0.00001
     n = 1000
-    death_list = []
+    death_list = []  # list o prob of death for animal
     for _ in range(n):
-        a = Animal(weight=10)
+        a = Animal()
         death_list.append(a.params["omega"] * (1 - a.fitness))
     # Central limit theorem
-    mean = np.median(np.array(death_list))
-    standard_error = ((mean * (1 - mean)) / n) ** 0.5
-    print(f'\n{standard_error, mean}')
-    assert n * mean >= 10 and n * (1 - mean) >= 10
-    norm_approx = np.random.normal(mean, standard_error, n)
+    mean = np.mean(death_list)
+    sd = np.std(death_list)
+    assert n * mean >= 30 and n * (1 - mean) >= 30  # test for close to normal
+    norm_approx = np.random.normal(mean, sd, n)
     x = np.concatenate((death_list, norm_approx))
     k2, p = stats.normaltest(x)
-    print(p)
     if p > alpha:
         assert True
     else:
@@ -120,7 +117,6 @@ def test_new_year():
 
 
 # TODO confidence interval + stat problem
-@pytest.mark.skip(reason='Not implemented yet')
 def test_fitness():
     alpha = 0.00001
     n = 1000
@@ -129,14 +125,12 @@ def test_fitness():
         a = Animal()
         fitness_list.append(a.get_fitness())
     # Central limit theorem
-    mean = np.median(np.array(fitness_list))
-    standard_error = ((mean*(1-mean))/n)**0.5
-    print(f'\n{standard_error, mean}')
-    assert n * mean >= 10 and n * (1 - mean) >= 10
-    norm_approx = np.random.normal(mean, standard_error, n)
+    mean = np.mean(fitness_list)
+    sd = np.std(fitness_list)
+    assert n * mean >= 10 and n * (1 - mean) >= 10  # test if close to normal
+    norm_approx = np.random.normal(mean, sd, n)
     x = np.concatenate((fitness_list, norm_approx))
     k2, p = stats.normaltest(x)
-    print(p)
     if p > alpha:
         assert True
     else:
