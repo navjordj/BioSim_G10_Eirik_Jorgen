@@ -40,7 +40,6 @@ class Island:
         map_string = map_string.splitlines()
         map_string = [rows.replace(' ', '').replace('\\', '') for rows in map_string]
         geo = [list(rows) for rows in map_string]
-        print(geo)
         if not all(len(geo[0]) == len(line) for line in geo[1:]):
             raise ValueError('All rows must be equal length')
 

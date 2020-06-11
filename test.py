@@ -9,7 +9,7 @@ ini_herbs = [{'loc': (10, 10), 'pop': [{'species': 'Herbivore', 'age': 6, 'weigh
 ini_carn = [{'loc': (10, 10), 'pop': [{'species': 'Carnivore', 'age': 6, 'weight': None} for _ in range(20)]}]
 
 
-kart = geogr = """\
+kart = """\
                WWWWWWWWWWWWWWWWWWWWW
                WWWWWWWWHWWWWLLLLLLLW
                WHHHHHLLLLWWLLLLLLLWW

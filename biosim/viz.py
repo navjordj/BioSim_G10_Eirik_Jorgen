@@ -50,8 +50,9 @@ class Viz:
                 'D': (1.0, 1.0, 0.5)}  # light yellow
 
         map_rgb = []
-        # TODO make it work with the "new way" to write the map
-        for row in island.map_str.splitlines():
+        # TODO see for better solution to write it in
+        str_intake = [rows.replace(' ', '') for rows in island.map_str.splitlines()]
+        for row in str_intake:
             map_rgb.append([rgb_value[elm] for elm in row])
 
         self.island_map_img_ax = self.island_map_ax.imshow(map_rgb)
