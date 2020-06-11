@@ -21,16 +21,26 @@ def p_eat(phi_carn: float, phi_herb: float, delta_phi_max: Union[int, float]) ->
 
 
 class Cell:
+
+    max_fodder: Union[float, int] = 0
+
     def __init__(self) -> None:
         self.carnivores: List[Carnivore] = []
         self.herbivores: List[Herbivore] = []
-        self.fodder: Union[float, int] = 0
         self.allowed_move_to: bool = True
+        self.fodder = 0
         self.n_carnivores: int = 0
         self.n_herbivores: int = 0
 
     def __str__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
+
+    @classmethod
+    def set_parameters(cls, fodder: Union[float, int]) -> None:
+        if fodder >= 0:
+            cls.max_fodder = fodder
+        else:
+            raise ValueError('Fodder must be a positive number')
 
     # TODO make it so it's possible to move to then move
     # TODO evaluate if this function is necessary
@@ -40,12 +50,6 @@ class Cell:
             return False
         else:
             return True
-
-    def set_parameters(self, fodder: Union[float, int]) -> None:
-        if fodder >= 0:
-            self.fodder = fodder
-        else:
-            raise ValueError('Fodder must be a positive number')
 
     def remove_animal(self, animal):
         try:
@@ -213,6 +217,7 @@ class Desert(Cell):
 
 
 class Highland(Cell):
+
     max_fodder = 300
 
     def __init__(self) -> None:
@@ -224,6 +229,7 @@ class Highland(Cell):
 
 
 class Lowland(Cell):
+
     max_fodder = 800
 
     def __init__(self) -> None:

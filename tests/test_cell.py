@@ -60,15 +60,11 @@ def test_eat_herbivore() -> None:
     """
     l = Lowland()
     l.add_animal('Herbivore')
-    start_weight_lowland = 0.0  # mypy refused to take in anything other than a float (see animals)
-    for herb in l.herbivores:
-        start_weight_lowland += herb.weight
+    start_weight_lowland = l.herbivores[0].weight
     fodder_before_eating_lowland = l.fodder
     l.eat_herbivore()
     fodder_end_of_eating_lowland = l.fodder
-    new_weight_lowland = 0.0
-    for herb in l.herbivores:
-        new_weight_lowland += herb.weight
+    new_weight_lowland = l.herbivores[0].weight
     assert new_weight_lowland >= start_weight_lowland  # see if weight has increased
     assert fodder_before_eating_lowland >= fodder_end_of_eating_lowland  # see if the amount of
     # fodder is lower after eating
@@ -79,14 +75,10 @@ def test_eat_herbivore() -> None:
     d = Desert()
     d.add_animal('Herbivore')
     fodder_before_eating_desert = d.fodder
-    start_weight_desert = 0.0
-    for herb in d.herbivores:
-        start_weight_desert += herb.weight
+    start_weight_desert = d.herbivores[0].weight
     d.eat_herbivore()
     fodder_end_of_eating_desert = d.fodder
-    new_weight_desert = 0.0
-    for herb in d.herbivores:
-        new_weight_desert += herb.weight
+    new_weight_desert = d.herbivores[0].weight
     assert new_weight_desert == start_weight_desert
     assert fodder_before_eating_desert == 0
     assert fodder_before_eating_desert == fodder_end_of_eating_desert
