@@ -60,7 +60,7 @@ def test_death(mocker):
 
     a = Animal()
     assert a.should_die() is False
-
+    # TODO Is this ok?
     # probability of death is close to a normal distribution
     alpha = 0.00001
     n = 1000
@@ -118,11 +118,15 @@ def test_new_year():
 
 # TODO confidence interval + stat problem
 def test_fitness():
-
+    # TODO is this ok?
     # Tests that fitness is close to normal when a newborn is placed in the simulation
     alpha = 0.00001
     n = 1000
     fitness_list = []
+    for _ in range(n):
+        a = Animal()
+        fitness_list.append(a.get_fitness())
+    fitness_list2 = []
     for _ in range(n):
         a = Animal()
         fitness_list.append(a.get_fitness())
@@ -131,12 +135,10 @@ def test_fitness():
     sd = np.std(fitness_list)
     assert n * mean >= 10 and n * (1 - mean) >= 10  # test if close to normal
     norm_approx = np.random.normal(mean, sd, n)
-    x = np.concatenate((fitness_list, norm_approx))
+    x = np.concatenate((fitness_list2, norm_approx))
     k2, p = stats.normaltest(x)
-    if p > alpha:
-        assert True
-    else:
-        assert False
+    print(p)
+    assert p > alpha
 
     # Check that fitness decreases when age increases
     a: Animal = Animal()

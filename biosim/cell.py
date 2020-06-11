@@ -21,16 +21,20 @@ def p_eat(phi_carn: float, phi_herb: float, delta_phi_max: Union[int, float]) ->
 
 
 class Cell:
+
+    max_fodder: Union[float, int] = 0
+
     def __init__(self) -> None:
         self.carnivores: List[Carnivore] = []
         self.herbivores: List[Herbivore] = []
-        self.fodder: Union[float, int] = 0
         self.allowed_move_to: bool = True
+        self.fodder = self.max_fodder
         self.n_carnivores: int = 0
         self.n_herbivores: int = 0
 
     def __str__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
+
 
     # TODO make it so it's possible to move to then move
     # TODO evaluate if this function is necessary
@@ -40,12 +44,6 @@ class Cell:
             return False
         else:
             return True
-
-    def set_parameters(self, fodder: Union[float, int]) -> None:
-        if fodder >= 0:
-            self.fodder = fodder
-        else:
-            raise ValueError('Fodder must be a positive number')
 
     def remove_animal(self, animal):
         try:
@@ -196,6 +194,7 @@ class Cell:
         for h in self.herbivores:
             h.new_year()
 
+
         for c in self.carnivores:
             c.new_year()
 
@@ -213,6 +212,7 @@ class Desert(Cell):
 
 
 class Highland(Cell):
+
     max_fodder = 300
 
     def __init__(self) -> None:
@@ -222,16 +222,34 @@ class Highland(Cell):
     def grow(self) -> None:
         self.fodder = self.max_fodder
 
+    @classmethod
+    def set_parameters(cls, max_fodder) -> None: # TODO add type
+        if max_fodder >= 0:
+            cls.max_fodder = max_fodder
+            cls.fodder = max_fodder
+        else:
+            raise ValueError('max_fodder must be a positive number')
+
+
 
 class Lowland(Cell):
+
     max_fodder = 800
 
     def __init__(self) -> None:
         super().__init__()
-        self.fodder = self.max_fodder
+        self.fodder = self.grow()
 
-    def grow(self) -> None:
+    def grow(self) -> int:
         self.fodder = self.max_fodder
+        return self.fodder
+
+    @classmethod
+    def set_parameters(cls, max_fodder) -> None: # TODO add type
+        if max_fodder >= 0:
+            cls.max_fodder = max_fodder
+        else:
+            raise ValueError('max_fodder must be a positive number')
 
 
 class Water(Cell):
