@@ -109,6 +109,7 @@ class Viz:
 
     def _draw_herbivores_heat_map(self, heat_map):
         self.heat_map_line = self.herbivores_heat_map_img_ax.imshow(heat_map)
+        print(heat_map)
 
     def _make_carnivore_heat_map(self, island):
         self.carnivores_heat_map = []

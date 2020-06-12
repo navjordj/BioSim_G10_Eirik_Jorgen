@@ -57,7 +57,6 @@ class BioSim:
         # plot_map(self.island_map)
         self.add_population(ini_pop)
 
-
     def set_animal_parameters(self, species, params):
         """
         Set parameters for animal species.
