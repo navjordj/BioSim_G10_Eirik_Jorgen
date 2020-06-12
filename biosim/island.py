@@ -1,5 +1,5 @@
 from .cell import Highland, Water, Lowland, Desert
-from typing import List
+from typing import List, Any
 
 import random
 
@@ -35,15 +35,14 @@ class Island:
             map_str += "\n"
         return map_str
 
-    # TODO look at why mypy will not allow type
+    # TODO fix type error
     @staticmethod
-    def make_map_ready(map_string: str) -> List[List[str]]:
+    def make_map_ready(map_string: Any) -> List[List[str]]:
         map_string = map_string.splitlines()
         map_string = [rows.replace(' ', '').replace('\\', '') for rows in map_string]
         geo = [list(rows) for rows in map_string]
         if not all(len(geo[0]) == len(line) for line in geo[1:]):
             raise ValueError('All rows must be equal length')
-
         for lines in geo:
             if 'W' not in lines[0] or 'W' not in lines[-1]:
                 raise ValueError('Edges must be labeled "W" (Water)')
