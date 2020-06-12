@@ -30,7 +30,7 @@ class Viz:
         
         if self.island_map_ax is None:
             self.island_map_ax = self.figure.add_subplot(self.grid[0, :10])
-            self.island_map_ax.set_title(f'Year {island.year}')
+            self.update_year(island)
             self.island_map_img_ax = None
 
         if self.animals_over_time_ax is None:
@@ -92,6 +92,11 @@ class Viz:
         self.carnivores_over_time[island.year-1] = island.num_carnivores_data[-1]
         self.line_carnivore.set_ydata(self.carnivores_over_time)
 
+    # TODO fix so it not only show every other year
+    def update_year(self, island):
+        self.island_map_ax.set_title(f'Year {island.year}')
+
     def update_fig(self, island):
         self._update_animals_over_time(island)
+        self.update_year(island)
         plt.pause(1e-6)

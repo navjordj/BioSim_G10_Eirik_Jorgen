@@ -106,7 +106,8 @@ class BioSim:
             self.island_map.year += 1
 
             # if self.island_map.year % 5 == 0:
-            viz.update_fig(self.island_map)        
+            viz.update_fig(self.island_map)
+            print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
                     
 

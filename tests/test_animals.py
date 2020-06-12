@@ -34,6 +34,8 @@ def test_init_animal():
 
 
 def test_aging():
+    # TODO add mocker?
+    #mocker.spy(Animal, 'new_year')
     a: Animal = Animal()
     a.increase_age()
     assert a.age == 1
