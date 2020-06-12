@@ -74,6 +74,7 @@ class Island:
         return geo
 
     # TODO: tried to make sure that you only migrate once pr year, not sure if necessary
+    # TODO: Find a way so it will not migrate more than once pr year.
     def migration(self):
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
