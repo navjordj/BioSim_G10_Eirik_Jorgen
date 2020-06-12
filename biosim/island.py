@@ -73,6 +73,7 @@ class Island:
 
         return geo
 
+    # TODO: tried to make sure that you only migrate once pr year, not sure if necessary
     def migration(self):
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
@@ -81,8 +82,9 @@ class Island:
                     if herbi.will_migrate():
                         adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i-1][j], self.map[i+1][j], self.map[i][j-1], self.map[i][j+1]]
                         cell_destination = random.choice(adj_cells)
-                        if type(cell_destination) != Water:
+                        if cell_destination.allowed_move_to is True:
                             cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)
+                            cell_destination.herbivores[-1].has_migrated = True
                             cell.remove_animal(herbi)
                             # print(f'Migrated from {type(cell).__name__} {(i, j)} to {type(cell_destination).__name__}')
                         else:
@@ -92,8 +94,9 @@ class Island:
                     if carni.will_migrate():
                         adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i-1][j], self.map[i+1][j], self.map[i][j-1], self.map[i][j+1]]
                         cell_destination = random.choice(adj_cells)
-                        if type(cell_destination) != Water:
+                        if cell_destination.allowed_move_to is True:
                             cell_destination.add_animal("Carnivore", carni.age, carni.weight)
+                            cell_destination.carnivores[-1].has_migrated = True
                             cell.remove_animal(carni)
                             # print(f'Migrated from {(i, j)} to {cell_destination}')
                         else:

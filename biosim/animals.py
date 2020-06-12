@@ -1,7 +1,6 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-import random
 from math import exp
 from typing import Union, Dict
 import numpy as np
@@ -54,7 +53,6 @@ class Animal:
     def __str__(self) -> str:
         return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
 
-    # TODO implement set_params
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
 
@@ -139,10 +137,13 @@ class Animal:
         return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
     def will_migrate(self) -> bool:
-        prob = self.params["mu"] * self.get_fitness()
-        if np.random.rand() < prob:
-            self.has_migrated = True
-            return True
+        if self.has_migrated is False:
+            prob = self.params["mu"] * self.get_fitness()
+            if np.random.rand() < prob:
+                self.has_migrated = True
+                return True
+            else:
+                return False
         else:
             return False
 

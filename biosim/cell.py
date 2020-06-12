@@ -49,12 +49,13 @@ class Cell:
         try:
             if type(animal) == Herbivore:
                 self.herbivores.remove(animal)
+                self.n_herbivores = len(self.herbivores)
             else:
                 self.carnivores.remove(animal)
+                self.n_carnivores = len(self.carnivores)
         except ValueError as error:
             print(error)
 
-    # TODO must know what's inside Animals to do well
     def eat_herbivore(self) -> None:
         shuffled_herbivores: List[Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
         np.random.shuffle(shuffled_herbivores)  # TODO refactor code
@@ -200,7 +201,6 @@ class Cell:
         self.remove_dead_carnivore()
 
     def new_year(self, island=None) -> None:
-        # TODO make the fodder grow after they are done eating, either here or in the sim file
         if type(self) == Lowland or type(self) == Highland:
             self.eat_herbivore()
 
