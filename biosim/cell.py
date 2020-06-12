@@ -49,8 +49,10 @@ class Cell:
         try:
             if type(animal) == Herbivore:
                 self.herbivores.remove(animal)
+                self.n_herbivores = len(self.herbivores)
             else:
                 self.carnivores.remove(animal)
+                self.n_carnivores = len(self.carnivores)
         except ValueError as error:
             print(error)
 
