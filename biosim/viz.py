@@ -30,7 +30,7 @@ class Viz:
         
         if self.island_map_ax is None:
             self.island_map_ax = self.figure.add_subplot(self.grid[0, :10])
-            self.update_year(island)
+            #self.update_year(island)
             self.island_map_img_ax = None
 
         if self.animals_over_time_ax is None:
