@@ -1,7 +1,6 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-import random
 from math import exp
 from typing import Union, Dict
 import numpy as np
@@ -54,7 +53,6 @@ class Animal:
     def __str__(self) -> str:
         return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
 
-    # TODO implement set_params
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
 
