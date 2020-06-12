@@ -137,12 +137,15 @@ class Animal:
         return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
     def will_migrate(self) -> bool:
-        prob = self.params["mu"] * self.get_fitness()
-        if np.random.rand() < prob:
-            self.has_migrated = True
-            return True
+        if self.has_migrated is False:
+            prob = self.params["mu"] * self.get_fitness()
+            if np.random.rand() < prob:
+                self.has_migrated = True
+                return True
+            else:
+                return False
         else:
-            return False
+            return True
 
 
 class Herbivore(Animal):
