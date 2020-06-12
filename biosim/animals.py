@@ -145,7 +145,7 @@ class Animal:
             else:
                 return False
         else:
-            return True
+            return False
 
 
 class Herbivore(Animal):

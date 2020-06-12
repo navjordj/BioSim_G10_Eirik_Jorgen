@@ -31,7 +31,7 @@ kart = """\
             WHHHW
             WWWWW"""
 
-b = BioSim(seed=1234, ini_pop=ini_herbs, island_map=kart)
+b = BioSim(seed=123, ini_pop=ini_herbs, island_map=kart)
 b.add_population(ini_carn)
 
 b.simulate(num_years=100)
