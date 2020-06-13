@@ -76,9 +76,11 @@ class Island:
     # TODO: tried to make sure that you only migrate once pr year, not sure if necessary
     # TODO: Find a way so it will not migrate more than once pr year.
     def migration(self):
+        teller = 0
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
-
+                teller += 1
+                print(f'rad nr {i}, celle nr {j}, telleren er på {teller}')
                 for herbi in cell.herbivores:
                     if herbi.will_migrate():
                         adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i-1][j], self.map[i+1][j], self.map[i][j-1], self.map[i][j+1]]
@@ -102,4 +104,3 @@ class Island:
                             # print(f'Migrated from {(i, j)} to {cell_destination}')
                         else:
                             continue
-

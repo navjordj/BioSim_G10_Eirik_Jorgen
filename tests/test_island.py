@@ -45,10 +45,9 @@ class Test_island:
         with pytest.raises(ValueError):
             Island("WWW\nWLW\nWLW")
 
-
-def test_make_a_map() -> None:
-    with pytest.raises(ValueError):
-        Island("WWW\nWKW\nWWW")
+    def test_make_a_map(self) -> None:
+        with pytest.raises(ValueError):
+            Island("WWW\nWKW\nWWW")
 
     def test_if_len_is_not_none(self) -> None:
         k = Island('WWW\nWLW\nWLW\nWWW')
