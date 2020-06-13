@@ -27,14 +27,15 @@ class Cell:
     def __init__(self) -> None:
         self.carnivores: List[Carnivore] = []
         self.herbivores: List[Herbivore] = []
-        self.allowed_move_to: bool = True
-        self.fodder = self.max_fodder
+
         self.n_carnivores: int = 0
         self.n_herbivores: int = 0
 
+        self.allowed_move_to: bool = True
+        self.fodder = self.max_fodder
+
     def __str__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
-
 
     # TODO make it so it's possible to move to then move
     # TODO evaluate if this function is necessary
@@ -119,8 +120,6 @@ class Cell:
 
             carni.update_weight(carni.params["beta"] * f_eaten)
 
-
-
     # TODO add type
     def add_animal(self, animal: Any, age=None, weight=None) -> None:  # choose Any because hard to name type
         if animal == 'Herbivore':
@@ -200,6 +199,7 @@ class Cell:
 
         self.remove_dead_carnivore()
 
+
 class Desert(Cell):
     def __init__(self) -> None:
         super().__init__()
@@ -223,7 +223,6 @@ class Highland(Cell):
             cls.fodder = max_fodder
         else:
             raise ValueError('max_fodder must be a positive number')
-
 
 
 class Lowland(Cell):
