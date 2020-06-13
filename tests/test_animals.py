@@ -170,13 +170,15 @@ def test_fitness():
 def test_will_migrate():
     # fitness ~ 1
     # mu = 0.25
-    # Probability should be 0.25
+    # Probability should be 0.25 (mu*fitness)
 
     n_migrations = 0
     for _ in range(1000):
         a: Animal = Animal(age=1, weight=10000)
+        assert a.has_migrated == False
         if a.will_migrate():
             n_migrations += 1
+            assert a.has_migrated == True
 
     prob_migration = n_migrations/1000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)
