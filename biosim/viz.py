@@ -17,6 +17,7 @@ class Viz:
         self.fitness_histogram_img_ax = None
         self.age_histogram_img_ax = None
         self.weight_histogram_img_ax = None
+        self.text_img_ax = None
 
         self.animals_over_time_ax = None
 
@@ -34,6 +35,9 @@ class Viz:
 
         self.weight_herb = None
         self.weight_carn = None
+
+        self.herbivore_counter = None
+        self.carnivore_counter = None
 
         self._setup_graphics(island)
         self._draw_map(island)
@@ -69,6 +73,9 @@ class Viz:
         if self.carnivores_heat_map_img_ax is None:
             self.carnivores_heat_map_img_ax = self.figure.add_subplot(self.grid[1, 12:])
             self.carnivores_heat_map_img_ax.set(title='Heat map - carnivores')
+
+        if self.text_img_ax is None:
+            self.text_img_ax = self.figure.add_subplot(self.grid[1, 11])
 
         if self.fitness_histogram_img_ax is None:
             self.fitness_histogram_img_ax = self.figure.add_subplot(self.grid[2, :7])
@@ -224,6 +231,21 @@ class Viz:
         self.hist_line_carn_weight = self.weight_histogram_img_ax.hist(weight_carn, color='r',
                                                                  histtype='step')
 
+    def _get_num_animals(self, island):
+        self.herbivore_counter = 0
+        self.carnivore_counter = 0
+        for row in island.map:
+            for cell in row:
+                self.herbivore_counter += cell.n_herbivores
+                self.carnivore_counter += cell.n_carnivores
+
+        return self.herbivore_counter, self.carnivore_counter
+
+    def _draw_text(self, island):
+        n_herb, n_carns = self._get_num_animals(island)
+        self.text_img_ax.axis("off")
+        self.text_year = self.text_img_ax.text(0.5, 0.5, f'Years: {island.year}\nHerbivores: {n_herb}\nCarnivores: {n_carns}', ha='center', wrap=True)
+
     def _update_animals_over_time(self, island):
         self.herbivores_over_time[island.year-1] = island.num_herbivores_data[-1] # last elm
         self.line_herbivore.set_ydata(self.herbivores_over_time)
@@ -252,9 +274,12 @@ class Viz:
         herb, carn = self._get_weight_animals(island)
         self._draw_weight_histogram(herb, carn)
 
-    # TODO fix so it not only show every other year
-    def update_year(self, island):
-        self.island_map_ax.set_title(f'Year {island.year}')
+    def _update_text(self, island):
+        self.text_img_ax.clear()
+        self.island_map_ax.set_title('Island map')
+        self._draw_text(island)
+
+
 
     def update_fig(self, island):
         self._update_animals_over_time(island)
@@ -262,5 +287,5 @@ class Viz:
         self._update_fitness_histogram(island)
         self._update_age_histogram(island)
         self._update_weight_histogram(island)
-        self.update_year(island)
+        self._update_text(island)
         plt.pause(1e-6)
