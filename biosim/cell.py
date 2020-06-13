@@ -200,38 +200,6 @@ class Cell:
 
         self.remove_dead_carnivore()
 
-    def new_year(self, island=None) -> None:
-        if type(self) == Lowland or type(self) == Highland:
-            self.eat_herbivore()
-
-        self.eat_carnivore()
-
-        self.remove_dead_herbivore()
-        # MIGRATION:
-
-        if island != None:
-            island.migration()
-
-        # Procreation:
-        self.herbivore_babies()
-        self.carnivore_babies()
-
-        # Age animals one year:
-        for h in self.herbivores:
-            h.new_year()
-
-
-        for c in self.carnivores:
-            c.new_year()
-
-        # DEATH
-        self.prob_death_carni()
-        self.prob_death_herb()
-
-        self.n_herbivores = len(self.herbivores)
-        self.n_carnivores = len(self.carnivores)
-
-
 class Desert(Cell):
     def __init__(self) -> None:
         super().__init__()
