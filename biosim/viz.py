@@ -140,7 +140,6 @@ class Viz:
         return np.array(self.herbivores_heat_map)
 
     def _draw_herbivores_heat_map(self, heat_map):
-        print(heat_map)
         self.herbivores_heat_map_img_ax.set(title='Heat map - herbivores')
         self.heat_map_herb = self.herbivores_heat_map_img_ax.imshow(heat_map)
 
@@ -210,7 +209,7 @@ class Viz:
                 for herb in cell.herbivores:
                     self.weight_herb.append(herb.weight)
                 for carn in cell.carnivores:
-                    self.weight_herb.append(carn.weight)
+                    self.weight_carn.append(carn.weight)
         self.weight_herb = np.array(self.weight_herb)
         self.weight_carn = np.array(self.weight_carn)
 
