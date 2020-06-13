@@ -106,7 +106,8 @@ class Island:
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
 
-                if cell == Lowland or cell == Highland:
+                if type(cell) == Lowland or type(cell) == Highland:
+                    cell.grow()
                     cell.eat_herbivore()
                 cell.eat_carnivore()
 
@@ -116,6 +117,7 @@ class Island:
                 cell.herbivore_babies()
                 cell.carnivore_babies()
         # MIGRATION:
+        # TODO: make it we do not have to make now for-loops after migration
         self.migration()
 
         # Age animals one year:
@@ -128,9 +130,6 @@ class Island:
                 # DEATH
                 cell.prob_death_herb()
                 cell.prob_death_carni()
-
-                if type(cell) == Lowland or type(cell) == Highland:
-                    cell.grow()
 
                 cell.n_herbivores = len(cell.herbivores)
                 cell.n_carnivores = len(cell.carnivores)

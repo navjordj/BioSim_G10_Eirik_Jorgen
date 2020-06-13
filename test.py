@@ -5,9 +5,9 @@ import numpy as np
 
 np.random.seed(1)
 
-ini_herbs = [{'loc': (5, 5), 'pop': [{'species': 'Herbivore', 'age': 6, 'weight': 1000} for _ in range(50)]}]
+ini_herbs = [{'loc': (5, 5), 'pop': [{'species': 'Herbivore', 'age': 6, 'weight': 20} for _ in range(50)]}]
             
-ini_carn = [{'loc': (5, 5), 'pop': [{'species': 'Carnivore', 'age': 6, 'weight': None} for _ in range(0)]}]
+ini_carn = [{'loc': (5, 5), 'pop': [{'species': 'Carnivore', 'age': 6, 'weight': 20} for _ in range(25)]}]
 
 
 kart = """\
@@ -29,15 +29,15 @@ kart = """\
             WWWWWWWWWW
             WDDDDDDDDW
             WDDDDDDDDW
-            WDDDDDDDDW
-            WDDDDDDDDW
-            WDDDDDDDDW
-            WDDDDDDDDW
-            WDDDDDDDDW
+            WDDDLLDDDW
+            WDDDHHDDDW
+            WDDDWWDDDW
+            WDDDHHDDDW
+            WDDDLLDDDW
             WDDDDDDDDW
             WWWWWWWWWW"""
 
 b = BioSim(seed=123, ini_pop=ini_herbs, island_map=kart)
 b.add_population(ini_carn)
 
-b.simulate(num_years=7)
+b.simulate(num_years=100)
