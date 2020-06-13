@@ -88,17 +88,8 @@ class BioSim:
         # TODO fix map.map.map.map
         for year in range(num_years):
             print(f'Year {year}: ')
+
             # TODO make a proper iterator
-            '''for i in range(self.island_map.row_len):
-                for j in range(self.island_map.column_len):
-                    c = self.island_map.map[i][j]
-                    if type(c) == Lowland or type(c) == Highland:
-                        c.grow()
-                    
-                    if type(c) != Water:
-                        c.new_year(self.island_map)
-                    else:
-                        continue'''
             self.island_map.new_year()
             self.island_map.num_herbivores_data.append(self.num_animals_per_species["herbivores"])
             self.island_map.num_carnivores_data.append(self.num_animals_per_species["carnivores"])
