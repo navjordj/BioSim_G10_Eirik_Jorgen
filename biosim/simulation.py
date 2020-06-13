@@ -83,11 +83,11 @@ class BioSim:
         Image files will be numbered consecutively.
         """
 
-        viz = Viz(self.island_map, num_years)
+        #viz = Viz(self.island_map, num_years)
         
         # TODO fix map.map.map.map
         for year in range(num_years):
-            print(f'Year {year}: ')
+            # print(f'Year {year}: ')
 
             # TODO make a proper iterator
             self.island_map.new_year()
@@ -96,8 +96,8 @@ class BioSim:
             self.island_map.year += 1
 
             # if self.island_map.year % 5 == 0:
-            viz.update_fig(self.island_map)
-            print(self.num_animals_per_species)
+            #viz.update_fig(self.island_map)
+            # print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
                     
 
