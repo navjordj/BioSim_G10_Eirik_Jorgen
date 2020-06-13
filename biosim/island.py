@@ -74,10 +74,10 @@ class Island:
         return geo
 
     # TODO: tried to make sure that you only migrate once pr year, not sure if necessary
+    # TODO: Find a way so it will not migrate more than once pr year.
     def migration(self):
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
-
                 for herbi in cell.herbivores:
                     if herbi.will_migrate():
                         adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i-1][j], self.map[i+1][j], self.map[i][j-1], self.map[i][j+1]]
@@ -102,3 +102,35 @@ class Island:
                         else:
                             continue
 
+    def new_year(self) -> None:
+        for i, row in enumerate(self.map):
+            for j, cell in enumerate(row):
+
+                if cell == Lowland or cell == Highland:
+                    cell.eat_herbivore()
+                cell.eat_carnivore()
+
+                cell.remove_dead_herbivore()
+
+                # Procreation:
+                cell.herbivore_babies()
+                cell.carnivore_babies()
+        # MIGRATION:
+        self.migration()
+
+        # Age animals one year:
+        for row in self.map:
+            for cell in row:
+                for herb in cell.herbivores:
+                    herb.new_year()
+                for carn in cell.carnivores:
+                    carn.new_year()
+                # DEATH
+                cell.prob_death_herb()
+                cell.prob_death_carni()
+
+                if type(cell) == Lowland or type(cell) == Highland:
+                    cell.grow()
+
+                cell.n_herbivores = len(cell.herbivores)
+                cell.n_carnivores = len(cell.carnivores)

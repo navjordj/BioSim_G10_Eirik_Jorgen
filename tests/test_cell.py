@@ -204,13 +204,6 @@ def test_prob_death_carni() -> None:
     assert num_carni_pre_prob > d.n_herbivores
 
 
-# TODO test new year
-def test_new_year_function() -> None:
-    l = Lowland()
-    l.add_animal('Herbivore')
-    l.new_year()
-
-
 def test_grow() -> None:
     l = Lowland()
     n = 10
