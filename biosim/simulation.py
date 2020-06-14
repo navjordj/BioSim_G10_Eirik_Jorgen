@@ -13,6 +13,7 @@ import numpy as np
 from typing import Dict
 import matplotlib.pyplot as plt
 
+
 class BioSim:
     def __init__(
             self,
@@ -57,7 +58,8 @@ class BioSim:
         # plot_map(self.island_map)
         self.add_population(ini_pop)
 
-    def set_animal_parameters(self, species, params):
+    @staticmethod
+    def set_animal_parameters(species, params):
         """
         Set parameters for animal species.
 
@@ -70,7 +72,8 @@ class BioSim:
         }
         animals[species].set_params(params)
 
-    def set_landscape_parameters(self, landscape, params):
+    @staticmethod
+    def set_landscape_parameters(landscape, params):
         """
         Set parameters for landscape type.
 
@@ -95,7 +98,7 @@ class BioSim:
         """
 
         viz = Viz(self.island_map, num_years)
-        
+
         # TODO fix map.map.map.map
         for year in range(num_years):
             print(f'Year {year}: ')
@@ -110,7 +113,6 @@ class BioSim:
             viz.update_fig(self.island_map)
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
-                    
 
     def add_population(self, population):
         """
@@ -165,5 +167,3 @@ class BioSim:
 
     def make_movie(self):
         """Create MPEG4 movie from visualization images saved."""
-
-    
