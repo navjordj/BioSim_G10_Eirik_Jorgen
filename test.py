@@ -40,4 +40,7 @@ kart = """\
 b = BioSim(seed=123, ini_pop=ini_herbs, island_map=kart)
 b.add_population(ini_carn)
 
-b.simulate(num_years=100)
+b.simulate(num_years=10)
+b.save_simulation("10years")
+
+
