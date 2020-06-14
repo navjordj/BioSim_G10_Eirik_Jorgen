@@ -64,6 +64,11 @@ class BioSim:
         :param species: String, name of animal species
         :param params: Dict with valid parameter specification for species
         """
+        animals = {
+            'Herbivore': Herbivore,
+            'Carnivore': Carnivore
+        }
+        animals[species].set_params(params)
 
     def set_landscape_parameters(self, landscape, params):
         """
@@ -72,6 +77,12 @@ class BioSim:
         :param landscape: String, code letter for landscape
         :param params: Dict with valid parameter specification for landscape
         """
+
+        landscape_types = {
+            'L': Lowland,
+            'H': Highland
+        }
+        landscape_types[landscape].set_parameters(params)
 
     def simulate(self, num_years, vis_years=1, img_years=None):
         """
@@ -129,6 +140,7 @@ class BioSim:
         """Last year simulated."""
         # return self.year
 
+    # TODO: tyr to use these functions inside viz.py instead of doing what we are doing now
     @property
     def num_animals(self) -> int:
         """Total number of animals on island."""
