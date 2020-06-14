@@ -288,4 +288,4 @@ class Viz:
         self._update_age_histogram(island)
         self._update_weight_histogram(island)
         self._update_text(island)
-        plt.pause(1e-6)
+        plt.pause(1e-2)
