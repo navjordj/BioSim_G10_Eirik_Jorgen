@@ -46,7 +46,7 @@ class Cell:
         else:
             return True
 
-    def remove_animal(self, animal: Union[Herbivore, Carnivore]) -> None:
+    def remove_animal(self, animal): # TODO: add type
         """
         Removes wanted animal from either self.herbivores or self.carnivores.
         Updates number of animals afterwards
