@@ -89,13 +89,13 @@ class Animal:
             Raises ValueError if key is  not in self.params
         """
         for key in new_parameters:
-            try:
-                if new_parameters[key] >= 0:
+            if new_parameters[key] >= 0:
+                if key in cls.params.keys():
                     cls.params[key] = new_parameters[key]
                 else:
-                    raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
-            except ValueError as error:
-                print(error)
+                    raise ValueError(f'Key {key} is not a key in class parameters')
+            else:
+                raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
     # TODO: Return value? Bool to confirm success?
     def increase_age(self) -> None:
 
