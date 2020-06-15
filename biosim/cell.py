@@ -121,7 +121,6 @@ class Cell:
                     else:
                         f_eaten += f_wanted
                         herbi.alive = False
-            self.remove_dead_herbivore() # TODO fix so it will make sense inside the rest fo the functions and classes
             carni.update_weight(carni.params["beta"] * f_eaten)
 
     # TODO add type
@@ -267,7 +266,8 @@ class Highland(Cell):
         self.params['f_max']
             max amount of fodder inside the cell
         """
-        return self.params['f_max']
+        self.fodder = self.params['f_max']
+        return self.fodder
 
     @classmethod
     def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:  # TODO add type
@@ -306,9 +306,10 @@ class Lowland(Cell):
         Returns
         -------
         self.params['f_max']
-        max amount of fodder inside the cell
+            max amount of fodder inside the cell
         """
-        return self.params['f_max']
+        self.fodder = self.params['f_max']
+        return self.fodder
 
     @classmethod
     def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None: # TODO add type
