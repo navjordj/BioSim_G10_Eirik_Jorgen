@@ -18,6 +18,10 @@ def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: flo
 
 class Animal:
     # TODO Possible rewrite to normal attributes (no dict)
+
+    """Animal superclass implemented using the specifications in https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
+
+    """
     params: dict = {
             "w_birth": 8.0,
             "sigma_birth": 1.5,
@@ -37,6 +41,16 @@ class Animal:
         }
     
     def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
+        """Constructor for animal superclass. Herbivore and Carnivore inherits from this class
+
+        Parameters
+        ----------
+        age : int, optional
+            Age of a new animal. If not specified, age of a new animal will be 0
+        weight : Union[int, float], optional
+            Weight of a new animal. If not specified, weight of a new animal will be normally distributed using w_birth and sigma_birth parameters.
+        """
+
         if age == None:
             self.age: int = 0
         else:
@@ -51,11 +65,29 @@ class Animal:
         self.has_migrated = False
 
     def __str__(self) -> str:
+        """method for how a animal should be represented when printed to the console
+
+        Returns
+        -------
+        str
+            String to be printed out
+        """
         return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
 
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
+        """Set internal parameters for animal class/ subclass
 
+        Parameters
+        ----------
+        new_parameters : Dict[str, Union[int, float]]
+            Dictionary containing the keys of the parameters to be changed and the corresponding values
+
+        Raises
+        ------
+        ValueError
+            Raises ValueError if key is  not in self.params
+        """
         for key in new_parameters:
             try:
                 if new_parameters[key] >= 0:
@@ -66,11 +98,17 @@ class Animal:
                 print(error)
     # TODO: Return value? Bool to confirm success?
     def increase_age(self) -> None:
+
         self.age += 1
 
     def should_die(self) -> bool:
-        """
-        Returns a boolean saying if the animal should die or not
+        """Returns a boolean saying if the animal should die or not
+
+
+        Returns
+        -------
+        bool
+            Boolean representing if the animal should die or not
         """
         if self.weight <= 0:
             return True
@@ -80,6 +118,18 @@ class Animal:
 
     # TODO update correct type
     def give_birth(self, N: int) -> bool:
+        """Returns a boolean saying if the animal should give birth or not
+
+        Parameters
+        ----------
+        N : int
+            Number of animals of the same species in the cell
+
+        Returns
+        -------
+        bool
+            Boolean representing of the animal should give birth or not
+        """
 
         if self.weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
             return False
@@ -91,8 +141,18 @@ class Animal:
             return False
 
     def eat(self, intake: Union[int, float]) -> None:
-        """ 
-        Takes in a certain amount of fodder. Weight change is beta * intake
+        """Takes in a certain amount of fodder. Calculates and updates weight given by beta * intake.
+
+
+        Parameters
+        ----------
+        intake : Union[int, float]
+            How much fodder the animal should eat
+
+        Raises
+        ------
+        ValueError
+            Raises ValueError if the amount of fodder eaten is negative
         """
         if intake < 0:
             raise ValueError("Cant eat negative amount")
@@ -103,14 +163,20 @@ class Animal:
     # TODO: Return value? Bool to confirm success?
 
     def update_weight(self, change: float) -> None:
+        """Updates the weight of the animal and recalculates fitness
+
+        Parameters
+        ----------
+        change : float
+            The weight change of the animal
+        """
         self.weight += change
         self.fitness = self.get_fitness()
 
     # TODO: Return value? Bool to confirm success?
 
     def new_year(self) -> None:
-        """
-        Increase age by one year and decrease weight by eta * weight
+        """Increase age by one year and decrease weight by eta * weight
         """
         self.has_migrated = False
         self.age += 1
@@ -119,8 +185,12 @@ class Animal:
         self.fitness = self.get_fitness()
 
     def get_fitness(self) -> float:
-        """
-        Returns the current fitness of a animal
+        """Returns the current fitness of a animal
+
+        Returns
+        -------
+        float
+            Fitness of a animal
         """
         if self.weight < 0:
             return 0
@@ -130,13 +200,29 @@ class Animal:
 
         return self.fitness
 
+    # TODO Make private
     def initialize_weight(self) -> float:
-        """
-        Initializes the weight using a normal distribution
+        """Initializes the weight using a normal distribution
+
+        Returns
+        -------
+        float
+            Initial weight of the animal
         """
         return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
+    # TODO add latex formula for probability
     def will_migrate(self) -> bool:
+        """Returns a boolean representing if a animal should migrate or not
+
+            Probability of migration is given by the following equation:
+            
+
+        Returns
+        -------
+        bool
+            Boolean representing of the animal should migrate or not
+        """
         if self.has_migrated is False:
             prob = self.params["mu"] * self.get_fitness()
             if np.random.rand() < prob:
