@@ -167,8 +167,8 @@ class BioSim:
                                         "carnivores": 0}  # TODO Refactor with standard values
         for i, row in enumerate(self.island_map.map):
             for j, cell in enumerate(row):
-                animal_count["herbivores"] += len(cell.herbivores)
-                animal_count["carnivores"] += len(cell.carnivores)
+                animal_count["herbivores"] += cell.n_herbivores
+                animal_count["carnivores"] += cell.n_carnivores
 
         return animal_count
 
