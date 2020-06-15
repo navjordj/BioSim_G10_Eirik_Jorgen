@@ -55,8 +55,7 @@ class Test_island:
         assert k.row_len is not None
         assert k.column_len is not None
 
-
-    def test_migration(self) -> None:
+    def test_new_year(self) -> None:
         """
         Check that migration works 
         """
@@ -66,7 +65,7 @@ class Test_island:
         for _ in range(1000):
             k = Island('WWW\nWLW\nWWW')
             k.map[1][1].add_animal("Herbivore", 10, 100)
-            k.migration()
+            k.new_year()
             if k.map[1][1].n_herbivores != 1:
                 n_migrated += 1
         assert n_migrated == 0
@@ -77,7 +76,7 @@ class Test_island:
             k = Island('WWWW\nWLLW\nWLLW\nWWWW')
             k.map[1][1].add_animal("Herbivore", age=1, weight=1000)
             # Probability should be 1/8 to move (0.25*1)/2 (Only two squares possible to move to)
-            k.migration()
+            k.new_year()
             if k.map[1][1].n_herbivores != 1:
                 n_migrated += 1
         p_migration = n_migrated/1000

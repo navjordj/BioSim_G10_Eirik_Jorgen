@@ -100,7 +100,7 @@ class Cell:
         'hunting' the carnivore have eaten F amount of fodder.
         Can only hunt on herbivores in the same cell
         """
-        self.remove_dead_herbivore()
+        self.remove_dead_animals()
 
         reverse_sort_c: List[Carnivore] = sorted(self.carnivores,
                                                  key=lambda animal: animal.get_fitness(),
@@ -230,8 +230,7 @@ class Cell:
             if carni.should_die():
                 carni.alive = False
 
-        self.remove_dead_herbivore()
-        self.remove_dead_carnivore()
+        self.remove_dead_animals()
 
 
 class Desert(Cell):

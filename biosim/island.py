@@ -122,7 +122,7 @@ class Island:
             if herbi.will_migrate():
                 cell_destination = random.choice(adj_cells)
                 if cell_destination.allowed_move_to is True:
-                    cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)
+                    cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)  #TODO: try to put the same animal in, not create new one
                     cell_destination.herbivores[-1].has_migrated = True
                     cell.remove_animal(herbi)
                     # print(f'Migrated from {type(cell).__name__} {(i, j)} to {type(cell_destination).__name__}')
@@ -149,16 +149,15 @@ class Island:
                     cell.eat_herbivore()
                 cell.eat_carnivore()
 
-                cell.remove_dead_animals()
-
                 # Procreation:
                 cell.animal_babies()
                 # MIGRATION:
-                adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i - 1][j],
+                if cell.allowed_move_to is True:
+                    adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i - 1][j],
                                                                      self.map[i + 1][j],
                                                                      self.map[i][j - 1],
                                                                      self.map[i][j + 1]]
-                self.migration(cell, adj_cells)
+                    self.migration(cell, adj_cells)
 
                 # Age animals one year:
                 for herb in cell.herbivores:
