@@ -22,7 +22,7 @@ class Island:
         self.num_carnivores_data: List[int] = []
 
     # TODO: MIght be better to use __repr__
-    def __str__(self) -> str :
+    def __str__(self) -> str:
         """toString to format how a island should be printed to the console.
         Used for debugging puroposes  
 
@@ -35,7 +35,7 @@ class Island:
         for i in range(self.row_len):
             for j in range(self.column_len):
 
-                #TODO Refactor to use map_params
+                # TODO Refactor to use map_params
                 if type(self.map[i][j]) == Water:
                     map_str += 'W'
                 else:
@@ -110,45 +110,42 @@ class Island:
             for j, cell in enumerate(row):
                 if cell not in self.map_params.keys():
                     raise ValueError(f'{cell} is not a valid landscape')
-                geo[i][j] = self.map_params[cell]() # type: ignore
+                geo[i][j] = self.map_params[cell]()  # type: ignore
 
-        return geo # type: ignore
+        return geo  # type: ignore
 
     # TODO: tried to make sure that you only migrate once pr year, not sure if necessary
     # TODO: Find a way so it will not migrate more than once pr year.
-    def migration(self):
-        for i, row in enumerate(self.map):
-            for j, cell in enumerate(row):
-                for herbi in cell.herbivores:
-                    if herbi.will_migrate():
-                        adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i-1][j], self.map[i+1][j], self.map[i][j-1], self.map[i][j+1]]
-                        cell_destination = random.choice(adj_cells)
-                        if cell_destination.allowed_move_to is True:
-                            cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)
-                            cell_destination.herbivores[-1].has_migrated = True
-                            cell.remove_animal(herbi)
-                            # print(f'Migrated from {type(cell).__name__} {(i, j)} to {type(cell_destination).__name__}')
-                        else:
-                            continue
+    @staticmethod
+    def migration(cell, adj_cells):
+        for herbi in cell.herbivores:
+            if herbi.will_migrate():
+                cell_destination = random.choice(adj_cells)
+                if cell_destination.allowed_move_to is True:
+                    cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)
+                    cell_destination.herbivores[-1].has_migrated = True
+                    cell.remove_animal(herbi)
+                    # print(f'Migrated from {type(cell).__name__} {(i, j)} to {type(cell_destination).__name__}')
+                else:
+                    continue
 
-                for carni in cell.carnivores:
-                    if carni.will_migrate():
-                        adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i-1][j], self.map[i+1][j], self.map[i][j-1], self.map[i][j+1]]
-                        cell_destination = random.choice(adj_cells)
-                        if cell_destination.allowed_move_to is True:
-                            cell_destination.add_animal("Carnivore", carni.age, carni.weight)
-                            cell_destination.carnivores[-1].has_migrated = True
-                            cell.remove_animal(carni)
-                            # print(f'Migrated from {(i, j)} to {cell_destination}')
-                        else:
-                            continue
+        for carni in cell.carnivores:
+            if carni.will_migrate():
+                cell_destination = random.choice(adj_cells)
+                if cell_destination.allowed_move_to is True:
+                    cell_destination.add_animal("Carnivore", carni.age, carni.weight)
+                    cell_destination.carnivores[-1].has_migrated = True
+                    cell.remove_animal(carni)
+                    # print(f'Migrated from {(i, j)} to {cell_destination}')
+                else:
+                    continue
 
     def new_year(self) -> None:
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
 
                 if type(cell) == Lowland or type(cell) == Highland:
-                    cell.grow() # type: ignore
+                    cell.grow()  # type: ignore
                     cell.eat_herbivore()
                 cell.eat_carnivore()
 
@@ -156,13 +153,14 @@ class Island:
 
                 # Procreation:
                 cell.animal_babies()
-        # MIGRATION:
-        # TODO: make it we do not have to make now for-loops after migration
-        self.migration()
+                # MIGRATION:
+                adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i - 1][j],
+                                                                     self.map[i + 1][j],
+                                                                     self.map[i][j - 1],
+                                                                     self.map[i][j + 1]]
+                self.migration(cell, adj_cells)
 
-        # Age animals one year:
-        for row in self.map:
-            for cell in row:
+                # Age animals one year:
                 for herb in cell.herbivores:
                     herb.new_year()
                 for carn in cell.carnivores:
@@ -170,5 +168,6 @@ class Island:
                 # DEATH
                 cell.prob_death_animals()
 
+                # TODO: is this necessary?
                 cell.n_herbivores = len(cell.herbivores)
                 cell.n_carnivores = len(cell.carnivores)
