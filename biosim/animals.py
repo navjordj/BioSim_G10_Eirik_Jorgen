@@ -18,6 +18,10 @@ def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: flo
 
 class Animal:
     # TODO Possible rewrite to normal attributes (no dict)
+
+    """Animal superclass implemented using the specifications in https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
+
+    """
     params: dict = {
             "w_birth": 8.0,
             "sigma_birth": 1.5,
@@ -37,6 +41,16 @@ class Animal:
         }
     
     def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
+        """Constructor for animal superclass. Herbivore and Carnivore inherits from this class
+
+        Parameters
+        ----------
+        age : int, optional
+            Age of a new animal. If not specified, age of a new animal will be 0
+        weight : Union[int, float], optional
+            Weight of a new animal. If not specified, weight of a new animal will be normally distributed using w_birth and sigma_birth parameters.
+        """
+
         if age == None:
             self.age: int = 0
         else:
@@ -51,6 +65,13 @@ class Animal:
         self.has_migrated = False
 
     def __str__(self) -> str:
+        """method for how a animal should be represented when printed to the console
+
+        Returns
+        -------
+        str
+            String to be printed out
+        """
         return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
 
     @classmethod
