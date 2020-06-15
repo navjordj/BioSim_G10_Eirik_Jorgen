@@ -149,7 +149,22 @@ def test_multi_simulate(plain_sim):
     plain_sim.simulate(num_years=10, vis_years=100, img_years=100)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
+def test_serialization(plain_sim):
+    plain_sim.simulate(num_years=5)
+
+    island_pre_save = plain_sim.island_map
+    plain_sim.save_simulation('test_save')
+
+    plain_sim.load_simlation('test_save')
+    island_post_save = plain_sim.island_map
+
+    assert island_post_save == island_pre_save
+
+    plain_sim.simulate(num_years=5)
+    assert plain_sim.year == 10 
+
+
+# @pytest.mark.skip(reason="Not implemented yet")
 def test_get_years(plain_sim):
     """Test that number of years simulated is available"""
 
