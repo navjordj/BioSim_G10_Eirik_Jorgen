@@ -174,3 +174,5 @@ class Island:
 
                 cell.n_herbivores = len(cell.herbivores)
                 cell.n_carnivores = len(cell.carnivores)
+
+        

@@ -151,7 +151,7 @@ class BioSim:
     @property
     def year(self):
         """Last year simulated."""
-        # return self.year
+        return self.island_map.year
 
     # TODO: tyr to use these functions inside viz.py instead of doing what we are doing now
     @property
