@@ -72,7 +72,7 @@ class Animal:
         str
             String to be printed out
         """
-        return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
+        return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}' # pragma: no cover
 
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
@@ -277,10 +277,3 @@ class Carnivore(Animal):
 
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
-
-if __name__ == "__main__":
-    h1 = Herbivore()
-    h2 = Herbivore()
-    print(h2.params)
-    h1.set_params({"w_birth": 100})
-    print(h2.params)
