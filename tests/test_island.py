@@ -21,7 +21,7 @@ class Test_island:
         Tests that the first coordinate of the map is (1, 1)
         """
         testing = Island('WW\nWW')
-        if list(testing.map.keys())[0] == (1, 1):
+        if list(testing.map.keys())[0] == (1, 1): # type: ignore
             assert True
         else:
             assert False
