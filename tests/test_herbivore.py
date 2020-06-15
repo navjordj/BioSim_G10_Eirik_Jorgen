@@ -4,58 +4,28 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 import numpy as np
+import scipy.stats as stats
+
 
 from biosim.animals import Herbivore
 
-# @pytest.mark.skip(reason="Not implemented yet")
 def test_init_herbivore():
-    np.random.seed(1)
+    alpha = 0.001
+    n = 10000
+    a = Herbivore()
+    norm_disp = np.random.normal(a.params["w_birth"], a.params["sigma_birth"], n)
+    weight_list = []
+    for _ in range(n):
+        a = Herbivore()
+        weight_list.append(a.weight)
+    x = np.concatenate((weight_list, norm_disp))
+    k2, p = stats.normaltest(x)
+    if p >= alpha:
+        assert True
+    else:
+        assert False
+    assert a.age == 0
 
-    h: Herbivore = Herbivore()
-    assert h.weight == 10.436518045494863
-    assert h.age == 0
-
-
-def test_aging():
-    h: Herbivore = Herbivore()
-    h.increase_age()
-    assert h.age == 1
-
-def test_weight():
-    h: Herbivore = Herbivore()
-    weight_before = h.weight
-    h.update_weight(10)
-    assert h.weight == (weight_before + 10)
-
-    h: Herbivore = Herbivore()
-    weight_before = h.weight
-    h.update_weight(-5)
-    assert h.weight == (weight_before - 5)
-
-def test_fitness():
-
-    # Check that fitness decreases when age increases
-    a: Herbivore = Herbivore()
-    fit_before: float = a.get_fitness()
-    a.increase_age()
-    fit_after: float = a.get_fitness()
-    assert fit_after < fit_before
-
-    # Check that fitness increases when weight increases
-    a: Herbivore = Herbivore()
-    fit_before: float = a.get_fitness()
-    a.update_weight(10)
-    fit_after: float = a.get_fitness()
-    assert fit_after > fit_before
-
-    # Test that the fitness goes towards 0 when aging
-    a: Herbivore = Herbivore()
-    for _ in range(1000):
-        a.increase_age()
-    assert a.get_fitness() == pytest.approx(0)
-
-    # Test that fitness goes towards 1 as weight increases
-    a: Herbivore = Herbivore()
-    a.update_weight(10000)
-    assert a.get_fitness() == pytest.approx(1)
-
+    a: Herbivore = Herbivore(age=2, weight=10)
+    assert a.age == 2
+    assert a.weight == 10
