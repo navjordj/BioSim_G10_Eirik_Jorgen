@@ -116,31 +116,41 @@ class Island:
 
     # TODO: tried to make sure that you only migrate once pr year, not sure if necessary
     # TODO: Find a way so it will not migrate more than once pr year.
-    @staticmethod
-    def migration(cell, adj_cells):
-        for herbi in cell.herbivores:
+    #@staticmethod
+    def migration(self, cell, adj_cells):
+
+        migrated = 0
+        not_migrated = 0
+        for i, herbi in enumerate(cell.herbivores):
             if herbi.will_migrate():
+
                 cell_destination = random.choice(adj_cells)
                 if cell_destination.allowed_move_to is True:
+                    migrated += 1
                     cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)  #TODO: try to put the same animal in, not create new one
                     cell_destination.herbivores[-1].has_migrated = True
-                    cell.remove_animal(herbi)
-                    # print(f'Migrated from {type(cell).__name__} {(i, j)} to {type(cell_destination).__name__}')
+                    cell.herbivores[i].alive = False
                 else:
                     continue
+            else:
+                not_migrated += 1
 
-        for carni in cell.carnivores:
+
+        for i, carni in enumerate(cell.carnivores):
             if carni.will_migrate():
+                self.n_migrated += 1
+
                 cell_destination = random.choice(adj_cells)
                 if cell_destination.allowed_move_to is True:
                     cell_destination.add_animal("Carnivore", carni.age, carni.weight)
                     cell_destination.carnivores[-1].has_migrated = True
-                    cell.remove_animal(carni)
+                    cell.carnivores[i].alive = False
                     # print(f'Migrated from {(i, j)} to {cell_destination}')
                 else:
                     continue
 
     def new_year(self) -> None:
+        self.n_migrated = 0
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
 
@@ -158,7 +168,7 @@ class Island:
                                                                      self.map[i][j - 1],
                                                                      self.map[i][j + 1]]
                     self.migration(cell, adj_cells)
-
+                    self.map[i][j].remove_dead_animals()
                 # Age animals one year:
                 for herb in cell.herbivores:
                     herb.new_year()
