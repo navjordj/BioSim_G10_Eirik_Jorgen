@@ -151,9 +151,15 @@ def test_multi_simulate(plain_sim):
 
 def test_serialization(plain_sim):
     plain_sim.simulate(num_years=5)
+
+    island_pre_save = plain_sim.island_map
     plain_sim.save_simulation('test_save')
 
     plain_sim.load_simlation('test_save')
+    island_post_save = plain_sim.island_map
+
+    assert island_post_save == island_pre_save
+
     plain_sim.simulate(num_years=5)
     assert plain_sim.year == 10 
 
