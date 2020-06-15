@@ -206,13 +206,13 @@ class Desert(Cell):
 
 class Highland(Cell):
 
-    params = {'f_max': 300}
+    params = {'f_max': 300.0}
 
     def __init__(self) -> None:
         super().__init__()
         self.fodder = self.grow()
 
-    def grow(self) -> int:
+    def grow(self) -> Union[int, float]:
         self.fodder = self.params['f_max']
         return self.fodder
 
@@ -227,13 +227,13 @@ class Highland(Cell):
 
 class Lowland(Cell):
 
-    params = {'f_max': 800}
+    params = {'f_max': 800.0}
 
     def __init__(self) -> None:
         super().__init__()
         self.fodder = self.grow()
 
-    def grow(self) -> int:
+    def grow(self) -> Union[int, float]:
         self.fodder = self.params['f_max']
         return self.fodder
 

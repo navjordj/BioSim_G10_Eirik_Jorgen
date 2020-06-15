@@ -10,7 +10,7 @@ from .plotting import plot_map
 
 import numpy as np
 # import matplotlib.pyplot as plt
-from typing import Dict
+from typing import Dict, Union
 import matplotlib.pyplot as plt
 
 

@@ -18,23 +18,23 @@ def test_cell() -> None:
 def test_change_params() -> None:
     k = Lowland()
     with pytest.raises(ValueError):
-        k.set_parameters(max_fodder=-1)
-    k.set_parameters(max_fodder=300)
+        k.set_parameters({'f_max': -1})
+    k.set_parameters({'f_max': 300})
     k.grow() # Reset fodder in cell to max_fodder
     assert k.fodder == 300
 
     c = Lowland()
     with pytest.raises(ValueError):
-        c.set_parameters(max_fodder=-1)
-    c.set_parameters(max_fodder=300)
+        c.set_parameters({'f_max': -1})
+    c.set_parameters({'f_max': 300})
     c.grow()
-    assert c.max_fodder == 300
+    assert c.params['f_max'] == 300
 
     l = Lowland()
     before = l.fodder
-    l.set_parameters(max_fodder=900)
+    l.set_parameters({'f_max': 900})
     l.grow()
-    print(l.max_fodder, l.fodder)
+    print(l.params['f_max'], l.fodder)
     assert l.fodder > before
 
 
@@ -84,7 +84,7 @@ def test_eat_herbivore() -> None:
     assert fodder_before_eating_lowland >= fodder_end_of_eating_lowland  # see if the amount of
     # fodder is lower after eating
     l.grow()
-    assert l.fodder >= fodder_end_of_eating_lowland and l.fodder == l.max_fodder  # fodder is set
+    assert l.fodder >= fodder_end_of_eating_lowland and l.fodder == l.params['f_max']  # fodder is set
     # to the standard amount of fodder (max fodder)
 
     d = Desert()
@@ -212,5 +212,5 @@ def test_grow() -> None:
     l.eat_herbivore()
     finished_eating = l.fodder
     l.grow()
-    assert l.fodder == l.max_fodder
+    assert l.fodder == l.params['f_max']
     assert l.fodder > finished_eating
