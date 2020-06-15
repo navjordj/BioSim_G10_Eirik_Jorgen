@@ -13,6 +13,9 @@ import numpy as np
 from typing import Dict, Union
 import matplotlib.pyplot as plt
 
+set_params_simulation
+import pickle
+master
 
 class BioSim:
     def __init__(
@@ -25,6 +28,7 @@ class BioSim:
             cmax_animals=None,
             img_base=None,
             img_fmt="png",
+            save_name = None
     ):
         """
         :param island_map: Multi-line string specifying island geography
@@ -49,17 +53,19 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
-        # self.year = 0
-
-        # self.island_map = [Lowland()]
         np.random.seed(seed)
+        if save_name is None:
+            self.island_map = Island(map_str=island_map)
+        else:
+            self.island_map = self.load_simlation(save_name)
 
-        self.island_map = Island(map_str=island_map)
-        # plot_map(self.island_map)
         self.add_population(ini_pop)
 
+    set_params_simulation
     @staticmethod
     def set_animal_parameters(species, params):
+    def set_animal_parameters(self, species, params):
+        master
         """
         Set parameters for animal species.
 
@@ -136,6 +142,14 @@ class BioSim:
                 else:
                     self.island_map.map[loc[0] - 1][loc[1] - 1].add_animal(animal=type_animal,
                                                                            age=age, weight=weight)
+
+    def save_simulation(self, filename):
+        with open(filename + '.pkl', 'wb') as file:
+            pickle.dump(self.island_map, file)
+
+    def load_simlation(self, filename):
+        with open(filename + '.pkl', 'rb') as file:
+            return pickle.load(file)
 
     @property
     def year(self):
