@@ -151,7 +151,7 @@ class Cell:
 
     # TODO Add test for removing eaten herbivores
     # TODO set remove_dead_herbivores and remove_dead_carnivores into one function
-    def remove_dead_herbivore(self) -> None:
+    def remove_dead_animals(self) -> None:
         """
         Removes every herbivore that have self.alive = False.
         Updates number of herbivores afterwards
@@ -160,20 +160,20 @@ class Cell:
         for h in self.herbivores:
             if h.alive == True:
                 keep_herbivores.append(h)
-        self.herbivores = keep_herbivores.copy()
-        self.n_herbivores = len(keep_herbivores)
 
-    def remove_dead_carnivore(self) -> None:
         keep_carnivores: List[Carnivore] = []
         for c in self.carnivores:
             if c.alive == True:
                 keep_carnivores.append(c)
+
+        self.herbivores = keep_herbivores
         self.carnivores = keep_carnivores
+        self.n_herbivores = len(keep_herbivores)
         self.n_carnivores = len(keep_carnivores)
 
     # TODO set carnivore_babies and herbivore_babies in same function
     # TODO: maybe make the new animal using the add_animal function?
-    def carnivore_babies(self) -> None:
+    def animal_babies(self) -> None:
         """
         Checks if there are more than one animal in one cell, if so it will go trough all animals
         in the cell and calculate the probability for the animal to give birth, if it will give
@@ -195,10 +195,7 @@ class Cell:
                     else:
                         carni.update_weight(mother_weight_change)
                         carnivore_babies.append(baby_carnivore)
-        self.carnivores.extend(carnivore_babies)
-        self.n_carnivores = self.n_carnivores + len(carnivore_babies)
 
-    def herbivore_babies(self) -> None:
         herbivore_babies: List[Herbivore] = []
         if self.n_herbivores >= 2:
             for herbi in self.herbivores:
@@ -213,11 +210,14 @@ class Cell:
                     else:
                         herbi.update_weight(mother_weight_change)
                         herbivore_babies.append(baby_herbivore)
+
+        self.carnivores.extend(carnivore_babies)
         self.herbivores.extend(herbivore_babies)
+        self.n_carnivores = self.n_carnivores + len(carnivore_babies)
         self.n_herbivores = self.n_herbivores + len(herbivore_babies)
 
     # TODO: maybe put both the death functions together
-    def prob_death_herb(self) -> None:
+    def prob_death_animals(self) -> None:
         """
         Looks at the probability of each animal to die, if it's likely, the dead animal will
         be removed
@@ -226,13 +226,11 @@ class Cell:
             if herb.should_die():
                 herb.alive = False
 
-        self.remove_dead_herbivore()
-
-    def prob_death_carni(self) -> None:
         for carni in self.carnivores:
             if carni.should_die():
                 carni.alive = False
 
+        self.remove_dead_herbivore()
         self.remove_dead_carnivore()
 
 

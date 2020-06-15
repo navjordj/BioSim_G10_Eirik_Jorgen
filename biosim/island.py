@@ -152,11 +152,10 @@ class Island:
                     cell.eat_herbivore()
                 cell.eat_carnivore()
 
-                cell.remove_dead_herbivore()
+                cell.remove_dead_animals()
 
                 # Procreation:
-                cell.herbivore_babies()
-                cell.carnivore_babies()
+                cell.animal_babies()
         # MIGRATION:
         # TODO: make it we do not have to make now for-loops after migration
         self.migration()
@@ -169,10 +168,7 @@ class Island:
                 for carn in cell.carnivores:
                     carn.new_year()
                 # DEATH
-                cell.prob_death_herb()
-                cell.prob_death_carni()
+                cell.prob_death_animals()
 
                 cell.n_herbivores = len(cell.herbivores)
                 cell.n_carnivores = len(cell.carnivores)
-
-        
