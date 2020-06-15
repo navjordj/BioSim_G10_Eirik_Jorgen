@@ -5,9 +5,9 @@ import numpy as np
 
 np.random.seed(1)
 
-ini_herbs = [{'loc': (5, 5), 'pop': [{'species': 'Herbivore', 'age': 5, 'weight': 50} for _ in range(50)]}]
+ini_herbs = [{'loc': (5, 5), 'pop': [{'species': 'Herbivore', 'age': 5, 'weight': 50} for _ in range(1000)]}]
             
-ini_carn = [{'loc': (5, 5), 'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 50} for _ in range(50)]}]
+ini_carn = [{'loc': (5, 5), 'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 50} for _ in range(1000)]}]
 
 
 kart = """\
@@ -44,7 +44,7 @@ b.set_animal_parameters('Herbivore', {'mu': 1, 'omega': 0, 'gamma': 0, 'a_half':
 b.set_animal_parameters('Carnivore', {'mu': 1, 'omega': 0, 'gamma': 0, 'F': 0, 'a_half': 1000, 'eta': 0})
 
 b.simulate(num_years=5)
-b.simulate(num_years=10)
+#b.simulate(num_years=10)
 b.save_simulation("10years")
 
 

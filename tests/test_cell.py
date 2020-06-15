@@ -109,23 +109,6 @@ def test_add_animal() -> None:
     with pytest.raises(ValueError):
         c.add_animal(a)
 
-
-def test_remove_dead_herbivore() -> None:
-    """
-    Tests if the herbivore list gets shorter when one dies
-    """
-    l = Lowland()
-    n = 5
-    for _ in range(n):
-        l.add_animal('Herbivore')
-    for herb in l.herbivores:
-        assert herb.alive is True
-    assert l.n_herbivores == n
-    l.herbivores[0].alive = False
-    l.remove_dead_herbivore()
-    assert l.n_herbivores == n - 1
-
-
 def test_eat_carnivore(mocker) -> None:
     """
     Sees if 10 carnivores gain any weight after trying to eat 10 herbivores
@@ -145,63 +128,50 @@ def test_eat_carnivore(mocker) -> None:
     assert d.herbivores[0].alive is False
 
 
-def test_remove_dead_carnivore() -> None:
+def test_remove_dead_animals() -> None:
     l = Lowland()
     n = 5
     for _ in range(n):
         l.add_animal('Carnivore')
+        l.add_animal('Herbivore')
     for carn in l.carnivores:
         assert carn.alive is True
+    for herb in l.herbivores:
+        assert herb.alive is True
     assert l.n_carnivores == n
+    assert l.n_herbivores == n
     l.carnivores[0].alive = False
-    l.remove_dead_carnivore()
-    assert l.n_carnivores == n - 1
-
-
-# TODO try to make mock or statistic method (already done in animals?)
-def test_carnivore_babies() -> None:
-    l = Lowland()
-    l.carnivore_babies()
-    assert l.n_carnivores == 0
-    n = 100
-    for _ in range(n):
-        l.add_animal('Carnivore')
-    num_carni_pre_procreation = l.n_carnivores
-    l.carnivore_babies()
-    assert num_carni_pre_procreation <= l.n_carnivores
-
+    l.herbivores[0].alive = False
+    l.remove_dead_animals()
+    assert l.n_carnivores == n - 1 and l.n_herbivores == n - 1
 
 # TODO try to make mock or a statistic method (already done in animals?)
-def test_herbivore_babies() -> None:
+def test_animal_babies() -> None:
     l = Lowland()
-    l.herbivore_babies()
+    l.animal_babies()
     assert l.n_herbivores == 0
-    n = 100
+    assert l.n_carnivores == 0
+    n = 10
     for _ in range(n):
-        l.add_animal('Herbivore')
+        l.add_animal('Herbivore', weight=100, age=5)
+        l.add_animal('Carnivore', weight=100, age=5)
+
     num_herb_pre_procreation = l.n_herbivores
-    l.herbivore_babies()
-    assert num_herb_pre_procreation <= l.n_herbivores
+    num_carni_pre_procreation = l.n_carnivores
+    l.animal_babies()
+    assert num_herb_pre_procreation < l.n_herbivores and num_carni_pre_procreation < l.n_carnivores
 
 
-def test_prob_death_herb() -> None:
-    d = Desert()
-    n = 100
-    for _ in range(n):
-        d.add_animal('Herbivore')
-    num_herb_pre_prob = d.n_herbivores
-    d.prob_death_herb()
-    assert num_herb_pre_prob > d.n_herbivores
-
-
-def test_prob_death_carni() -> None:
+def test_prob_death_animal() -> None:
     d = Desert()
     n = 100
     for _ in range(n):
         d.add_animal('Carnivore')
+        d.add_animal('Herbivore')
     num_carni_pre_prob = d.n_carnivores
-    d.prob_death_carni()
-    assert num_carni_pre_prob > d.n_herbivores
+    num_herb_pre_prob = d.n_herbivores
+    d.prob_death_animals()
+    assert num_carni_pre_prob > d.n_carnivores and num_herb_pre_prob > d.n_herbivores
 
 
 def test_grow() -> None:
