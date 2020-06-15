@@ -55,7 +55,18 @@ class Animal:
 
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
+        """Set internal parameters for animal class/ subclass
 
+        Parameters
+        ----------
+        new_parameters : Dict[str, Union[int, float]]
+            Dictionary containing the keys of the parameters to be changed and the corresponding values
+
+        Raises
+        ------
+        ValueError
+            Raises ValueError if key is  not in self.params
+        """
         for key in new_parameters:
             try:
                 if new_parameters[key] >= 0:
@@ -66,11 +77,17 @@ class Animal:
                 print(error)
     # TODO: Return value? Bool to confirm success?
     def increase_age(self) -> None:
+
         self.age += 1
 
     def should_die(self) -> bool:
-        """
-        Returns a boolean saying if the animal should die or not
+        """Returns a boolean saying if the animal should die or not
+
+
+        Returns
+        -------
+        bool
+            Boolean representing if the animal should die or not
         """
         if self.weight <= 0:
             return True
@@ -80,6 +97,18 @@ class Animal:
 
     # TODO update correct type
     def give_birth(self, N: int) -> bool:
+        """Returns a boolean saying if the animal should give birth or not
+
+        Parameters
+        ----------
+        N : int
+            Number of animals of the same species in the cell
+
+        Returns
+        -------
+        bool
+            Boolean representing of the animal should give birth or not
+        """
 
         if self.weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
             return False
@@ -91,8 +120,18 @@ class Animal:
             return False
 
     def eat(self, intake: Union[int, float]) -> None:
-        """ 
-        Takes in a certain amount of fodder. Weight change is beta * intake
+        """        Takes in a certain amount of fodder. Weight change is beta * intake
+
+
+        Parameters
+        ----------
+        intake : Union[int, float]
+            How much fodder the animal should eat
+
+        Raises
+        ------
+        ValueError
+            Raises ValueError if the amount of fodder eaten is negative
         """
         if intake < 0:
             raise ValueError("Cant eat negative amount")
@@ -103,14 +142,20 @@ class Animal:
     # TODO: Return value? Bool to confirm success?
 
     def update_weight(self, change: float) -> None:
+        """Updates the weight of the animal and recalculates fitness
+
+        Parameters
+        ----------
+        change : float
+            The weight change of the animal
+        """
         self.weight += change
         self.fitness = self.get_fitness()
 
     # TODO: Return value? Bool to confirm success?
 
     def new_year(self) -> None:
-        """
-        Increase age by one year and decrease weight by eta * weight
+        """Increase age by one year and decrease weight by eta * weight
         """
         self.has_migrated = False
         self.age += 1
@@ -119,8 +164,12 @@ class Animal:
         self.fitness = self.get_fitness()
 
     def get_fitness(self) -> float:
-        """
-        Returns the current fitness of a animal
+        """Returns the current fitness of a animal
+
+        Returns
+        -------
+        float
+            Fitness of a animal
         """
         if self.weight < 0:
             return 0
@@ -130,13 +179,25 @@ class Animal:
 
         return self.fitness
 
+    # TODO Make private
     def initialize_weight(self) -> float:
-        """
-        Initializes the weight using a normal distribution
+        """Initializes the weight using a normal distribution
+
+        Returns
+        -------
+        float
+            Weight of the animal
         """
         return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
     def will_migrate(self) -> bool:
+        """Returns a boolean representing if a animal should migrate or not
+
+        Returns
+        -------
+        bool
+            Boolean representing of the animal should migrate or not
+        """
         if self.has_migrated is False:
             prob = self.params["mu"] * self.get_fitness()
             if np.random.rand() < prob:
