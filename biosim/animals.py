@@ -141,7 +141,7 @@ class Animal:
             return False
 
     def eat(self, intake: Union[int, float]) -> None:
-        """        Takes in a certain amount of fodder. Weight change is beta * intake
+        """Takes in a certain amount of fodder. Calculates and updates weight given by beta * intake.
 
 
         Parameters
@@ -207,12 +207,16 @@ class Animal:
         Returns
         -------
         float
-            Weight of the animal
+            Initial weight of the animal
         """
         return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
+    # TODO add latex formula for probability
     def will_migrate(self) -> bool:
         """Returns a boolean representing if a animal should migrate or not
+
+            Probability of migration is given by the following equation:
+            
 
         Returns
         -------
