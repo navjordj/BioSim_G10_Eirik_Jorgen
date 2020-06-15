@@ -32,6 +32,19 @@ def test_init_animal():
     assert a.age == 2
     assert a.weight == 10
 
+def test_set_params():
+    a: Animal = Animal()
+
+    a.set_params({"F": 25.0})
+    assert a.params["F"] == 25.0
+
+    with pytest.raises(ValueError) as error:
+        invalid_params = {"F": -50}
+        a.set_params(invalid_params)
+
+    with pytest.raises(ValueError) as error:
+        invalid_params = {"not_a_param": 100}
+        a.set_params(invalid_params)
 
 def test_aging():
     # TODO add mocker?
