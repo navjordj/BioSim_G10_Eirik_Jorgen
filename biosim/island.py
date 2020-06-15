@@ -153,7 +153,7 @@ class Island:
                 cell.animal_babies()
                 # MIGRATION:
                 if cell.allowed_move_to is True:
-                    adj_cells: List[Highland, Lowland, Water, Desert] = [self.map[i - 1][j],
+                    adj_cells: List[Union[Highland, Lowland, Water, Desert]] = [self.map[i - 1][j],
                                                                      self.map[i + 1][j],
                                                                      self.map[i][j - 1],
                                                                      self.map[i][j + 1]]
