@@ -125,7 +125,7 @@ class Cell:
             carni.update_weight(carni.params["beta"] * f_eaten)
 
     # TODO add type
-    def add_animal(self, animal: Union[Herbivore, Carnivore],
+    def add_animal(self, animal: str,
                    age: Union[int, None] = None,
                    weight: Union[int, float, None] = None) -> None:  # choose Any because hard to name type
         """
