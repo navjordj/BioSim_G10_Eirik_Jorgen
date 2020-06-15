@@ -178,6 +178,11 @@ def test_fitness():
         a.increase_age()
     assert a.get_fitness() == pytest.approx(0)
 
+    # Test that negative weight always gives fitness of zero
+    a: Animal = Animal()
+    a.weight = -1
+    assert a.get_fitness() == 0
+
     # Test that fitness goes towards 1 as weight increases
     a: Animal = Animal()
     a.update_weight(1000000) # TODO see if I can make it "right"
@@ -195,6 +200,7 @@ def test_will_migrate():
         if a.will_migrate():
             n_migrations += 1
             assert a.has_migrated == True
+            assert a.will_migrate() == False # 
 
     prob_migration = n_migrations/1000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)
