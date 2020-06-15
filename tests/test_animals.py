@@ -104,9 +104,12 @@ def test_birth(mocker):
     N = 0
     assert a.give_birth(N) is False
 
-    mocker.patch('random.random', return_value=-10000)
+    mocker.patch('random.random', return_value=0)
     b = Animal(weight=40)
     assert b.give_birth(100) is True
+
+    c = Animal(weight=40)
+    assert c.give_birth(0) is False
 
 
 def test_eat():
