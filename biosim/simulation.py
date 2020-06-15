@@ -10,10 +10,12 @@ from .plotting import plot_map
 
 import numpy as np
 # import matplotlib.pyplot as plt
-from typing import Dict
+from typing import Dict, Union
 import matplotlib.pyplot as plt
 
+
 import pickle
+
 
 class BioSim:
     def __init__(
@@ -59,22 +61,34 @@ class BioSim:
 
         self.add_population(ini_pop)
 
-
-    def set_animal_parameters(self, species, params):
+    @staticmethod
+    def set_animal_parameters(species, params):
         """
         Set parameters for animal species.
 
         :param species: String, name of animal species
         :param params: Dict with valid parameter specification for species
         """
+        animals = {
+            'Herbivore': Herbivore,
+            'Carnivore': Carnivore
+        }
+        animals[species].set_params(params)
 
-    def set_landscape_parameters(self, landscape, params):
+    @staticmethod
+    def set_landscape_parameters(landscape, params):
         """
         Set parameters for landscape type.
 
         :param landscape: String, code letter for landscape
         :param params: Dict with valid parameter specification for landscape
         """
+
+        landscape_types = {
+            'L': Lowland,
+            'H': Highland
+        }
+        landscape_types[landscape].set_parameters(params)
 
     def simulate(self, num_years, vis_years=1, img_years=None):
         """
@@ -87,7 +101,7 @@ class BioSim:
         """
 
         viz = Viz(self.island_map, num_years)
-        
+
         # TODO fix map.map.map.map
         for year in range(num_years):
             print(f'Year {year}: ')
@@ -102,7 +116,6 @@ class BioSim:
             viz.update_fig(self.island_map)
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
-                    
 
     def add_population(self, population):
         """
@@ -140,6 +153,7 @@ class BioSim:
         """Last year simulated."""
         # return self.year
 
+    # TODO: tyr to use these functions inside viz.py instead of doing what we are doing now
     @property
     def num_animals(self) -> int:
         """Total number of animals on island."""
@@ -164,5 +178,3 @@ class BioSim:
 
     def make_movie(self):
         """Create MPEG4 movie from visualization images saved."""
-
-    

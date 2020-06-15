@@ -2,7 +2,7 @@ __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 from .animals import Carnivore, Herbivore
-from typing import Union, List, Any
+from typing import Union, List, Any, Dict
 
 import numpy as np
 import random
@@ -97,7 +97,6 @@ class Cell:
                                                  reverse=True)
         sorted_h: List[Herbivore] = sorted(self.herbivores, key=lambda animal: animal.get_fitness(),
                                            reverse=False)
-
 
         for carni in reverse_sort_c:
             appetite = carni.params["F"]
@@ -207,42 +206,44 @@ class Desert(Cell):
 
 class Highland(Cell):
 
-    max_fodder = 300
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.fodder = self.max_fodder
-
-    def grow(self) -> None:
-        self.fodder = self.max_fodder
-
-    @classmethod
-    def set_parameters(cls, max_fodder) -> None: # TODO add type
-        if max_fodder >= 0:
-            cls.max_fodder = max_fodder
-            cls.fodder = max_fodder
-        else:
-            raise ValueError('max_fodder must be a positive number')
-
-
-class Lowland(Cell):
-
-    max_fodder = 800
+    params = {'f_max': 300.0}
 
     def __init__(self) -> None:
         super().__init__()
         self.fodder = self.grow()
 
-    def grow(self) -> int:
-        self.fodder = self.max_fodder
+    def grow(self) -> Union[int, float]:
+        self.fodder = self.params['f_max']
         return self.fodder
 
     @classmethod
-    def set_parameters(cls, max_fodder) -> None: # TODO add type
-        if max_fodder >= 0:
-            cls.max_fodder = max_fodder
-        else:
-            raise ValueError('max_fodder must be a positive number')
+    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:  # TODO add type
+        for key in new_parameters:
+            if new_parameters[key] >= 0:
+                cls.params[key] = new_parameters[key]
+            else:
+                raise ValueError('max_fodder must be a positive number')
+
+
+class Lowland(Cell):
+
+    params = {'f_max': 800.0}
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.fodder = self.grow()
+
+    def grow(self) -> Union[int, float]:
+        self.fodder = self.params['f_max']
+        return self.fodder
+
+    @classmethod
+    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None: # TODO add type
+        for key in new_parameters:
+            if new_parameters[key] >= 0:
+                cls.params[key] = new_parameters[key]
+            else:
+                raise ValueError('max_fodder must be a positive number')
 
 
 class Water(Cell):
