@@ -13,9 +13,9 @@ import numpy as np
 from typing import Dict, Union
 import matplotlib.pyplot as plt
 
-set_params_simulation
+
 import pickle
-master
+
 
 class BioSim:
     def __init__(
@@ -61,11 +61,8 @@ class BioSim:
 
         self.add_population(ini_pop)
 
-    set_params_simulation
     @staticmethod
     def set_animal_parameters(species, params):
-    def set_animal_parameters(self, species, params):
-        master
         """
         Set parameters for animal species.
 
