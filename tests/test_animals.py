@@ -32,6 +32,19 @@ def test_init_animal():
     assert a.age == 2
     assert a.weight == 10
 
+def test_set_params():
+    a: Animal = Animal()
+
+    a.set_params({"F": 25.0})
+    assert a.params["F"] == 25.0
+
+    with pytest.raises(ValueError) as error:
+        invalid_params = {"F": -50}
+        a.set_params(invalid_params)
+
+    with pytest.raises(ValueError) as error:
+        invalid_params = {"not_a_param": 100}
+        a.set_params(invalid_params)
 
 def test_aging():
     # TODO add mocker?
@@ -91,9 +104,12 @@ def test_birth(mocker):
     N = 0
     assert a.give_birth(N) is False
 
-    mocker.patch('random.random', return_value=-10000)
+    mocker.patch('random.random', return_value=0)
     b = Animal(weight=40)
     assert b.give_birth(100) is True
+
+    c = Animal(weight=40)
+    assert c.give_birth(0) is False
 
 
 def test_eat():
@@ -162,6 +178,11 @@ def test_fitness():
         a.increase_age()
     assert a.get_fitness() == pytest.approx(0)
 
+    # Test that negative weight always gives fitness of zero
+    a: Animal = Animal()
+    a.weight = -1
+    assert a.get_fitness() == 0
+
     # Test that fitness goes towards 1 as weight increases
     a: Animal = Animal()
     a.update_weight(1000000) # TODO see if I can make it "right"
@@ -179,6 +200,7 @@ def test_will_migrate():
         if a.will_migrate():
             n_migrations += 1
             assert a.has_migrated == True
+            assert a.will_migrate() == False # 
 
     prob_migration = n_migrations/1000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)

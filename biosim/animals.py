@@ -72,7 +72,7 @@ class Animal:
         str
             String to be printed out
         """
-        return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}'
+        return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}' # pragma: no cover
 
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
@@ -89,13 +89,13 @@ class Animal:
             Raises ValueError if key is  not in self.params
         """
         for key in new_parameters:
-            try:
-                if new_parameters[key] >= 0:
+            if new_parameters[key] >= 0:
+                if key in cls.params.keys():
                     cls.params[key] = new_parameters[key]
                 else:
-                    raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
-            except ValueError as error:
-                print(error)
+                    raise ValueError(f'Key {key} is not a key in class parameters')
+            else:
+                raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
     # TODO: Return value? Bool to confirm success?
     def increase_age(self) -> None:
 
@@ -277,10 +277,3 @@ class Carnivore(Animal):
 
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
-
-if __name__ == "__main__":
-    h1 = Herbivore()
-    h2 = Herbivore()
-    print(h2.params)
-    h1.set_params({"w_birth": 100})
-    print(h2.params)

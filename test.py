@@ -43,7 +43,7 @@ b.add_population(ini_carn)
 b.set_animal_parameters('Herbivore', {'mu': 1, 'omega': 0, 'gamma': 0, 'a_half': 1000, 'eta': 0})
 b.set_animal_parameters('Carnivore', {'mu': 1, 'omega': 0, 'gamma': 0, 'F': 0, 'a_half': 1000, 'eta': 0})
 
-b.simulate(num_years=5)
+b.simulate(num_years=50)
 #b.simulate(num_years=10)
 b.save_simulation("10years")
 

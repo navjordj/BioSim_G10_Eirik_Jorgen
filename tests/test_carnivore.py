@@ -4,58 +4,28 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 import numpy as np
+import scipy.stats as stats
+
 
 from biosim.animals import Carnivore
 
-#@pytest.mark.skip(reason="Not implemented yet")
 def test_init_carnivore():
-    np.random.seed(1)
-    c: Carnivore = Carnivore()
-    # assert c.weight == 10.436518045494863
-    assert c.age == 0
+    alpha = 0.001
+    n = 10000
+    a = Carnivore()
+    norm_disp = np.random.normal(a.params["w_birth"], a.params["sigma_birth"], n)
+    weight_list = []
+    for _ in range(n):
+        a = Carnivore()
+        weight_list.append(a.weight)
+    x = np.concatenate((weight_list, norm_disp))
+    k2, p = stats.normaltest(x)
+    if p >= alpha:
+        assert True
+    else:
+        assert False
+    assert a.age == 0
 
-
-# TODO Nødvendig å teste subclassene?
-def test_aging():
-    c: Carnivore = Carnivore()
-    c.increase_age()
-    assert c.age == 1
-
-def test_weight():
-    c: Carnivore = Carnivore()
-    weight_before = c.weight
-    c.update_weight(10)
-    assert c.weight == (weight_before + 10)
-
-    c: Carnivore = Carnivore()
-    weight_before = c.weight
-    c.update_weight(-5)
-    assert c.weight == (weight_before - 5)
-
-def test_fitness():
-
-    # Check that fitness decreases when age increases
-    c: Carnivore = Carnivore()
-    fit_before: float = c.get_fitness()
-    c.increase_age()
-    fit_after: float = c.get_fitness()
-    assert fit_after < fit_before
-
-    # Check that fitness increases when weight increases
-    c: Carnivore = Carnivore()
-    fit_before: float = c.get_fitness()
-    c.update_weight(10)
-    fit_after: float = c.get_fitness()
-    assert fit_after > fit_before
-
-    # Test that the fitness goes towards 0 when aging
-    c: Carnivore = Carnivore()
-    for _ in range(1000):
-        c.increase_age()
-    assert c.get_fitness() == pytest.approx(0)
-
-    # Test that fitness goes towards 1 as weight increases
-    c: Carnivore = Carnivore()
-    c.update_weight(1000)
-    assert c.get_fitness() == pytest.approx(1, rel=1e-4) # TODO: Find out why this fails with standard error of 1e-6
-
+    a: Carnivore = Carnivore(age=2, weight=10)
+    assert a.age == 2
+    assert a.weight == 10

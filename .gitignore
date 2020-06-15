@@ -1,5 +1,6 @@
 .vscode/*
 .mypy_cache/*
+htmlcov/*
 *.pyc
 *.pkl
 
