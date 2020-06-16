@@ -113,6 +113,7 @@ class BioSim:
             self.island_map.year += 1
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
+        viz.save_fig()
 
     def add_population(self, population):
         """
