@@ -169,14 +169,10 @@ class Island:
                                                                      self.map[i][j + 1]]
                     self.migration(cell, adj_cells)
                     self.map[i][j].remove_dead_animals()
+
+        for row in self.map:
+            for cell in row:
                 # Age animals one year:
-                for herb in cell.herbivores:
-                    herb.new_year()
-                for carn in cell.carnivores:
-                    carn.new_year()
+                cell.new_year()
                 # DEATH
                 cell.prob_death_animals()
-
-                # TODO: is this necessary?
-                cell.n_herbivores = len(cell.herbivores)
-                cell.n_carnivores = len(cell.carnivores)
