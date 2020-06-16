@@ -37,7 +37,7 @@ class Animal:
             "xi": 1.2,
             "omega": 0.4,
             "F": 10.0,
-            "delta_phi_max": None
+            "DeltaPhiMax": None
         }
     
     def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
@@ -250,7 +250,7 @@ class Herbivore(Animal):
                 "xi": 1.2,
                 "omega": 0.4,
                 "F": 10.0,
-                "delta_phi_max": None
+                "DeltaPhiMax": None
             }
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
@@ -272,7 +272,7 @@ class Carnivore(Animal):
             "xi": 1.1,
             "omega": 0.8,
             "F": 50.0,
-            "delta_phi_max": 10
+            "DeltaPhiMax": 10
         }
 
     def __init__(self, age=None, weight=None) -> None:
