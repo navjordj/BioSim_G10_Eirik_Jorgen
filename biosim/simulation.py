@@ -157,9 +157,8 @@ class BioSim:
             return pickle.load(file)
 
     def make_movie(self):
-
         try:
-            cmd = f'ffmpeg -r 20 -i img/{self.img_base}_%05d.{self.img_fmt} -b:v 20M output.mp4'
+            cmd = f'ffmpeg -r 20 -i img/{self.img_base}_%05d.{self.img_fmt} -b:v 20M {self.img_base}.{self.movie_format}'
             print(cmd)
             subprocess.check_call(cmd)
         except subprocess.CalledProcessError as err:
