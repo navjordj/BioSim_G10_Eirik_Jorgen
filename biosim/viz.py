@@ -75,7 +75,7 @@ class Viz:
     def _setup_graphics(self):
         """Creates subplots."""
         if self.figure is None:
-            self.figure = plt.figure(constrained_layout=True, figsize=(5, 2))
+            self.figure = plt.figure(constrained_layout=True, figsize=(20, 8))
             self.grid = self.figure.add_gridspec(3, 24)
 
         if self.island_map_ax is None:
