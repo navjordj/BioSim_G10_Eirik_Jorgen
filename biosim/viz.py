@@ -149,14 +149,16 @@ class Viz:
         self.herbivores_over_time = island.num_herbivores_data.copy()
         self.carnivores_over_time = island.num_carnivores_data.copy()
         print(self.herbivores_over_time)
-        for n in range(self.num_years):
+        for n in range(self.num_years+island.year):
             self.herbivores_over_time.append(None)
             self.carnivores_over_time.append(None)
+        for n in range(self.num_years):
             self.years.append(island.year + n + 1)
         self.years = np.array(self.years)
 
         self.herbivores_over_time = np.array(self.herbivores_over_time)
         self.carnivores_over_time = np.array(self.carnivores_over_time)
+
         self.line_herbivore = self.animals_over_time_ax.plot(
             self.years, self.herbivores_over_time, color='b', label='Herbivore'
         )[0]
