@@ -106,14 +106,14 @@ class BioSim:
         for year in range(num_years):
             print(f'Year {year}: ')
 
-            # TODO make a proper iterator
-            self.island_map.new_year()
             self.island_map.num_herbivores_data.append(self.num_animals_per_species["herbivores"])
             self.island_map.num_carnivores_data.append(self.num_animals_per_species["carnivores"])
-            self.island_map.year += 1
-
             # if self.island_map.year % 5 == 0:
             viz.update_fig(self.island_map)
+            # TODO make a proper iterator
+            self.island_map.new_year()
+            self.island_map.year += 1
+
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
 
