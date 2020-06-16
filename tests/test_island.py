@@ -5,6 +5,7 @@ import pytest
 import numpy as np
 
 from biosim.island import Island  # type: ignore
+from biosim.cell import Water
 
 
 class Test_island:
@@ -14,17 +15,15 @@ class Test_island:
         """
         Island('WW\nWW')
         Island('WWWW\nWHLW\nWWLW\nWWWW')
-# TODO find out where to test that it start with 1 1
-    @pytest.mark.skip(reason='Not implemented yet')
-    def test_if_start_with_1_1(self) -> None:
+
+    # TODO find out where to test that it start with 1 1
+    # TODO: is it necessary?
+    def test_if_start_with_only_water(self) -> None:
         """
         Tests that the first coordinate of the map is (1, 1)
         """
         testing = Island('WW\nWW')
-        if list(testing.map.keys())[0] == (1, 1): # type: ignore
-            assert True
-        else:
-            assert False
+        assert type(testing.map[0][0]) is Water
 
     def test_same_len(self) -> None:
         """
@@ -68,6 +67,7 @@ class Test_island:
             k.new_year()
             if k.map[1][1].n_herbivores != 1:
                 n_migrated += 1
+
         assert n_migrated == 0
 
         np.random.seed(1)
@@ -79,5 +79,5 @@ class Test_island:
             k.new_year()
             if k.map[1][1].n_herbivores != 1:
                 n_migrated += 1
-        p_migration = n_migrated/1000
-        assert p_migration == pytest.approx(0.125, abs=1e-1) # TODO check if this is right
+        p_migration = n_migrated / 1000
+        assert p_migration == pytest.approx(0.125, abs=1e-1)  # TODO check if this is right

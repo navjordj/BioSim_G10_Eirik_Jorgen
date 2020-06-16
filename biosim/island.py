@@ -135,7 +135,6 @@ class Island:
             else:
                 not_migrated += 1
 
-
         for i, carni in enumerate(cell.carnivores):
             if carni.will_migrate():
                 self.n_migrated += 1
