@@ -344,6 +344,6 @@ class Viz:
 
     def save_fig(self):
         self.figure.savefig(
-            f'{self.img_base}_{self.img_num}.{self.img_fmt}'
+            f'img/{self.img_base}_{self.img_num}.{self.img_fmt}'
         )
         self.img_num += 1
