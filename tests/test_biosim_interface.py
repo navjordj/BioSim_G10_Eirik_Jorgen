@@ -63,7 +63,6 @@ def test_inconsistent_length():
         BioSim(island_map="WWW\nWLLW\nWWW", ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 @pytest.mark.parametrize('species, extra',
                          [('Herbivore', {}),
                           ('Carnivore', {'DeltaPhiMax': 0.5})])
@@ -89,7 +88,6 @@ def test_set_param_animals(species, extra):
     BioSim(island_map="W", ini_pop=[], seed=1).set_animal_parameters(species, params)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 @pytest.mark.parametrize('lscape, params',
                          [('L', {'f_max': 100.}),
                           ('H', {'f_max': 200.})])

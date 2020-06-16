@@ -29,7 +29,7 @@ class Animal:
             "eta": 0.05,
             "a_half": 40.0,
             "phi_age": 0.2,
-            "weight_half": 10.0,
+            "w_half": 10.0,
             "phi_weight": 0.1,
             "mu": 0.25,
             "gamma": 0.2,
@@ -37,7 +37,7 @@ class Animal:
             "xi": 1.2,
             "omega": 0.4,
             "F": 10.0,
-            "delta_phi_max": None
+            "DeltaPhiMax": None
         }
     
     def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
@@ -196,7 +196,7 @@ class Animal:
             return 0
         else:
             self.fitness = fitness_calc(self.age, self.params["a_half"], self.params["phi_age"], 
-                                         self.weight, self.params["weight_half"], self.params["phi_weight"] )
+                                         self.weight, self.params["w_half"], self.params["phi_weight"] )
 
         return self.fitness
 
@@ -242,7 +242,7 @@ class Herbivore(Animal):
                 "eta": 0.05,
                 "a_half": 40.0,
                 "phi_age": 0.6,
-                "weight_half": 10.0,
+                "w_half": 10.0,
                 "phi_weight": 0.1,
                 "mu": 0.25,
                 "gamma": 0.2,
@@ -250,7 +250,7 @@ class Herbivore(Animal):
                 "xi": 1.2,
                 "omega": 0.4,
                 "F": 10.0,
-                "delta_phi_max": None
+                "DeltaPhiMax": None
             }
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
@@ -264,7 +264,7 @@ class Carnivore(Animal):
             "eta": 0.125,
             "a_half": 40.0,
             "phi_age": 0.3,
-            "weight_half": 4.0,
+            "w_half": 4.0,
             "phi_weight": 0.4,
             "mu": 0.4,
             "gamma": 0.8,
@@ -272,7 +272,7 @@ class Carnivore(Animal):
             "xi": 1.1,
             "omega": 0.8,
             "F": 50.0,
-            "delta_phi_max": 10
+            "DeltaPhiMax": 10
         }
 
     def __init__(self, age=None, weight=None) -> None:
