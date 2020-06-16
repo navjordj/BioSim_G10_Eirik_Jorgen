@@ -59,6 +59,13 @@ class BioSim:
         else:
             self.island_map = self.load_simlation(save_name)
 
+        self.ymax_animals = ymax_animals
+        self.cmax_animals = cmax_animals
+        self.img_base = img_base
+        if img_fmt is None:
+            self.img_fmt = 'png'
+        else:
+            self.img_fmt = img_fmt
         self.add_population(ini_pop)
 
     @staticmethod
@@ -99,7 +106,12 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
-        viz = Viz(self.island_map, num_years)
+        viz = Viz(island=self.island_map,
+                  num_years=num_years,
+                  ymax_animals=self.ymax_animals,
+                  cmax_animals=self.cmax_animals,
+                  img_base=self.img_base,
+                  img_fmt=self.img_fmt)
 
         # TODO fix map.map.map.map
         for year in range(num_years):
