@@ -4,7 +4,20 @@ from typing import Dict
 
 class Viz:
 
-    def __init__(self, island, num_years):
+    def __init__(self, island,
+                 num_years,
+                 ymax_animals=None,
+                 cmax_animals=None,
+                 img_base=None,
+                 img_fmt='png'):
+
+        self.y_max_animals = ymax_animals
+        self.cmax_animals = cmax_animals
+
+        # save figure params...
+        self.img_base = img_base
+        self.img_fmt = img_fmt
+        self.img_num = 0
 
         self.num_years = num_years
 
@@ -324,3 +337,9 @@ class Viz:
         self._update_weight_histogram(island)
         self._update_text(island)
         plt.pause(1e-2)
+
+    def save_fig(self):
+        self.figure.savefig(
+            f'{self.img_base}_{self.img_num}.{self.img_fmt}'
+        )
+        self.img_num += 1
