@@ -232,6 +232,12 @@ class Cell:
 
         self.remove_dead_animals()
 
+    def new_year(self) -> None:
+        for herb in self.herbivores:
+            herb.new_year()
+        for carn in self.carnivores:
+            carn.new_year()
+
 
 class Desert(Cell):
     """
