@@ -6,6 +6,7 @@ from typing import Union, List, Dict
 
 import numpy as np
 import random
+
 np.random.seed(1)
 
 
@@ -21,7 +22,6 @@ def p_eat(phi_carn: float, phi_herb: float, DeltaPhiMax: Union[int, float]) -> U
 
 
 class Cell:
-
     max_fodder: Union[float, int] = 0
 
     def __init__(self) -> None:
@@ -46,7 +46,7 @@ class Cell:
         else:
             return True
 
-    def remove_animal(self, animal): # TODO: add type
+    def remove_animal(self, animal):  # TODO: add type
         """
         Removes wanted animal from either self.herbivores or self.carnivores.
         Updates number of animals afterwards
@@ -56,15 +56,14 @@ class Cell:
         animal: Class
 
         """
-        try:
-            if type(animal) == Herbivore:
-                self.herbivores.remove(animal)
-                self.n_herbivores = len(self.herbivores)
-            else:
-                self.carnivores.remove(animal)
-                self.n_carnivores = len(self.carnivores)
-        except ValueError as error:
-            print(error)
+        if type(animal) == Herbivore:
+            self.herbivores.remove(animal)
+            self.n_herbivores = len(self.herbivores)
+        elif type(animal) == Carnivore:
+            self.carnivores.remove(animal)
+            self.n_carnivores = len(self.carnivores)
+        else:
+            raise ValueError(f'Most be an animal in the class, not {animal}')
 
     def eat_herbivore(self) -> None:
         """
@@ -73,7 +72,8 @@ class Cell:
         remaining of the herbivores not eat this year.
         A herbivore will stop eating when it have eaten F amount of fodder or there is nothing left
         """
-        shuffled_herbivores: List[Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
+        shuffled_herbivores: List[
+            Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
         np.random.shuffle(shuffled_herbivores)  # TODO refactor code
         # TODO test if fodder newer gets below zero
         for herbi in shuffled_herbivores:
@@ -126,7 +126,8 @@ class Cell:
     # TODO add type
     def add_animal(self, animal: str,
                    age: Union[int, None] = None,
-                   weight: Union[int, float, None] = None) -> None:  # choose Any because hard to name type
+                   weight: Union[
+                       int, float, None] = None) -> None:  # choose Any because hard to name type
         """
         Takes in a type of animal, either Herbivore or Carnivore, and add's the respected animal to
         it's animal list (either self.herbivores or self.carnivores)
@@ -188,13 +189,8 @@ class Cell:
                     baby_carnivore = Carnivore()
                     baby_weight = baby_carnivore.weight
                     mother_weight_change = - carni.params["xi"] * baby_weight
-
-                    if mother_weight_change > carni.weight:
-                        print("no baby born")
-                        continue
-                    else:
-                        carni.update_weight(mother_weight_change)
-                        carnivore_babies.append(baby_carnivore)
+                    carni.update_weight(mother_weight_change)
+                    carnivore_babies.append(baby_carnivore)
 
         herbivore_babies: List[Herbivore] = []
         if self.n_herbivores >= 2:
@@ -204,12 +200,8 @@ class Cell:
                     baby_herbivore = Herbivore()
                     baby_weight = baby_herbivore.weight
                     mother_weight_change = -herbi.params["xi"] * baby_weight
-                    if mother_weight_change > herbi.weight:
-                        print('no baby born')
-                        continue
-                    else:
-                        herbi.update_weight(mother_weight_change)
-                        herbivore_babies.append(baby_herbivore)
+                    herbi.update_weight(mother_weight_change)
+                    herbivore_babies.append(baby_herbivore)
 
         self.carnivores.extend(carnivore_babies)
         self.herbivores.extend(herbivore_babies)
@@ -243,6 +235,7 @@ class Desert(Cell):
     """
     Subclass of the superclass Cell
     """
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -315,7 +308,7 @@ class Lowland(Cell):
         return self.fodder
 
     @classmethod
-    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None: # TODO add type
+    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:  # TODO add type
         """
         Takes in a dict with which parameters you want to change and the new amount
         Parameters
@@ -335,6 +328,7 @@ class Water(Cell):
     """
     Subclass of the superclass Cell
     """
+
     def __init__(self) -> None:
         super().__init__()
         self.allowed_move_to = False
