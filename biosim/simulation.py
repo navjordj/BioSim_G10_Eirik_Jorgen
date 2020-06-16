@@ -13,6 +13,9 @@ import numpy as np
 from typing import Dict, Union
 import matplotlib.pyplot as plt
 
+import subprocess
+
+
 
 import pickle
 
@@ -28,6 +31,7 @@ class BioSim:
             cmax_animals=None,
             img_base=None,
             img_fmt="png",
+            movie_format=None,
             save_name = None
     ):
         """
@@ -60,6 +64,10 @@ class BioSim:
             self.island_map = self.load_simlation(save_name)
 
         self.add_population(ini_pop)
+
+        self.img_base = img_base
+        self.img_fmt = img_fmt
+        self.movie_format = movie_format
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -99,7 +107,7 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
-        viz = Viz(self.island_map, num_years)
+        viz = Viz(self.island_map, num_years, img_base=self.img_base)
 
         # TODO fix map.map.map.map
         for year in range(num_years):
@@ -115,7 +123,7 @@ class BioSim:
             self.island_map.year += 1
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
-        viz.save_fig()
+            viz.save_fig()
 
     def add_population(self, population):
         """
@@ -148,6 +156,16 @@ class BioSim:
         with open(filename + '.pkl', 'rb') as file:
             return pickle.load(file)
 
+    def make_movie(self):
+
+        try:
+            cmd = f'ffmpeg -r 20 -i img/{self.img_base}_%05d.{self.img_fmt} -b:v 20M output.mp4'
+            print(cmd)
+            subprocess.check_call(cmd)
+        except subprocess.CalledProcessError as err:
+            raise RuntimeError(f"Error creating movie: {err}")
+
+
     @property
     def year(self):
         """Last year simulated."""
@@ -171,10 +189,3 @@ class BioSim:
                 animal_count["carnivores"] += cell.n_carnivores
 
         return animal_count
-
-    @property
-    def animal_distribution(self):
-        """Pandas DataFrame with animal count per species for each cell on island."""
-
-    def make_movie(self):
-        """Create MPEG4 movie from visualization images saved."""
