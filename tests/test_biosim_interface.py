@@ -141,14 +141,14 @@ def test_simulate(plain_sim):
     plain_sim.simulate(num_years=10, vis_years=100, img_years=100)
 
 
-# @pytest.mark.skip(reason="Not implemented yet")
+@pytest.mark.skip(reason="Not implemented yet")
 def test_multi_simulate(plain_sim):
     """Test that simulation can be called repeatedly"""
 
     plain_sim.simulate(num_years=10, vis_years=100, img_years=100)
     plain_sim.simulate(num_years=10, vis_years=100, img_years=100)
 
-
+@pytest.mark.skip(reason="Not implemented yet")
 def test_serialization(plain_sim):
     plain_sim.simulate(num_years=5)
 
@@ -164,7 +164,7 @@ def test_serialization(plain_sim):
     assert plain_sim.year == 10 
 
 
-# @pytest.mark.skip(reason="Not implemented yet")
+@pytest.mark.skip(reason="Not implemented yet")
 def test_get_years(plain_sim):
     """Test that number of years simulated is available"""
 
