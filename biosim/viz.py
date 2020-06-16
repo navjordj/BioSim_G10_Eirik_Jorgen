@@ -135,7 +135,7 @@ class Viz:
         self.island_map_img_ax = self.island_map_ax.imshow(map_rgb)
 
         self.island_map_ax.set_xticks(range(len(map_rgb[0])))
-        self.island_map_ax.set_yticks(range(len(map_rgb[:][0])))
+        self.island_map_ax.set_yticks(range(island.row_len))
 
     def _draw_animals_over_time(self, island):
 
@@ -279,10 +279,10 @@ class Viz:
                                                ha='center', wrap=True)
 
     def _update_animals_over_time(self, island, num_herb, num_carn):
-        self.herbivores_over_time[island.year - 1] = num_herb
+        self.herbivores_over_time[island.year] = num_herb
         self.line_herbivore.set_ydata(self.herbivores_over_time)
 
-        self.carnivores_over_time[island.year - 1] = num_carn
+        self.carnivores_over_time[island.year] = num_carn
         self.line_carnivore.set_ydata(self.carnivores_over_time)
 
         # y max will always be the point where one of the animals were the largest
@@ -306,9 +306,9 @@ class Viz:
         self.fitness_histogram_img_ax.clear()
         herb, carn = self._get_fitness_animals(island)
         self._draw_fitness_histogram(herb, carn)
-        self.y_lim_hist = max((self.carnivores_over_time[island.year - 1],
+        self.y_lim_hist = max((self.carnivores_over_time[island.year],
                                self.herbivores_over_time[
-                                   island.year - 1])) * 0.5
+                                   island.year])) * 0.5
         self.fitness_histogram_img_ax.set_ylim(self.y_lim_hist * 1.1, 0)
         self.fitness_histogram_img_ax.invert_yaxis()
 
