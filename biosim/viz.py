@@ -278,17 +278,16 @@ class Viz:
                                                          f'Carnivores: {carn}',
                                                ha='center', wrap=True)
 
-    def _update_animals_over_time(self, island):
-        self.herbivores_over_time[island.year-1] = island.num_herbivores_data[-1] # last elm
+    def _update_animals_over_time(self, island, num_herb, num_carn):
+        self.herbivores_over_time[island.year - 1] = num_herb
         self.line_herbivore.set_ydata(self.herbivores_over_time)
 
-        self.carnivores_over_time[island.year-1] = island.num_carnivores_data[-1]
+        self.carnivores_over_time[island.year - 1] = num_carn
         self.line_carnivore.set_ydata(self.carnivores_over_time)
 
         # y max will always be the point where one of the animals were the largest
-        self.animals_y_max = max(self.animals_y_max, max((self.carnivores_over_time[island.year - 1],
-                                               self.herbivores_over_time[island.year - 1])))
-        self.animals_over_time_ax.set_ylim(self.animals_y_max*1.1, 0)
+        self.animals_y_max = max(self.animals_y_max, max(num_herb, num_carn))
+        self.animals_over_time_ax.set_ylim(self.animals_y_max * 1.1, 0)
         self.animals_over_time_ax.invert_yaxis()
 
     def _update_heat_maps(self, island):
@@ -332,8 +331,8 @@ class Viz:
         self.island_map_ax.set_title('Island map')
         self._draw_text(island)
 
-    def update_fig(self, island):
-        self._update_animals_over_time(island)
+    def update_fig(self, island, num_herb, num_carn):
+        self._update_animals_over_time(island, num_herb, num_carn)
         self._update_heat_maps(island)
         self._update_fitness_histogram(island)
         self._update_age_histogram(island)
