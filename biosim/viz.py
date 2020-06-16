@@ -278,11 +278,13 @@ class Viz:
                                                          f'Carnivores: {carn}',
                                                ha='center', wrap=True)
 
-    def _update_animals_over_time(self, island, num_herb, num_carn):
+    def update_data(self, island, num_herb, num_carn):
         self.herbivores_over_time[island.year] = num_herb
+        self.carnivores_over_time[island.year] = num_carn
+
+    def _update_animals_over_time(self, island, num_herb, num_carn):
         self.line_herbivore.set_ydata(self.herbivores_over_time)
 
-        self.carnivores_over_time[island.year] = num_carn
         self.line_carnivore.set_ydata(self.carnivores_over_time)
 
         # y max will always be the point where one of the animals were the largest

@@ -104,11 +104,13 @@ class BioSim:
         # TODO fix map.map.map.map
         for year in range(num_years):
             print(f'Year {year}: ')
+            num_herb = self.num_animals_per_species["herbivores"]
+            num_carn = self.num_animals_per_species["carnivores"]
+            viz.update_data(self.island_map, num_herb, num_carn)
+            
             if year % vis_years == 0:
-                num_herb = self.num_animals_per_species["herbivores"]
-                num_carn = self.num_animals_per_species["carnivores"]
                 viz.update_fig(self.island_map, num_herb, num_carn)
-            # TODO make a proper iterator
+
             self.island_map.new_year()
             self.island_map.year += 1
             print(self.num_animals_per_species)
