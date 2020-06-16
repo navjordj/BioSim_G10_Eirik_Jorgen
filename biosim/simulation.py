@@ -99,21 +99,18 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
-
         viz = Viz(self.island_map, num_years)
 
         # TODO fix map.map.map.map
         for year in range(num_years):
             print(f'Year {year}: ')
-
-            self.island_map.num_herbivores_data.append(self.num_animals_per_species["herbivores"])
-            self.island_map.num_carnivores_data.append(self.num_animals_per_species["carnivores"])
-            if self.island_map.year % vis_years == 0:
-                viz.update_fig(self.island_map)
+            if year % vis_years == 0:
+                num_herb = self.num_animals_per_species["herbivores"]
+                num_carn = self.num_animals_per_species["carnivores"]
+                viz.update_fig(self.island_map, num_herb, num_carn)
             # TODO make a proper iterator
             self.island_map.new_year()
             self.island_map.year += 1
-
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
 
