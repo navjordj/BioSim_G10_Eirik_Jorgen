@@ -4,6 +4,8 @@ from typing import Dict
 
 
 class Viz:
+    cmax_default = {'Herbivore': None,
+                    'Carnivore': None}
 
     def __init__(self, island,
                  num_years,
@@ -12,8 +14,12 @@ class Viz:
                  img_base=None,
                  img_fmt='png'):
 
-        self.y_max_animals = ymax_animals
-        self.cmax_animals = cmax_animals
+        self.ymax_animals = ymax_animals
+        self.highest_num_animal = 0
+        if cmax_animals is None:
+            self.cmax_animals = self.cmax_default
+        else:
+            self.cmax_animals = cmax_animals
 
         # save figure params...
         self.img_base = img_base
@@ -35,7 +41,6 @@ class Viz:
 
         self.animals_over_time_ax = None
 
-        self.animals_y_max = 0
         self.y_lim_hist = 0
 
         self.herbivores_over_time = None
@@ -172,7 +177,9 @@ class Viz:
 
     def _draw_herbivores_heat_map(self, heat_map):
         self.herbivores_heat_map_img_ax.set(title='Heat map - herbivores')
-        self.herbivores_heat_map = self.herbivores_heat_map_img_ax.imshow(heat_map)
+        self.herbivores_heat_map = self.herbivores_heat_map_img_ax.imshow(heat_map,
+                                                                          vmax=self.cmax_animals[
+                                                                              'Herbivore'])
         plt.colorbar(
             self.herbivores_heat_map, cax=self.colorbar_herb
         )
@@ -189,7 +196,9 @@ class Viz:
 
     def _draw_carnivores_heat_map(self, heat_map):
         self.carnivores_heat_map_img_ax.set(title='Heat map - carnivores')
-        self.carnivores_heat_map = self.carnivores_heat_map_img_ax.imshow(heat_map)
+        self.carnivores_heat_map = self.carnivores_heat_map_img_ax.imshow(heat_map,
+                                                                          vmax=self.cmax_animals[
+                                                                              'Carnivore'])
         plt.colorbar(
             self.carnivores_heat_map, self.colorbar_carn
         )
@@ -288,9 +297,13 @@ class Viz:
         self.line_carnivore.set_ydata(self.carnivores_over_time)
 
         # y max will always be the point where one of the animals were the largest
-        self.animals_y_max = max(self.animals_y_max, max(num_herb, num_carn))
-        self.animals_over_time_ax.set_ylim(self.animals_y_max * 1.1, 0)
-        self.animals_over_time_ax.invert_yaxis()
+        if self.ymax_animals is None:
+            self.highest_num_animal = max(self.highest_num_animal, max(num_herb, num_carn))
+            self.animals_over_time_ax.set_ylim(self.highest_num_animal * 1.1, 0)
+            self.animals_over_time_ax.invert_yaxis()
+        else:
+            self.animals_over_time_ax.set_ylim(self.ymax_animals, 0)
+            self.animals_over_time_ax.invert_yaxis()
 
     def _update_heat_maps(self, island):
         self.colorbar_herb.clear()
@@ -308,9 +321,9 @@ class Viz:
         self.fitness_histogram_img_ax.clear()
         herb, carn = self._get_fitness_animals(island)
         self._draw_fitness_histogram(herb, carn)
-        self.y_lim_hist = max((self.carnivores_over_time[island.year],
-                               self.herbivores_over_time[
-                                   island.year])) * 0.5
+        self.y_lim_hist = max(self.y_lim_hist, (max((self.carnivores_over_time[island.year],
+                                                     self.herbivores_over_time[
+                                                         island.year])) * 0.5))
         self.fitness_histogram_img_ax.set_ylim(self.y_lim_hist * 1.1, 0)
         self.fitness_histogram_img_ax.invert_yaxis()
 
