@@ -7,3 +7,5 @@ htmlcov/*
 .noseids
 .coverage
 cls
+
+*.png
