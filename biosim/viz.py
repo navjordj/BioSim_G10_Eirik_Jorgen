@@ -7,15 +7,39 @@ class Viz:
     cmax_default = {'Herbivore': None,
                     'Carnivore': None}
 
+    hist_specs_default = {
+        'fitness': {'max': 1.0, 'delta': 0.05},
+        'age': {'max': 60, 'delta': 2},
+        'weight': {'max': 60, 'delta': 2}
+    }
+
     def __init__(self, island,
                  num_years,
                  ymax_animals=None,
                  cmax_animals=None,
+                 weight_specs=None,
+                 age_specs=None,
+                 fitness_specs=None,
                  img_base=None,
                  img_fmt='png'):
 
         self.ymax_animals = ymax_animals
         self.highest_num_animal = 0
+        if weight_specs is None:
+            self.weight_specs = self.hist_specs_default['weight']
+        else:
+            self.weight_specs = weight_specs
+
+        if age_specs is None:
+            self.age_specs = self.hist_specs_default['age']
+        else:
+            self.age_specs = age_specs
+
+        if fitness_specs is None:
+            self.fitness_specs = self.hist_specs_default['fitness']
+        else:
+            self.fitness_specs = fitness_specs
+
         if cmax_animals is None:
             self.cmax_animals = self.cmax_default
         else:
@@ -85,8 +109,7 @@ class Viz:
         if self.animals_over_time_ax is None:
             self.animals_over_time_ax = self.figure.add_subplot(self.grid[0, 12:])
 
-            self.animals_over_time_ax.set_xlim(self.num_years)
-            self.animals_over_time_ax.invert_xaxis()
+            self.animals_over_time_ax.set_xlim(0, self.num_years)
             self.animals_over_time_ax.grid(axis='y', c='g')
 
         if self.herbivores_heat_map_img_ax is None:
@@ -109,19 +132,19 @@ class Viz:
         if self.fitness_histogram_img_ax is None:
             self.fitness_histogram_img_ax = self.figure.add_subplot(self.grid[2, :7])
             self.fitness_histogram_img_ax.set(title='Fitness')
-            self.fitness_histogram_img_ax.set_ylim(150)
+            self.fitness_histogram_img_ax.set_xlim(0, self.fitness_specs['max'])
             self.fitness_histogram_img_ax.invert_yaxis()
 
         if self.age_histogram_img_ax is None:
             self.age_histogram_img_ax = self.figure.add_subplot(self.grid[2, 8:15])
             self.age_histogram_img_ax.set(title='Age')
-            self.age_histogram_img_ax.set_ylim(150)
+            self.age_histogram_img_ax.set_xlim(0, self.age_specs['max'])
             self.age_histogram_img_ax.invert_yaxis()
 
         if self.weight_histogram_img_ax is None:
             self.weight_histogram_img_ax = self.figure.add_subplot(self.grid[2, 16:23])
             self.weight_histogram_img_ax.set(title='Weight')
-            self.weight_histogram_img_ax.set_ylim(150)
+            self.weight_histogram_img_ax.set_xlim(0, self.weight_specs['max'])
             self.weight_histogram_img_ax.invert_yaxis()
 
     def _draw_map(self, island):
@@ -144,20 +167,21 @@ class Viz:
 
     def _draw_animals_over_time(self, island):
 
-        self.years = [year for year in range(island.year)]
+        self.animals_over_time_ax.clear()
+
+        self.years = [year+1 for year in range(island.year+self.num_years)]
 
         self.herbivores_over_time = island.num_herbivores_data.copy()
         self.carnivores_over_time = island.num_carnivores_data.copy()
-        print(self.herbivores_over_time)
-        for n in range(self.num_years+island.year):
+        for n in range(self.num_years):
             self.herbivores_over_time.append(None)
             self.carnivores_over_time.append(None)
-        for n in range(self.num_years):
-            self.years.append(island.year + n + 1)
-        self.years = np.array(self.years)
 
+        self.years = np.array(self.years)
         self.herbivores_over_time = np.array(self.herbivores_over_time)
         self.carnivores_over_time = np.array(self.carnivores_over_time)
+
+        self.animals_over_time_ax.set_xlim(0, self.num_years+island.year)
 
         self.line_herbivore = self.animals_over_time_ax.plot(
             self.years, self.herbivores_over_time, color='b', label='Herbivore'
@@ -221,11 +245,14 @@ class Viz:
 
     def _draw_fitness_histogram(self, fitness_herb, fitness_carn):
         self.fitness_histogram_img_ax.set(title='Fitness')
+        bins = np.arange(0, self.fitness_specs['max'], self.fitness_specs['delta'])
         self.fitness_histogram_img_ax.invert_yaxis()
         self.hist_line_herb = self.fitness_histogram_img_ax.hist(fitness_herb, color='b',
-                                                                 histtype='step')
+                                                                     histtype='step',
+                                                                     bins=bins)
         self.hist_line_carn = self.fitness_histogram_img_ax.hist(fitness_carn, color='r',
-                                                                 histtype='step')
+                                                                     histtype='step',
+                                                                     bins=bins)
 
     def _get_age_animals(self, island):
         self.age_herb = []
@@ -243,11 +270,14 @@ class Viz:
 
     def _draw_age_histogram(self, age_herb, age_carn):
         self.age_histogram_img_ax.set(title='Age')
+        bins = np.arange(0, self.age_specs['max'], self.age_specs['delta'])
         self.age_histogram_img_ax.invert_yaxis()
         self.hist_line_herb_age = self.age_histogram_img_ax.hist(age_herb, color='b',
-                                                                 histtype='step')
+                                                                     histtype='step',
+                                                                     bins=bins)
         self.hist_line_carn_age = self.age_histogram_img_ax.hist(age_carn, color='r',
-                                                                 histtype='step')
+                                                                     histtype='step',
+                                                                     bins=bins)
 
     def _get_weight_animals(self, island):
         self.weight_herb = []
@@ -265,11 +295,14 @@ class Viz:
 
     def _draw_weight_histogram(self, weight_herb, weight_carn):
         self.weight_histogram_img_ax.set(title='Weight')
+        bins = np.arange(0, self.weight_specs['max'], self.weight_specs['delta'])
         self.weight_histogram_img_ax.invert_yaxis()
         self.hist_line_herb_weight = self.weight_histogram_img_ax.hist(weight_herb, color='b',
-                                                                       histtype='step')
+                                                                           histtype='step',
+                                                                           bins=bins)
         self.hist_line_carn_weight = self.weight_histogram_img_ax.hist(weight_carn, color='r',
-                                                                       histtype='step')
+                                                                           histtype='step',
+                                                                           bins=bins)
 
     def _get_num_animals(self, island):
         self.herbivore_counter = 0
@@ -292,6 +325,8 @@ class Viz:
     def update_data(self, island, num_herb, num_carn):
         self.herbivores_over_time[island.year] = num_herb
         self.carnivores_over_time[island.year] = num_carn
+
+        self._update_animals_over_time(island, num_herb, num_carn)
 
     def _update_animals_over_time(self, island, num_herb, num_carn):
         self.line_herbivore.set_ydata(self.herbivores_over_time)
@@ -324,8 +359,8 @@ class Viz:
         herb, carn = self._get_fitness_animals(island)
         self._draw_fitness_histogram(herb, carn)
         self.y_lim_hist = max(self.y_lim_hist, (max((self.carnivores_over_time[island.year],
-                                                     self.herbivores_over_time[
-                                                         island.year])) * 0.5))
+                                                         self.herbivores_over_time[
+                                                             island.year])) * 0.5))
         self.fitness_histogram_img_ax.set_ylim(self.y_lim_hist * 1.1, 0)
         self.fitness_histogram_img_ax.invert_yaxis()
 
