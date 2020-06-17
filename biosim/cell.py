@@ -5,7 +5,6 @@ from .animals import Carnivore, Herbivore
 from typing import Union, List, Dict
 
 import numpy as np
-import random
 
 np.random.seed(1)
 
@@ -97,7 +96,7 @@ class Cell:
             for herbi in sorted_h:
                 if f_eaten >= appetite:
                     break
-                elif random.random() < carni.p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["DeltaPhiMax"]):
+                elif np.random.random() < carni.p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["DeltaPhiMax"]):
                     f_wanted = appetite - f_eaten
                     if herbi.weight <= f_wanted:
                         f_eaten += herbi.weight

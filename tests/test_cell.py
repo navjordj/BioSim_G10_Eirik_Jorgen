@@ -13,6 +13,8 @@ import random
 
 def test_cell() -> None:
     Cell()
+    i = Cell()
+    print(i)
 
 
 def test_change_params() -> None:
@@ -130,7 +132,8 @@ def test_eat_carnivore(mocker) -> None:
     """
     Sees if 10 carnivores gain any weight after trying to eat 10 herbivores
     """
-    mocker.patch('random.random', return_value=0) # TODO update to numpy
+    np.random.seed(1)
+    mocker.patch('numpy.random.random', return_value=-1)
 
     d = Desert()
     d.add_animal('Carnivore')
