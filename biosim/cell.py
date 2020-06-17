@@ -10,16 +10,6 @@ import random
 np.random.seed(1)
 
 
-# TODO implement test
-# TODO move insie carnivore
-def p_eat(phi_carn: float, phi_herb: float, DeltaPhiMax: Union[int, float]) -> Union[int, float]:
-    if phi_carn <= phi_herb:
-        return 0
-    elif (0 < phi_carn - phi_herb) and (phi_carn - phi_herb < DeltaPhiMax):
-        return (phi_carn - phi_herb) / (DeltaPhiMax)
-    else:
-        return 1
-
 
 class Cell:
     max_fodder: Union[float, int] = 0
@@ -34,17 +24,9 @@ class Cell:
         self.allowed_move_to: bool = True
         self.fodder = self.max_fodder
 
-    def __str__(self):
+    def __repr__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
-    # TODO make it so it's possible to move to then move
-    # TODO evaluate if this function is necessary
-    def migrate(self) -> bool:
-
-        if self.allowed_move_to is False:
-            return False
-        else:
-            return True
 
     def remove_animal(self, animal):  # TODO: add type
         """
@@ -76,6 +58,9 @@ class Cell:
             Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
         np.random.shuffle(shuffled_herbivores)  # TODO refactor code
         # TODO test if fodder newer gets below zero
+        shuffled_herbivores: List[Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
+        np.random.shuffle(shuffled_herbivores) 
+
         for herbi in shuffled_herbivores:
             appetite = herbi.params["F"]
             food_left = self.fodder
@@ -113,7 +98,7 @@ class Cell:
             for herbi in sorted_h:
                 if f_eaten >= appetite:
                     break
-                elif random.random() < p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["DeltaPhiMax"]):
+                elif random.random() < carni.p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["DeltaPhiMax"]):
                     f_wanted = appetite - f_eaten
                     if herbi.weight <= f_wanted:
                         f_eaten += herbi.weight
@@ -150,8 +135,6 @@ class Cell:
         else:
             raise ValueError("species is neither carnivore er herbivore")
 
-    # TODO Add test for removing eaten herbivores
-    # TODO set remove_dead_herbivores and remove_dead_carnivores into one function
     def remove_dead_animals(self) -> None:
         """
         Removes every herbivore that have self.alive = False.
@@ -172,8 +155,6 @@ class Cell:
         self.n_herbivores = len(keep_herbivores)
         self.n_carnivores = len(keep_carnivores)
 
-    # TODO set carnivore_babies and herbivore_babies in same function
-    # TODO: maybe make the new animal using the add_animal function?
     def animal_babies(self) -> None:
         """
         Checks if there are more than one animal in one cell, if so it will go trough all animals
@@ -209,7 +190,7 @@ class Cell:
         self.n_herbivores = self.n_herbivores + len(herbivore_babies)
 
     # TODO: maybe put both the death functions together
-    def prob_death_animals(self) -> None:
+    def death_animals(self) -> None:
         """
         Looks at the probability of each animal to die, if it's likely, the dead animal will
         be removed
@@ -266,7 +247,7 @@ class Highland(Cell):
         return self.fodder
 
     @classmethod
-    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:  # TODO add type
+    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
         """
         Takes in a dict with which parameters you want to change and the new amount
         Parameters
@@ -308,7 +289,7 @@ class Lowland(Cell):
         return self.fodder
 
     @classmethod
-    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:  # TODO add type
+    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
         """
         Takes in a dict with which parameters you want to change and the new amount
         Parameters

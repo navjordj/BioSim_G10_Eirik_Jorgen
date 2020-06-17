@@ -59,20 +59,6 @@ def test_allowed_to_move_to() -> None:
     assert d.allowed_move_to is True
 
 
-#  is this function necessary ?
-def test_migration() -> None:
-    """
-    Does the same as in last test, but now it uses the function instead of
-    """
-    w = Water()
-    l = Lowland()
-    h = Highland()
-    d = Desert()
-    assert w.migrate() is False
-    assert l.migrate() is True
-    assert h.migrate() is True
-    assert d.migrate() is True
-
 
 def test_remove_animal() -> None:
     h = Highland()
@@ -196,7 +182,7 @@ def test_animal_babies() -> None:
     assert num_herb_pre_procreation < l.n_herbivores and num_carni_pre_procreation < l.n_carnivores
 
 
-def test_prob_death_animal() -> None:
+def test_death_animal() -> None:
     d = Desert()
     n = 100
     for _ in range(n):
@@ -204,7 +190,7 @@ def test_prob_death_animal() -> None:
         d.add_animal('Herbivore')
     num_carni_pre_prob = d.n_carnivores
     num_herb_pre_prob = d.n_herbivores
-    d.prob_death_animals()
+    d.death_animals()
     assert num_carni_pre_prob > d.n_carnivores and num_herb_pre_prob > d.n_herbivores
 
 
