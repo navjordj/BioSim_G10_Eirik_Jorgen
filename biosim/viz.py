@@ -399,7 +399,7 @@ class Viz:
         self.island_map_ax.set_title('Island map')
         self._draw_text(island)
 
-    def update_fig(self, island, num_herb, num_carn):
+    def update_fig(self, island, num_herb, num_carn, plt_speed):
         """Method for updating the figure and displaying the latest plot
 
         Parameters
@@ -417,7 +417,10 @@ class Viz:
         self._update_age_histogram(island)
         self._update_weight_histogram(island)
         self._update_text(island)
-        plt.pause(1e-2)
+        if plt_speed == None:
+            plt.pause(1e-2)
+        else:
+            plt.pause(plt_speed)
 
     def save_fig(self):
         """Method for saving the current figure to a file
