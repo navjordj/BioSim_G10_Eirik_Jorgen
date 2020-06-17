@@ -127,27 +127,22 @@ class Island:
             if herbi.will_migrate():
 
                 cell_destination = random.choice(adj_cells)
-                if cell_destination.allowed_move_to is True:
+                if cell_destination.allowed_move_to:
                     migrated += 1
                     cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)  #TODO: try to put the same animal in, not create new one
                     cell_destination.herbivores[-1].has_migrated = True
                     cell.herbivores[i].alive = False
-                else:
-                    continue
             else:
                 not_migrated += 1
-
 
         for i, carni in enumerate(cell.carnivores):
             if carni.will_migrate():
 
                 cell_destination = random.choice(adj_cells)
-                if cell_destination.allowed_move_to is True:
+                if cell_destination.allowed_move_to:
                     cell_destination.add_animal("Carnivore", carni.age, carni.weight)
                     cell_destination.carnivores[-1].has_migrated = True
                     cell.carnivores[i].alive = False
-                else:
-                    continue
 
     def new_year(self) -> None:
         for i, row in enumerate(self.map):

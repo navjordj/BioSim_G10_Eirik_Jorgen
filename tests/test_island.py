@@ -13,18 +13,8 @@ class Test_island:
         Checks if the island can take in "Water" and can put them in a
         """
         Island('WW\nWW')
-        Island('WWWW\nWHLW\nWWLW\nWWWW')
-# TODO find out where to test that it start with 1 1
-    @pytest.mark.skip(reason='Not implemented yet')
-    def test_if_start_with_1_1(self) -> None:
-        """
-        Tests that the first coordinate of the map is (1, 1)
-        """
-        testing = Island('WW\nWW')
-        if list(testing.map.keys())[0] == (1, 1): # type: ignore
-            assert True
-        else:
-            assert False
+        i = Island('WWWW\nWHLW\nWDLW\nWWWW')
+        print(i)
 
     def test_same_len(self) -> None:
         """
@@ -75,6 +65,7 @@ class Test_island:
         for _ in range(1000):
             k = Island('WWWW\nWLLW\nWLLW\nWWWW')
             k.map[1][1].add_animal("Herbivore", age=1, weight=1000)
+            k.map[1][1].add_animal("Carnivore", age=1, weight=1000)
             # Probability should be 1/8 to move (0.25*1)/2 (Only two squares possible to move to)
             k.new_year()
             if k.map[1][1].n_herbivores != 1:
