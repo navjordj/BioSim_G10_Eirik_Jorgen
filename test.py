@@ -43,7 +43,7 @@ b = BioSim(seed=123,
            img_base="img",
            movie_format="mp4")
 b.add_population(ini_carn)
-b.simulate(num_years=5)
+b.simulate(num_years=50)
 
 
 b.simulate(10)
