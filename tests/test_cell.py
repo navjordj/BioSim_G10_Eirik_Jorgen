@@ -13,6 +13,8 @@ import random
 
 def test_cell() -> None:
     Cell()
+    i = Cell()
+    print(i)
 
 
 def test_change_params() -> None:
