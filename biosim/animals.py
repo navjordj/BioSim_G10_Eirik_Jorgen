@@ -8,34 +8,6 @@ import numpy as np
 np.random.seed(1)
 
 
-def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
-    """Helper function for calculating the current fitness of animal
-
-    Parameters
-    ----------
-    a : float
-        [description]
-    a_half : float
-        [description]
-    phi_age : float
-        [description]
-    w : float
-        [description]
-    w_half : float
-        [description]
-    phi_weight : float
-        [description]
-
-    Returns
-    -------
-    float
-        The current fitness of a animal
-    """
-
-    def _q(x: float, x_half: float, phi: float, sign: int) -> float:
-        return 1 / (1 + exp(sign * phi*(x - x_half)))
-
-    return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
 
 
 class Animal:
@@ -217,7 +189,7 @@ class Animal:
         if self._weight < 0:
             return 0
         else:
-            new_fitness = fitness_calc(self._age, self.params["a_half"], self.params["phi_age"], 
+            new_fitness = self._fitness_calc(self._age, self.params["a_half"], self.params["phi_age"], 
                                          self._weight, self.params["weight_half"], self.params["phi_weight"] )
 
         return new_fitness
@@ -254,6 +226,37 @@ class Animal:
                 return False
         else:
             return False
+
+    @staticmethod
+    def _fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
+        """Helper function for calculating the current fitness of animal
+
+        Parameters
+        ----------
+        a : float
+            [description]
+        a_half : float
+            [description]
+        phi_age : float
+            [description]
+        w : float
+            [description]
+        w_half : float
+            [description]
+        phi_weight : float
+            [description]
+
+        Returns
+        -------
+        float
+            The current fitness of a animal
+        """
+
+        def _q(x: float, x_half: float, phi: float, sign: int) -> float:
+            return 1 / (1 + exp(sign * phi*(x - x_half)))
+
+        return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
+
 
 
     @property
