@@ -187,7 +187,7 @@ class Animal:
             return 0
         else:
             new_fitness = self._fitness_calc(self._age, self.params["a_half"], self.params["phi_age"], 
-                                         self._weight, self.params["weight_half"], self.params["phi_weight"] )
+                                         self._weight, self.params["w_half"], self.params["phi_weight"] )
 
         return new_fitness
 
