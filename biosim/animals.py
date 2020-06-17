@@ -11,7 +11,6 @@ np.random.seed(1)
 
 
 class Animal:
-    # TODO Possible rewrite to normal attributes (no dict)
 
     """Animal superclass implemented using the specifications in https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
 
@@ -34,7 +33,7 @@ class Animal:
             "DeltaPhiMax": None
         }
     
-    def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
+    def __init__(self, age=None, weight=None):
         """Constructor for animal superclass. Herbivore and Carnivore inherits from this class
 
         Parameters
@@ -50,7 +49,7 @@ class Animal:
         else:
             self._age: int = age
         if weight == None:
-            self._weight: float = self.initialize_weight()
+            self._weight: float = self._initialize_weight()
         else:
             self._weight: float = weight
 
@@ -90,10 +89,11 @@ class Animal:
                     raise ValueError(f'Key {key} is not a key in class parameters')
             else:
                 raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
-    # TODO: Return value? Bool to confirm success?
-    def increase_age(self) -> None:
 
+
+    def increase_age(self) -> None:
         self._age += 1
+
 
     def should_die(self) -> bool:
         """Returns a boolean saying if the animal should die or not
@@ -110,7 +110,6 @@ class Animal:
             p: float = self.params["omega"] * (1 - self.fitness)
             return np.random.random() < p
 
-    # TODO update correct type
     def give_birth(self, N: int) -> bool:
         """Returns a boolean saying if the animal should give birth or not
 
@@ -154,7 +153,6 @@ class Animal:
             weight_change: float = self.params["beta"] * intake
             self.update_weight(weight_change)
 
-    # TODO: Return value? Bool to confirm success?
 
     def update_weight(self, change: float) -> None:
         """Updates the weight of the animal and recalculates fitness
@@ -167,7 +165,6 @@ class Animal:
         self._weight += change
         self.fitness = self.get_fitness()
 
-    # TODO: Return value? Bool to confirm success?
 
     def new_year(self) -> None:
         """Increase age by one year and decrease weight by eta * weight
@@ -194,8 +191,7 @@ class Animal:
 
         return new_fitness
 
-    # TODO Make private
-    def initialize_weight(self) -> float:
+    def _initialize_weight(self) -> float:
         """Initializes the weight using a normal distribution
 
         Returns
