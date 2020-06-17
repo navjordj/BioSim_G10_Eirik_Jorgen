@@ -15,8 +15,6 @@ import matplotlib.pyplot as plt
 
 import subprocess
 
-
-
 import pickle
 
 
@@ -29,10 +27,11 @@ class BioSim:
             island_map=None,
             ymax_animals=None,
             cmax_animals=None,
+            hist_specs=None,
             img_base=None,
             img_fmt="png",
             movie_format=None,
-            save_name = None
+            save_name=None
     ):
         """
         :param island_map: Multi-line string specifying island geography
@@ -57,6 +56,17 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
+        if hist_specs is None:
+            self.hist_specs = {'weight': None,
+                              'age': None,
+                              'fitness': None}
+        else:
+            self.hist_specs = {'weight': None,
+                              'age': None,
+                              'fitness': None}
+            for key in hist_specs:
+                self.hist_specs[key] = hist_specs[key]
+
         np.random.seed(seed)
         if save_name is None:
             self.island_map = Island(map_str=island_map)
@@ -118,6 +128,9 @@ class BioSim:
                   num_years=num_years,
                   ymax_animals=self.ymax_animals,
                   cmax_animals=self.cmax_animals,
+                  weight_specs=self.hist_specs['weight'],
+                  age_specs=self.hist_specs['age'],
+                  fitness_specs=self.hist_specs['fitness'],
                   img_base=self.img_base,
                   img_fmt=self.img_fmt)
 
@@ -133,7 +146,7 @@ class BioSim:
 
 
             viz.update_data(self.island_map, num_herb, num_carn)
-            
+
             if year % vis_years == 0:
                 viz.update_fig(self.island_map, num_herb, num_carn)
 
@@ -183,7 +196,6 @@ class BioSim:
             subprocess.check_call(cmd)
         except subprocess.CalledProcessError as err:
             raise RuntimeError(f"Error creating movie: {err}")
-
 
     @property
     def year(self):
