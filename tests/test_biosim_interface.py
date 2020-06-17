@@ -63,7 +63,6 @@ def test_inconsistent_length():
         BioSim(island_map="WWW\nWLLW\nWWW", ini_pop=[], seed=1)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 @pytest.mark.parametrize('species, extra',
                          [('Herbivore', {}),
                           ('Carnivore', {'DeltaPhiMax': 0.5})])
