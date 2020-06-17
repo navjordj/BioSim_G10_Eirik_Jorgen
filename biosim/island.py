@@ -34,15 +34,20 @@ class Island:
         for i in range(self.row_len):
             for j in range(self.column_len):
 
-                # TODO Refactor to use map_params
                 if type(self.map[i][j]) == Water:
                     map_str += 'W'
+
+                elif type(self.map[i][j]) == Lowland:
+                    map_str += 'L'
+
+                elif type(self.map[i][j]) == Highland:
+                    map_str += 'H'
+
                 else:
-                    map_str += "L"
+                    map_str += 'D'
             map_str += "\n"
         return map_str
 
-    # TODO fix type error
     @staticmethod
     def make_map_ready(map_string: str) -> List[List[str]]:
         """Prepares the input map to be formatted to the proper format
