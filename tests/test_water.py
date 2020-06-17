@@ -4,7 +4,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 
-from biosim.cell import Water
+from biosim.cells import Water
 
 
 def test_water() -> None:

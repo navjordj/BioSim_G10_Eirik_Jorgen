@@ -4,7 +4,7 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 import pytest
 
-from biosim.cell import Lowland
+from biosim.cells import Lowland
 
 
 def test_lowland() -> None:
