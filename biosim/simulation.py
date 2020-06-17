@@ -126,7 +126,6 @@ class BioSim:
             print(f'Year {year}: ')
             num_herb = self.num_animals_per_species["herbivores"]
             num_carn = self.num_animals_per_species["carnivores"]
-            print("num herb:", num_herb)
             self.island_map.num_herbivores_data.append(num_herb)
             self.island_map.num_carnivores_data.append(num_carn)
 
