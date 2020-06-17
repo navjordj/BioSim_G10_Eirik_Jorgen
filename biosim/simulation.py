@@ -147,11 +147,14 @@ class BioSim:
             if year % vis_years == 0:
                 viz.update_fig(self.island_map, num_herb, num_carn)
 
+            if  img_years is not None and year % img_years == 0:
+                viz.save_fig()
+
             self.island_map.new_year()
             self.island_map.year += 1
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
-            viz.save_fig()
+            
 
         plt.close()
 

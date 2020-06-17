@@ -4,6 +4,10 @@ from typing import Dict
 
 
 class Viz:
+    """
+    Visualisation class for plotting, saving and generating movies from simulations in BioSim
+    """
+
     cmax_default = {'Herbivore': None,
                     'Carnivore': None}
 
@@ -323,10 +327,22 @@ class Viz:
                                                ha='center', wrap=True)
 
     def update_data(self, island, num_herb, num_carn):
+        """Method for updating the data used for plotting
+
+        Parameters
+        ----------
+        island : Island
+            Island which is to ble plotted and getting data from
+        num_herb : int
+            Number of herbivores in the simulation at the moment
+        num_carn : int
+            Number of carnivores in the simulation at the moment
+        """
         self.herbivores_over_time[island.year] = num_herb
         self.carnivores_over_time[island.year] = num_carn
 
         self._update_animals_over_time(island, num_herb, num_carn)
+        self._update_text(island)
 
     def _update_animals_over_time(self, island, num_herb, num_carn):
         self.line_herbivore.set_ydata(self.herbivores_over_time)
@@ -384,6 +400,17 @@ class Viz:
         self._draw_text(island)
 
     def update_fig(self, island, num_herb, num_carn):
+        """Method for updating the figure and displaying the latest plot
+
+        Parameters
+        ----------
+        island : Island
+            Island to get data from
+        num_herb : int
+            Number of herbivores on the island at any given time
+        num_carn : int
+            Number of carnivores on the island at any given time
+        """
         self._update_animals_over_time(island, num_herb, num_carn)
         self._update_heat_maps(island)
         self._update_fitness_histogram(island)
@@ -393,7 +420,9 @@ class Viz:
         plt.pause(1e-2)
 
     def save_fig(self):
+        """Method for saving the current figure to a file
+        """
         self.figure.savefig(
-            f'img/{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
+            f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
         )
         self.img_num += 1
