@@ -221,6 +221,17 @@ class BioSim:
             raise RuntimeError(f"Error creating movie: {err}")
 
     def save_status(self, year: int, num_herb: int, num_carn: int):
+        """Method for saving the status of the simulation
+
+        Parameters
+        ----------
+        year : int
+            Current year
+        num_herb : int
+            Number of herbivores in the simulation
+        num_carn : int
+            Number of carnivores in the simulation
+        """
         self.filewriter.writerow([year, num_herb, num_carn])
 
 
