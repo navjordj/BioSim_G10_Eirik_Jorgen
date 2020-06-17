@@ -4,28 +4,11 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 import pytest
 from pytest_mock import mocker
 
-from biosim.cell import Cell, Water, Lowland, Highland, Desert, p_eat
+from biosim.cell import Cell, Water, Lowland, Highland, Desert
 from biosim.animals import Animal, Herbivore, Carnivore
 
 import numpy as np
 import random
-
-
-def test_p_eat() -> None:
-    c = Cell()
-    c.add_animal('Carnivore')
-    c.carnivores[0].weight = 0
-    c.add_animal('Herbivore')
-    fitness_carn = c.carnivores[0].get_fitness()
-    fitness_herb = c.herbivores[0].get_fitness()
-    DeltaPhiMax = c.carnivores[0].params["DeltaPhiMax"]
-    carn_not_eat_herb = p_eat(fitness_carn, fitness_herb, DeltaPhiMax)
-    assert carn_not_eat_herb == 0
-
-    c.carnivores[0].fitness = 11
-    fitness_carn = c.carnivores[0].fitness
-    carn_can_eat_herb = p_eat(fitness_carn, fitness_herb, DeltaPhiMax)
-    assert carn_can_eat_herb == 1
 
 
 def test_cell() -> None:
