@@ -21,8 +21,7 @@ class Island:
         self.num_herbivores_data: List[int] = []
         self.num_carnivores_data: List[int] = []
 
-    # TODO: MIght be better to use __repr__
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         """toString to format how a island should be printed to the console.
         Used for debugging puroposes  
 
@@ -35,17 +34,22 @@ class Island:
         for i in range(self.row_len):
             for j in range(self.column_len):
 
-                # TODO Refactor to use map_params
                 if type(self.map[i][j]) == Water:
                     map_str += 'W'
+
+                elif type(self.map[i][j]) == Lowland:
+                    map_str += 'L'
+
+                elif type(self.map[i][j]) == Highland:
+                    map_str += 'H'
+
                 else:
-                    map_str += "L"
+                    map_str += 'D'
             map_str += "\n"
         return map_str
 
-    # TODO fix type error
     @staticmethod
-    def make_map_ready(map_string: str) -> List[List[str]]:
+    def _prepare_map(map_string: str) -> List[List[str]]:
         """Prepares the input map to be formatted to the proper format
 
         Parameters
@@ -81,7 +85,7 @@ class Island:
         return geo
 
     def make_a_map(self, string_map: str) -> List[List[Union[Highland, Water, Lowland, Desert]]]:
-        """Uses prepared map of strings from make_map_ready to create the final map.
+        """Uses prepared map of strings from prepare_map to create the final map.
         The final map is a list of list of cell objects.
 
         It created the final map in place and only replaces object in the list of lists 
@@ -101,11 +105,11 @@ class Island:
         ValueError
             [description]
         """
-        geo = self.make_map_ready(string_map)
+        geo = self._prepare_map(string_map)
 
         self.row_len = len(geo)
         self.column_len = len(geo[0])
-        # TODO make a list comp with None instead of using geo
+
         for i, row in enumerate(geo):
             for j, cell in enumerate(row):
                 if cell not in self.map_params.keys():
@@ -114,10 +118,8 @@ class Island:
 
         return geo  # type: ignore
 
-    # TODO: tried to make sure that you only migrate once pr year, not sure if necessary
-    # TODO: Find a way so it will not migrate more than once pr year.
-    #@staticmethod
-    def migration(self, cell, adj_cells):
+    @staticmethod
+    def migration(cell, adj_cells):
 
         migrated = 0
         not_migrated = 0
@@ -138,19 +140,16 @@ class Island:
 
         for i, carni in enumerate(cell.carnivores):
             if carni.will_migrate():
-                self.n_migrated += 1
 
                 cell_destination = random.choice(adj_cells)
                 if cell_destination.allowed_move_to is True:
                     cell_destination.add_animal("Carnivore", carni.age, carni.weight)
                     cell_destination.carnivores[-1].has_migrated = True
                     cell.carnivores[i].alive = False
-                    # print(f'Migrated from {(i, j)} to {cell_destination}')
                 else:
                     continue
 
     def new_year(self) -> None:
-        self.n_migrated = 0
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
 
@@ -175,4 +174,4 @@ class Island:
                 # Age animals one year:
                 cell.new_year()
                 # DEATH
-                cell.prob_death_animals()
+                cell.death_animals()

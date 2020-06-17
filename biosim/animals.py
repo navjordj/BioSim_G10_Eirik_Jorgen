@@ -8,38 +8,9 @@ import numpy as np
 np.random.seed(1)
 
 
-def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
-    """Helper function for calculating the current fitness of animal
-
-    Parameters
-    ----------
-    a : float
-        [description]
-    a_half : float
-        [description]
-    phi_age : float
-        [description]
-    w : float
-        [description]
-    w_half : float
-        [description]
-    phi_weight : float
-        [description]
-
-    Returns
-    -------
-    float
-        The current fitness of a animal
-    """
-
-    def _q(x: float, x_half: float, phi: float, sign: int) -> float:
-        return 1 / (1 + exp(sign * phi*(x - x_half)))
-
-    return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
 
 
 class Animal:
-    # TODO Possible rewrite to normal attributes (no dict)
 
     """Animal superclass implemented using the specifications in https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
 
@@ -62,7 +33,7 @@ class Animal:
             "DeltaPhiMax": None
         }
     
-    def __init__(self, age=None, weight=None):  # TODO Fix standard weight value
+    def __init__(self, age=None, weight=None):
         """Constructor for animal superclass. Herbivore and Carnivore inherits from this class
 
         Parameters
@@ -78,7 +49,7 @@ class Animal:
         else:
             self._age: int = age
         if weight == None:
-            self._weight: float = self.initialize_weight()
+            self._weight: float = self._initialize_weight()
         else:
             self._weight: float = weight
 
@@ -86,7 +57,7 @@ class Animal:
         self.alive = True  # Might not be necessary
         self.has_migrated = False
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         """method for how a animal should be represented when printed to the console
 
         Returns
@@ -118,10 +89,11 @@ class Animal:
                     raise ValueError(f'Key {key} is not a key in class parameters')
             else:
                 raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
-    # TODO: Return value? Bool to confirm success?
-    def increase_age(self) -> None:
 
+
+    def increase_age(self) -> None:
         self._age += 1
+
 
     def should_die(self) -> bool:
         """Returns a boolean saying if the animal should die or not
@@ -138,7 +110,6 @@ class Animal:
             p: float = self.params["omega"] * (1 - self.fitness)
             return np.random.random() < p
 
-    # TODO update correct type
     def give_birth(self, N: int) -> bool:
         """Returns a boolean saying if the animal should give birth or not
 
@@ -182,7 +153,6 @@ class Animal:
             weight_change: float = self.params["beta"] * intake
             self.update_weight(weight_change)
 
-    # TODO: Return value? Bool to confirm success?
 
     def update_weight(self, change: float) -> None:
         """Updates the weight of the animal and recalculates fitness
@@ -195,7 +165,6 @@ class Animal:
         self._weight += change
         self.fitness = self.get_fitness()
 
-    # TODO: Return value? Bool to confirm success?
 
     def new_year(self) -> None:
         """Increase age by one year and decrease weight by eta * weight
@@ -217,13 +186,12 @@ class Animal:
         if self._weight < 0:
             return 0
         else:
-            new_fitness = fitness_calc(self._age, self.params["a_half"], self.params["phi_age"], 
+            new_fitness = self._fitness_calc(self._age, self.params["a_half"], self.params["phi_age"], 
                                          self._weight, self.params["weight_half"], self.params["phi_weight"] )
 
         return new_fitness
 
-    # TODO Make private
-    def initialize_weight(self) -> float:
+    def _initialize_weight(self) -> float:
         """Initializes the weight using a normal distribution
 
         Returns
@@ -254,6 +222,37 @@ class Animal:
                 return False
         else:
             return False
+
+    @staticmethod
+    def _fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
+        """Helper function for calculating the current fitness of animal
+
+        Parameters
+        ----------
+        a : float
+            [description]
+        a_half : float
+            [description]
+        phi_age : float
+            [description]
+        w : float
+            [description]
+        w_half : float
+            [description]
+        phi_weight : float
+            [description]
+
+        Returns
+        -------
+        float
+            The current fitness of a animal
+        """
+
+        def _q(x: float, x_half: float, phi: float, sign: int) -> float:
+            return 1 / (1 + exp(sign * phi*(x - x_half)))
+
+        return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
+
 
 
     @property
@@ -346,3 +345,11 @@ class Carnivore(Animal):
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
 
+    @staticmethod
+    def p_eat(phi_carn: float, phi_herb: float, DeltaPhiMax: Union[int, float]) -> Union[int, float]:
+        if phi_carn <= phi_herb:
+            return 0
+        elif (0 < phi_carn - phi_herb) and (phi_carn - phi_herb < DeltaPhiMax):
+            return (phi_carn - phi_herb) / (DeltaPhiMax)
+        else:
+            return 1
