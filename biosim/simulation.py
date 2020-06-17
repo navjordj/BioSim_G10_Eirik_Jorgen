@@ -126,6 +126,10 @@ class BioSim:
             print(f'Year {year}: ')
             num_herb = self.num_animals_per_species["herbivores"]
             num_carn = self.num_animals_per_species["carnivores"]
+            self.island_map.num_herbivores_data.append(num_herb)
+            self.island_map.num_carnivores_data.append(num_carn)
+
+
             viz.update_data(self.island_map, num_herb, num_carn)
             
             if year % vis_years == 0:
@@ -136,6 +140,8 @@ class BioSim:
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
             viz.save_fig()
+
+        plt.close()
 
     def add_population(self, population):
         """
