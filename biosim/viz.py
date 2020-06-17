@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 from typing import Dict
 
 
@@ -425,7 +426,34 @@ class Viz:
     def save_fig(self):
         """Method for saving the current figure to a file
         """
-        self.figure.savefig(
-            f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
-        )
+
+        # From: https://stackoverflow.com/questions/11373610/save-matplotlib-file-to-a-directory
+        def _mkdir_p(mypath):
+            '''Creates a directory. equivalent to using mkdir -p on the command line'''
+
+            from errno import EEXIST
+            from os import makedirs, path
+
+            try:
+                makedirs(mypath)
+            except OSError as exc: # Python >2.5
+                if exc.errno == EEXIST and path.isdir(mypath):
+                    pass
+                else: raise
+
+        # Was not able to save figs to a unmade directory
+        # Uses the path from img_base to create a new folder with this name
+        last_slash = self.img_base.rfind('/') # Last occurcence of / (getting the output folder)
+        path = self.img_base[:last_slash]
+        print(path)
+        if os.path.isdir(path):
+
+            self.figure.savefig(
+                f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
+            )
+        else:
+            _mkdir_p(path)
+            self.figure.savefig(
+                f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
+            )
         self.img_num += 1
