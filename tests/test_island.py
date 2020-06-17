@@ -51,14 +51,11 @@ class Test_island:
         """
         np.random.seed(1)
         # Should never migrate to a water cell
-        n_migrated = 0
         for _ in range(1000):
             k = Island('WWW\nWLW\nWWW')
             k.map[1][1].add_animal("Herbivore", 10, 100)
             k.new_year()
-            if k.map[1][1].n_herbivores != 1:
-                n_migrated += 1
-        assert n_migrated == 0
+            assert k.map[1][1].n_herbivores == 1
 
         np.random.seed(1)
         n_migrated = 1
