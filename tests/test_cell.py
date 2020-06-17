@@ -132,7 +132,7 @@ def test_eat_carnivore(mocker) -> None:
     """
     Sees if 10 carnivores gain any weight after trying to eat 10 herbivores
     """
-    mocker.patch('random.random', return_value=0) # TODO update to numpy
+    mocker.patch('numpy.random.random', return_value=0)
 
     d = Desert()
     d.add_animal('Carnivore')
