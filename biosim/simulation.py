@@ -170,7 +170,7 @@ class BioSim:
                     viz.save_fig()
 
             if self.data_name is not None:
-                self.save_status(year, num_herb, num_carn)
+                self._save_status(year, num_herb, num_carn)
 
             self.island_map.new_year()
             self.island_map.year += 1
@@ -220,7 +220,7 @@ class BioSim:
         except subprocess.CalledProcessError as err:
             raise RuntimeError(f"Error creating movie: {err}")
 
-    def save_status(self, year: int, num_herb: int, num_carn: int):
+    def _save_status(self, year: int, num_herb: int, num_carn: int):
         """Method for saving the status of the simulation
 
         Parameters
