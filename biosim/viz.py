@@ -443,17 +443,22 @@ class Viz:
 
         # Was not able to save figs to a unmade directory
         # Uses the path from img_base to create a new folder with this name
-        last_slash = self.img_base.rfind('/') # Last occurcence of / (getting the output folder)
-        path = self.img_base[:last_slash]
-        print(path)
-        if os.path.isdir(path):
+        if self.img_base is not None:
+            last_slash = self.img_base.rfind('/') # Last occurcence of / (getting the output folder)
+            path = self.img_base[:last_slash]
+            print(path)
+            if os.path.isdir(path):
 
-            self.figure.savefig(
-                f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
-            )
+                self.figure.savefig(
+                    f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
+                )
+            else:
+                _mkdir_p(path)
+                self.figure.savefig(
+                    f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
+                )
         else:
-            _mkdir_p(path)
             self.figure.savefig(
-                f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
-            )
+                    f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
+                )
         self.img_num += 1
