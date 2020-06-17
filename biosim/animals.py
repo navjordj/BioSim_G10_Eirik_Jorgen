@@ -9,11 +9,33 @@ np.random.seed(1)
 
 
 def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
+    """Helper function for calculating the current fitness of animal
 
-    def q(x: float, x_half: float, phi: float, sign: int) -> float:
+    Parameters
+    ----------
+    a : float
+        [description]
+    a_half : float
+        [description]
+    phi_age : float
+        [description]
+    w : float
+        [description]
+    w_half : float
+        [description]
+    phi_weight : float
+        [description]
+
+    Returns
+    -------
+    float
+        The current fitness of a animal
+    """
+
+    def _q(x: float, x_half: float, phi: float, sign: int) -> float:
         return 1 / (1 + exp(sign * phi*(x - x_half)))
 
-    return q(a, a_half, phi_age, 1) * q(w, w_half, phi_weight, -1)
+    return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
 
 
 class Animal:
@@ -52,13 +74,13 @@ class Animal:
         """
 
         if age == None:
-            self.age: int = 0
+            self._age: int = 0
         else:
-            self.age: int = age
+            self._age: int = age
         if weight == None:
-            self.weight: float = self.initialize_weight()
+            self._weight: float = self.initialize_weight()
         else:
-            self.weight: float = weight
+            self._weight: float = weight
 
         self.fitness = self.get_fitness()
         self.alive = True  # Might not be necessary
@@ -72,7 +94,7 @@ class Animal:
         str
             String to be printed out
         """
-        return f'Type: {type(self)} \n Age: {self.age} \n Fitness: {self.get_fitness()}' # pragma: no cover
+        return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}' # pragma: no cover
 
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
@@ -99,7 +121,7 @@ class Animal:
     # TODO: Return value? Bool to confirm success?
     def increase_age(self) -> None:
 
-        self.age += 1
+        self._age += 1
 
     def should_die(self) -> bool:
         """Returns a boolean saying if the animal should die or not
@@ -110,7 +132,7 @@ class Animal:
         bool
             Boolean representing if the animal should die or not
         """
-        if self.weight <= 0:
+        if self._weight <= 0:
             return True
         else:
             p: float = self.params["omega"] * (1 - self.fitness)
@@ -131,7 +153,7 @@ class Animal:
             Boolean representing of the animal should give birth or not
         """
 
-        if self.weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
+        if self._weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
             return False
 
         p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
@@ -170,7 +192,7 @@ class Animal:
         change : float
             The weight change of the animal
         """
-        self.weight += change
+        self._weight += change
         self.fitness = self.get_fitness()
 
     # TODO: Return value? Bool to confirm success?
@@ -179,8 +201,8 @@ class Animal:
         """Increase age by one year and decrease weight by eta * weight
         """
         self.has_migrated = False
-        self.age += 1
-        weight_change: float = -self.params["eta"] * self.weight
+        self._age += 1
+        weight_change: float = -self.params["eta"] * self._weight
         self.update_weight(weight_change)
         self.fitness = self.get_fitness()
 
@@ -192,13 +214,13 @@ class Animal:
         float
             Fitness of a animal
         """
-        if self.weight < 0:
+        if self._weight < 0:
             return 0
         else:
-            self.fitness = fitness_calc(self.age, self.params["a_half"], self.params["phi_age"], 
-                                         self.weight, self.params["weight_half"], self.params["phi_weight"] )
+            new_fitness = fitness_calc(self._age, self.params["a_half"], self.params["phi_age"], 
+                                         self._weight, self.params["weight_half"], self.params["phi_weight"] )
 
-        return self.fitness
+        return new_fitness
 
     # TODO Make private
     def initialize_weight(self) -> float:
@@ -224,7 +246,7 @@ class Animal:
             Boolean representing of the animal should migrate or not
         """
         if self.has_migrated is False:
-            prob = self.params["mu"] * self.get_fitness()
+            prob = self.params["mu"] * self.fitness
             if np.random.rand() < prob:
                 self.has_migrated = True
                 return True
@@ -232,6 +254,52 @@ class Animal:
                 return False
         else:
             return False
+
+
+    @property
+    def age(self) -> int:
+        """Getter for age of a animal
+
+        Returns
+        -------
+        int
+            The age of the animal
+        """
+        return self._age
+
+    @age.setter
+    def age(self, new_age: int) -> None:
+        """Setter for the age of a animal
+
+        Parameters
+        ----------
+        new_age : int
+            The new age of the animal
+        """
+        self._age = new_age
+
+    @property 
+    def weight(self) -> float:
+        """Getter for the weight of a animal
+
+        Returns
+        -------
+        float
+            The weight of a animal
+        """
+        return self._weight
+
+    @weight.setter 
+    def weight(self, new_weight: float) -> None:
+        """Setter for the weight of a animal
+
+        Parameters
+        ----------
+        new_weight : float
+            The new weight of the animal
+        """
+        self._weight = new_weight
+        
 
 
 class Herbivore(Animal):
@@ -277,3 +345,4 @@ class Carnivore(Animal):
 
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
+
