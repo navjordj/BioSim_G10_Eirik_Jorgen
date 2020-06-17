@@ -21,6 +21,11 @@ class Island:
         self.num_herbivores_data: List[int] = []
         self.num_carnivores_data: List[int] = []
 
+        self.tot_infected_herbs: int = 0
+        self.tot_infected_carns: int = 0
+
+        self.tot_infect_related_death: int = 0
+
     def __repr__(self) -> str:
         """toString to format how a island should be printed to the console.
         Used for debugging purpose
@@ -180,7 +185,12 @@ class Island:
 
         for row in self.map:
             for cell in row:
+                # infected animals
+                if cell.infected_animals() is True:
+                    self.tot_infected_carns = cell.n_carnivores
+                    self.tot_infected_herbs = cell.n_herbivores
                 # Age animals one year:
                 cell.new_year()
                 # DEATH
                 cell.death_animals()
+                self.tot_infect_related_death += cell.infect_related_death
