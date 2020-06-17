@@ -42,6 +42,9 @@ class BioSim:
         :param cmax_animals: Dict specifying color-code limits for animal densities
         :param img_base: String with beginning of file name for figures, including path
         :param img_fmt: String with file type for figures, e.g. 'png'
+        :param movie_format: String with the file type for movies, e.g. 'mp4
+        :save_name": String with the file name for saving the state of the island
+        "data_name": String with the file name for the csv file containing populations every year
 
         If ymax_animals is None, the y-axis limit should be adjusted automatically.
 
@@ -56,6 +59,8 @@ class BioSim:
 
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
+
+        if data_name is None, no data is written to the system
         """
         if hist_specs is None:
             self.hist_specs = {'weight': None,
@@ -207,15 +212,45 @@ class BioSim:
                     self.island_map.map[loc[0] - 1][loc[1] - 1].add_animal(animal=type_animal,
                                                                            age=age, weight=weight)
 
-    def save_simulation(self, filename):
+    def save_simulation(self, filename: str) -> None:
+        """Method for saving the state of the simulation to a file.
+           The file format of the save is .pkl which is a pickle file.
+           The state can be loaded using BioSim.load_simulation
+
+        Parameters
+        ----------
+        filename : str
+            Name of the file which the state should be saved to.
+            Filename without .pkl
+        """
         with open(filename + '.pkl', 'wb') as file:
             pickle.dump(self.island_map, file)
 
-    def load_simlation(self, filename):
+    def load_simlation(self, filename: str) -> Island:
+        """Method for loading a pickle file containing the state of a simulation
+
+        Parameters
+        ----------
+        filename : str
+            Full path to the name of the file to be loaded.
+            Filename without .pkl
+
+        Returns
+        -------
+        Island
+            Island at the saved state in the simulation
+        """
         with open(filename + '.pkl', 'rb') as file:
             return pickle.load(file)
 
     def make_movie(self):
+        """Method for calling ffmpeg in a subprocess to make a movie from images of the simulation
+
+        Raises
+        ------
+        RuntimeError
+            Raises error if anything goes wrong during runtime
+        """
         try:
             cmd = f'ffmpeg -r 20 -i img/{self.img_base}_%05d.{self.img_fmt} -b:v 20M {self.img_base}.{self.movie_format}'
             print(cmd)
