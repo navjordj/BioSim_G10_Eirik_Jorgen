@@ -1,7 +1,7 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-from .animals import Carnivore, Herbivore, Animal
+from .animals import Carnivore, Herbivore
 from typing import Union, List, Dict
 
 import numpy as np
