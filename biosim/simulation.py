@@ -20,8 +20,7 @@ class BioSim:
             self,
             seed,
             ini_pop,
-
-            island_map=None,
+            island_map,
             ymax_animals=None,
             cmax_animals=None,
             hist_specs=None,
