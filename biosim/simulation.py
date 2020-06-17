@@ -42,6 +42,9 @@ class BioSim:
         :param cmax_animals: Dict specifying color-code limits for animal densities
         :param img_base: String with beginning of file name for figures, including path
         :param img_fmt: String with file type for figures, e.g. 'png'
+        :param movie_format: String with the file type for movies, e.g. 'mp4
+        :save_name": String with the file name for saving the state of the island
+        "data_name": String with the file name for the csv file containing populations every year
 
         If ymax_animals is None, the y-axis limit should be adjusted automatically.
 
@@ -56,6 +59,8 @@ class BioSim:
 
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
+
+        if data_name is None, no data is written to the system
         """
         if hist_specs is None:
             self.hist_specs = {'weight': None,
