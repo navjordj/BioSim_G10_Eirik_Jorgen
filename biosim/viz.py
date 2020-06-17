@@ -327,6 +327,7 @@ class Viz:
         self.carnivores_over_time[island.year] = num_carn
 
         self._update_animals_over_time(island, num_herb, num_carn)
+        self._update_text(island)
 
     def _update_animals_over_time(self, island, num_herb, num_carn):
         self.line_herbivore.set_ydata(self.herbivores_over_time)
@@ -394,6 +395,6 @@ class Viz:
 
     def save_fig(self):
         self.figure.savefig(
-            f'img/{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
+            f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
         )
         self.img_num += 1
