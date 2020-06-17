@@ -27,14 +27,6 @@ class Cell:
     def __repr__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
-    # TODO make it so it's possible to move to then move
-    # TODO evaluate if this function is necessary
-    def migrate(self) -> bool:
-
-        if self.allowed_move_to is False:
-            return False
-        else:
-            return True
 
     def remove_animal(self, animal): # TODO: add type
         """
