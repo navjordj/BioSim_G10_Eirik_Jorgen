@@ -99,6 +99,8 @@ class BioSim:
             # (Must be a better way to check if the file is empty)
             if os.stat(filename).st_size == 0: 
                 self.filewriter.writerow(["Year", "Herbivores", "Carnivores"])
+        else:
+            self.data_name = None
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -179,7 +181,8 @@ class BioSim:
             
 
         plt.close()
-        self.file.close()
+        if self.data_name is not None:
+            self.file.close()
 
     def add_population(self, population):
         """
