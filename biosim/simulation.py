@@ -207,15 +207,45 @@ class BioSim:
                     self.island_map.map[loc[0] - 1][loc[1] - 1].add_animal(animal=type_animal,
                                                                            age=age, weight=weight)
 
-    def save_simulation(self, filename):
+    def save_simulation(self, filename: str) -> None:
+        """Method for saving the state of the simulation to a file.
+           The file format of the save is .pkl which is a pickle file.
+           The state can be loaded using BioSim.load_simulation
+
+        Parameters
+        ----------
+        filename : str
+            Name of the file which the state should be saved to.
+            Filename without .pkl
+        """
         with open(filename + '.pkl', 'wb') as file:
             pickle.dump(self.island_map, file)
 
-    def load_simlation(self, filename):
+    def load_simlation(self, filename: str) -> Island:
+        """Method for loading a pickle file containing the state of a simulation
+
+        Parameters
+        ----------
+        filename : str
+            Full path to the name of the file to be loaded.
+            Filename without .pkl
+
+        Returns
+        -------
+        Island
+            Island at the saved state in the simulation
+        """
         with open(filename + '.pkl', 'rb') as file:
             return pickle.load(file)
 
     def make_movie(self):
+        """Method for calling ffmpeg in a subprocess to make a movie from images of the simulation
+
+        Raises
+        ------
+        RuntimeError
+            Raises error if anything goes wrong during runtime
+        """
         try:
             cmd = f'ffmpeg -r 20 -i img/{self.img_base}_%05d.{self.img_fmt} -b:v 20M {self.img_base}.{self.movie_format}'
             print(cmd)
