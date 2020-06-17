@@ -345,3 +345,11 @@ class Carnivore(Animal):
     def __init__(self, age=None, weight=None) -> None:
         super().__init__(age, weight)
 
+    @staticmethod
+    def p_eat(phi_carn: float, phi_herb: float, DeltaPhiMax: Union[int, float]) -> Union[int, float]:
+        if phi_carn <= phi_herb:
+            return 0
+        elif (0 < phi_carn - phi_herb) and (phi_carn - phi_herb < DeltaPhiMax):
+            return (phi_carn - phi_herb) / (DeltaPhiMax)
+        else:
+            return 1
