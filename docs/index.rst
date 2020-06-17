@@ -10,6 +10,9 @@ Welcome to Group 10's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   simulation
+   island
+   cell
    animals
 
 
