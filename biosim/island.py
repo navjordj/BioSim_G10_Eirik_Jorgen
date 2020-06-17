@@ -109,7 +109,7 @@ class Island:
 
         self.row_len = len(geo)
         self.column_len = len(geo[0])
-        # TODO make a list comp with None instead of using geo
+
         for i, row in enumerate(geo):
             for j, cell in enumerate(row):
                 if cell not in self.map_params.keys():
@@ -118,10 +118,8 @@ class Island:
 
         return geo  # type: ignore
 
-    # TODO: tried to make sure that you only migrate once pr year, not sure if necessary
-    # TODO: Find a way so it will not migrate more than once pr year.
-    #@staticmethod
-    def migration(self, cell, adj_cells):
+    @staticmethod
+    def migration(cell, adj_cells):
 
         migrated = 0
         not_migrated = 0
@@ -142,19 +140,16 @@ class Island:
 
         for i, carni in enumerate(cell.carnivores):
             if carni.will_migrate():
-                self.n_migrated += 1
 
                 cell_destination = random.choice(adj_cells)
                 if cell_destination.allowed_move_to is True:
                     cell_destination.add_animal("Carnivore", carni.age, carni.weight)
                     cell_destination.carnivores[-1].has_migrated = True
                     cell.carnivores[i].alive = False
-                    # print(f'Migrated from {(i, j)} to {cell_destination}')
                 else:
                     continue
 
     def new_year(self) -> None:
-        self.n_migrated = 0
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
 
