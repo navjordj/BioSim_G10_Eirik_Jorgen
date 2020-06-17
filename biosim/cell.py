@@ -58,8 +58,7 @@ class Cell:
             Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
         np.random.shuffle(shuffled_herbivores)  # TODO refactor code
         # TODO test if fodder newer gets below zero
-        shuffled_herbivores: List[Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
-        np.random.shuffle(shuffled_herbivores) 
+        np.random.shuffle(shuffled_herbivores)
 
         for herbi in shuffled_herbivores:
             appetite = herbi.params["F"]

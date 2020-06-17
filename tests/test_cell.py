@@ -59,7 +59,6 @@ def test_allowed_to_move_to() -> None:
     assert d.allowed_move_to is True
 
 
-
 def test_remove_animal() -> None:
     h = Highland()
     h.add_animal('Herbivore')
