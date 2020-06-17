@@ -56,8 +56,8 @@ class Cell:
         A herbivore will stop eating when it have eaten F amount of fodder or there is nothing left
         """
         shuffled_herbivores: List[Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
-        np.random.shuffle(shuffled_herbivores)  # TODO refactor code
-        # TODO test if fodder newer gets below zero
+        np.random.shuffle(shuffled_herbivores) 
+
         for herbi in shuffled_herbivores:
             appetite = herbi.params["F"]
             food_left = self.fodder
