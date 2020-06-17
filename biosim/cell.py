@@ -28,7 +28,7 @@ class Cell:
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
 
-    def remove_animal(self, animal_babies): # TODO: add type
+    def remove_animal(self, animal): # TODO: add type
         """
         Removes wanted animal from either self.herbivores or self.carnivores.
         Updates number of animals afterwards
