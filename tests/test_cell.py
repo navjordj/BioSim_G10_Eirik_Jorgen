@@ -52,20 +52,6 @@ def test_allowed_to_move_to() -> None:
     assert d.allowed_move_to is True
 
 
-#  is this function necessary ?
-def test_migration() -> None:
-    """
-    Does the same as in last test, but now it uses the function instead of
-    """
-    w = Water()
-    l = Lowland()
-    h = Highland()
-    d = Desert()
-    assert w.migrate() is False
-    assert l.migrate() is True
-    assert h.migrate() is True
-    assert d.migrate() is True
-
 
 # TODO try to make it not look too ugly
 def test_eat_herbivore() -> None:
