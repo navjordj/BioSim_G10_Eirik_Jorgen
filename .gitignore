@@ -4,7 +4,7 @@ htmlcov/*
 docs/_build/*
 *.pyc
 *.pkl
-
+*.csv
 .noseids
 .coverage
 cls

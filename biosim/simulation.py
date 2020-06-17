@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 import subprocess
 
 import pickle
+import csv
+import os
 
 
 class BioSim:
@@ -28,7 +30,9 @@ class BioSim:
             img_base=None,
             img_fmt="png",
             movie_format=None,
-            save_name=None
+            save_name=None,
+            data_name=None
+
     ):
         """
         :param island_map: Multi-line string specifying island geography
@@ -84,6 +88,20 @@ class BioSim:
         self.img_fmt = img_fmt
         self.movie_format = movie_format
 
+        if data_name is not None:
+            self.data_name = data_name
+            filename = f'{data_name}.csv'
+            self.file = open(filename, 'a+', newline='')
+            self.filewriter = csv.writer(self.file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            
+            # Check if file if empty. 
+            # If empty: append column names
+            # (Must be a better way to check if the file is empty)
+            if os.stat(filename).st_size == 0: 
+                self.filewriter.writerow(["Year", "Herbivores", "Carnivores"])
+        else:
+            self.data_name = None
+
     @staticmethod
     def set_animal_parameters(species, params):
         """
@@ -113,7 +131,7 @@ class BioSim:
         }
         landscape_types[landscape].set_parameters(params)
 
-    def simulate(self, num_years, vis_years=1, img_years=None):
+    def simulate(self, num_years, vis_years=1, img_years=None, status_years=None):
         """
         Run simulation while visualizing the result.
 
@@ -145,11 +163,16 @@ class BioSim:
 
             viz.update_data(self.island_map, num_herb, num_carn)
 
-            if year % vis_years == 0:
-                viz.update_fig(self.island_map, num_herb, num_carn, self.plt_speed)
+            if vis_years is not None:
+                if year % vis_years == 0:
+                    viz.update_fig(self.island_map, num_herb, num_carn, self.plt_speed)
 
-            if  img_years is not None and year % img_years == 0:
-                viz.save_fig()
+            if img_years is not None:
+                if year % img_years == 0:
+                    viz.save_fig()
+
+            if self.data_name is not None:
+                self._save_status(year, num_herb, num_carn)
 
             self.island_map.new_year()
             self.island_map.year += 1
@@ -158,6 +181,8 @@ class BioSim:
             
 
         plt.close()
+        if self.data_name is not None:
+            self.file.close()
 
     def add_population(self, population):
         """
@@ -197,6 +222,21 @@ class BioSim:
             subprocess.check_call(cmd)
         except subprocess.CalledProcessError as err:
             raise RuntimeError(f"Error creating movie: {err}")
+
+    def _save_status(self, year: int, num_herb: int, num_carn: int):
+        """Method for saving the status of the simulation
+
+        Parameters
+        ----------
+        year : int
+            Current year
+        num_herb : int
+            Number of herbivores in the simulation
+        num_carn : int
+            Number of carnivores in the simulation
+        """
+        self.filewriter.writerow([year, num_herb, num_carn])
+
 
     @property
     def year(self):
