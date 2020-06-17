@@ -175,4 +175,4 @@ class Island:
                 # Age animals one year:
                 cell.new_year()
                 # DEATH
-                cell.prob_death_animals()
+                cell.death_animals()

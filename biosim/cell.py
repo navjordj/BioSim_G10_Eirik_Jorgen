@@ -217,7 +217,7 @@ class Cell:
         self.n_herbivores = self.n_herbivores + len(herbivore_babies)
 
     # TODO: maybe put both the death functions together
-    def prob_death_animals(self) -> None:
+    def death_animals(self) -> None:
         """
         Looks at the probability of each animal to die, if it's likely, the dead animal will
         be removed
