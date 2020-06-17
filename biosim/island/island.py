@@ -119,21 +119,27 @@ class Island:
         return geo  # type: ignore
 
     @staticmethod
-    def migration(cell, adj_cells):
-
-        migrated = 0
-        not_migrated = 0
+    def migration(cell, adj_cells):  # TODO: add types
+        """
+        Static method that runs over all animals in a given cel and checks if they can migrate
+        or not. If they can, they will migrate to one of four cells, which are given
+        in the adj_cells. If the cell they choose in the adj_cells is water, they will stay in the
+        cell. If they are not able to migrate, then they will also stay in their cell.
+        Parameters
+        ----------
+        cell :
+            The cell the animals is curently in
+        adj_cells :
+            Cells that are around the cell we currently are in
+        """
         for i, herbi in enumerate(cell.herbivores):
             if herbi.will_migrate():
 
                 cell_destination = random.choice(adj_cells)
                 if cell_destination.allowed_move_to:
-                    migrated += 1
                     cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)  #TODO: try to put the same animal in, not create new one
                     cell_destination.herbivores[-1].has_migrated = True
                     cell.herbivores[i].alive = False
-            else:
-                not_migrated += 1
 
         for i, carni in enumerate(cell.carnivores):
             if carni.will_migrate():
@@ -145,6 +151,14 @@ class Island:
                     cell.carnivores[i].alive = False
 
     def new_year(self) -> None:
+        """
+        Goes through the new year after The Annual Cycle on Rossumøya, first feeding, then
+        procreation, migration, aging, loss of weight and at last death.
+        In the first double for-loop, it goes through all cells in the map and grow fodder,
+        feeds the animals, start procreation and then migrate.
+        In the second double for-loop, it goes through all animals once more to set age,
+        update weight and then see if they survives the year or dies of 'natural conditions'
+        """
         for i, row in enumerate(self.map):
             for j, cell in enumerate(row):
 
