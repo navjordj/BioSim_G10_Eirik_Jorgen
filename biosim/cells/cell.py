@@ -21,6 +21,8 @@ class Cell:
         self.allowed_move_to: bool = True
         self.fodder = self.max_fodder
 
+        self.infect_related_death = 0
+
     def __repr__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n ' \
                f'number of herbivores: {len(self.herbivores)}'
@@ -175,14 +177,39 @@ class Cell:
         be removed
         """
         for herb in self.herbivores:
-            if herb.should_die():
+            prob, infected = herb.should_die()
+            if prob:
+                if infected:
+                    self.infect_related_death += 1
+
                 herb.alive = False
+            herb.infected = False
 
         for carni in self.carnivores:
-            if carni.should_die():
-                carni.alive = False
+            prob, infected = carni.should_die()
+            if prob:
+                if infected:
+                    self.infect_related_death += 1
+            carni.infected = False
 
         self.remove_dead_animals()
+
+    def infected_animals(self) -> bool:
+        infected_in_cell = False
+        for herb in self.herbivores:
+            if herb.infected is True:
+                infected_in_cell = True
+
+        for carn in self.carnivores:
+            if carn.infected is True:
+                infected_in_cell = True
+
+        if infected_in_cell is True:
+            for herb in self.herbivores:
+                herb.infected = True
+            for carn in self.carnivores:
+                carn.infected = True
+        return infected_in_cell
 
     # TODO: test function
     def new_year(self) -> None:
