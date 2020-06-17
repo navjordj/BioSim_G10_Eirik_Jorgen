@@ -24,7 +24,7 @@ class Cell:
         self.allowed_move_to: bool = True
         self.fodder = self.max_fodder
 
-    def __str__(self):
+    def __repr__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
     # TODO make it so it's possible to move to then move

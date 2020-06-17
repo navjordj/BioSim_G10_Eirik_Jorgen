@@ -57,7 +57,7 @@ class Animal:
         self.alive = True  # Might not be necessary
         self.has_migrated = False
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         """method for how a animal should be represented when printed to the console
 
         Returns

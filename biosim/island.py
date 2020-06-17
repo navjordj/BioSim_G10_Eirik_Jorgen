@@ -21,8 +21,7 @@ class Island:
         self.num_herbivores_data: List[int] = []
         self.num_carnivores_data: List[int] = []
 
-    # TODO: MIght be better to use __repr__
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         """toString to format how a island should be printed to the console.
         Used for debugging puroposes  
 
