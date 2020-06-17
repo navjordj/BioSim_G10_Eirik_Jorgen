@@ -187,8 +187,8 @@ class Island:
             for cell in row:
                 # infected animals
                 if cell.infected_animals() is True:
-                    self.tot_infected_carns = cell.n_carnivores
-                    self.tot_infected_herbs = cell.n_herbivores
+                    self.tot_infected_carns += cell.n_carnivores
+                    self.tot_infected_herbs += cell.n_herbivores
                 # Age animals one year:
                 cell.new_year()
                 # DEATH

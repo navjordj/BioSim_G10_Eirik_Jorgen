@@ -179,15 +179,15 @@ class Cell:
         for herb in self.herbivores:
             prob, infected = herb.should_die()
             if prob:
+                herb.alive = False
                 if infected:
                     self.infect_related_death += 1
-
-                herb.alive = False
             herb.infected = False
 
         for carni in self.carnivores:
             prob, infected = carni.should_die()
             if prob:
+                carni.alive = False
                 if infected:
                     self.infect_related_death += 1
             carni.infected = False

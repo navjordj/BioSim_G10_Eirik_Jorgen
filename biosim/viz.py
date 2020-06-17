@@ -321,10 +321,18 @@ class Viz:
 
     def _draw_text(self, island):
         herb, carn = self._get_num_animals(island)
+        infect_herb = island.tot_infected_herbs
+        infect_carn = island.tot_infected_carns
+        tot_death = island.tot_infect_related_death
+
         self.text_img_ax.axis("off")
         self.text_year = self.text_img_ax.text(0.5, 0.5, f'Years: {island.year}\n'
                                                          f'Herbivores: {herb}\n'
-                                                         f'Carnivores: {carn}',
+                                                         f'Carnivores: {carn}\n\n'
+                                                         f'Tot infected herbivores: {infect_herb}\n'
+                                                         f'Tot infected carnivores: {infect_carn}\n'
+                                                         f'Tot infect related death: {tot_death}\n'
+                                                         f'{infect_herb + infect_carn}',
                                                ha='center', wrap=True)
 
     def update_data(self, island, num_herb, num_carn):
