@@ -6,16 +6,35 @@ from typing import Dict
 class Viz:
     cmax_default = {'Herbivore': None,
                     'Carnivore': None}
+    hist_specs_default = {'weight': {'max': None, 'delta': None},
+                          'age': {'max': None, 'delta': None},
+                          'fitness': {'max': None, 'delta': None}}
 
     def __init__(self, island,
                  num_years,
                  ymax_animals=None,
                  cmax_animals=None,
+                 weight_specs=None,
+                 age_specs=None,
+                 fitness_specs=None,
                  img_base=None,
                  img_fmt='png'):
 
         self.ymax_animals = ymax_animals
         self.highest_num_animal = 0
+        if weight_specs is None:
+            self.weight_specs = self.hist_specs_default['weight']
+        else:
+            self.weight_specs = weight_specs
+        if age_specs is None:
+            self.age_specs = self.hist_specs_default['age']
+        else:
+            self.age_specs = age_specs
+        if fitness_specs is None:
+            self.fitness_specs = self.hist_specs_default['fitness']
+        else:
+            self.fitness_specs = fitness_specs
+
         if cmax_animals is None:
             self.cmax_animals = self.cmax_default
         else:
@@ -109,19 +128,19 @@ class Viz:
         if self.fitness_histogram_img_ax is None:
             self.fitness_histogram_img_ax = self.figure.add_subplot(self.grid[2, :7])
             self.fitness_histogram_img_ax.set(title='Fitness')
-            self.fitness_histogram_img_ax.set_ylim(150)
+            self.fitness_histogram_img_ax.set_xlim(self.fitness_specs['max'])
             self.fitness_histogram_img_ax.invert_yaxis()
 
         if self.age_histogram_img_ax is None:
             self.age_histogram_img_ax = self.figure.add_subplot(self.grid[2, 8:15])
             self.age_histogram_img_ax.set(title='Age')
-            self.age_histogram_img_ax.set_ylim(150)
+            self.age_histogram_img_ax.set_xlim(self.age_specs['max'])
             self.age_histogram_img_ax.invert_yaxis()
 
         if self.weight_histogram_img_ax is None:
             self.weight_histogram_img_ax = self.figure.add_subplot(self.grid[2, 16:23])
             self.weight_histogram_img_ax.set(title='Weight')
-            self.weight_histogram_img_ax.set_ylim(150)
+            self.weight_histogram_img_ax.set_xlim(self.weight_specs['max'])
             self.weight_histogram_img_ax.invert_yaxis()
 
     def _draw_map(self, island):
@@ -221,11 +240,14 @@ class Viz:
 
     def _draw_fitness_histogram(self, fitness_herb, fitness_carn):
         self.fitness_histogram_img_ax.set(title='Fitness')
+        self.fitness_histogram_img_ax.set_xlim(self.fitness_specs['max'])
         self.fitness_histogram_img_ax.invert_yaxis()
         self.hist_line_herb = self.fitness_histogram_img_ax.hist(fitness_herb, color='b',
-                                                                 histtype='step')
+                                                                 histtype='step',
+                                                                 rwidth=self.fitness_specs['delta'])
         self.hist_line_carn = self.fitness_histogram_img_ax.hist(fitness_carn, color='r',
-                                                                 histtype='step')
+                                                                 histtype='step',
+                                                                 rwidth=self.fitness_specs['delta'])
 
     def _get_age_animals(self, island):
         self.age_herb = []
@@ -243,11 +265,14 @@ class Viz:
 
     def _draw_age_histogram(self, age_herb, age_carn):
         self.age_histogram_img_ax.set(title='Age')
+        self.age_histogram_img_ax.set_xlim(self.age_specs['max'])
         self.age_histogram_img_ax.invert_yaxis()
         self.hist_line_herb_age = self.age_histogram_img_ax.hist(age_herb, color='b',
-                                                                 histtype='step')
+                                                                 histtype='step',
+                                                                 rwidth=self.age_specs['delta'])
         self.hist_line_carn_age = self.age_histogram_img_ax.hist(age_carn, color='r',
-                                                                 histtype='step')
+                                                                 histtype='step',
+                                                                 rwidth=self.age_specs['delta'])
 
     def _get_weight_animals(self, island):
         self.weight_herb = []
@@ -265,11 +290,14 @@ class Viz:
 
     def _draw_weight_histogram(self, weight_herb, weight_carn):
         self.weight_histogram_img_ax.set(title='Weight')
+        self.weight_histogram_img_ax.set_xlim(self.weight_specs['max'])
         self.weight_histogram_img_ax.invert_yaxis()
         self.hist_line_herb_weight = self.weight_histogram_img_ax.hist(weight_herb, color='b',
-                                                                       histtype='step')
+                                                                       histtype='step',
+                                                                       rwidth=self.weight_specs['delta'])
         self.hist_line_carn_weight = self.weight_histogram_img_ax.hist(weight_carn, color='r',
-                                                                       histtype='step')
+                                                                       histtype='step',
+                                                                       rwidth=self.weight_specs['delta'])
 
     def _get_num_animals(self, island):
         self.herbivore_counter = 0
