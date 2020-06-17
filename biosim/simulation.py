@@ -22,7 +22,6 @@ class BioSim:
             ini_pop,
             island_map,
             plt_speed=None,
-            island_map=None,
             ymax_animals=None,
             cmax_animals=None,
             hist_specs=None,
