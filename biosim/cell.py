@@ -1,7 +1,7 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-from .animals import Carnivore, Herbivore
+from .animals import Carnivore, Herbivore, Animal
 from typing import Union, List, Dict
 
 import numpy as np
@@ -28,7 +28,7 @@ class Cell:
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
 
 
-    def remove_animal(self, animal): # TODO: add type
+    def remove_animal(self, animal_babies): # TODO: add type
         """
         Removes wanted animal from either self.herbivores or self.carnivores.
         Updates number of animals afterwards
@@ -131,8 +131,6 @@ class Cell:
         else:
             raise ValueError("species is neither carnivore er herbivore")
 
-    # TODO Add test for removing eaten herbivores
-    # TODO set remove_dead_herbivores and remove_dead_carnivores into one function
     def remove_dead_animals(self) -> None:
         """
         Removes every herbivore that have self.alive = False.
@@ -153,8 +151,6 @@ class Cell:
         self.n_herbivores = len(keep_herbivores)
         self.n_carnivores = len(keep_carnivores)
 
-    # TODO set carnivore_babies and herbivore_babies in same function
-    # TODO: maybe make the new animal using the add_animal function?
     def animal_babies(self) -> None:
         """
         Checks if there are more than one animal in one cell, if so it will go trough all animals
@@ -255,7 +251,7 @@ class Highland(Cell):
         return self.fodder
 
     @classmethod
-    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:  # TODO add type
+    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
         """
         Takes in a dict with which parameters you want to change and the new amount
         Parameters
@@ -297,7 +293,7 @@ class Lowland(Cell):
         return self.fodder
 
     @classmethod
-    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None: # TODO add type
+    def set_parameters(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
         """
         Takes in a dict with which parameters you want to change and the new amount
         Parameters
