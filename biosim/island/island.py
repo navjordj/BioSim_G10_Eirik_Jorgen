@@ -1,4 +1,4 @@
-from .cell import Highland, Water, Lowland, Desert
+from biosim.cells import Highland, Water, Lowland, Desert
 from typing import List, Any, Union
 
 import random

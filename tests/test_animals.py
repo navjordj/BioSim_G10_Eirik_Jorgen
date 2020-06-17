@@ -8,7 +8,7 @@ import numpy as np
 import scipy.stats as stats
 from pytest_mock import mocker
 
-from biosim.animals import Animal
+from biosim.animals.animal import Animal
 
 
 def test_init_animal():

@@ -4,8 +4,9 @@ __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 import pytest
 from pytest_mock import mocker
 
-from biosim.cell import Cell, Water, Lowland, Highland, Desert
-from biosim.animals import Animal, Herbivore, Carnivore
+from biosim.cells import Cell, Water, Lowland, Highland, Desert
+from biosim.animals.animal import Animal
+from biosim.animals import Herbivore, Carnivore
 
 import numpy as np
 import random
