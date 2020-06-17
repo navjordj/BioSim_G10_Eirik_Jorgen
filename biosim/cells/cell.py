@@ -1,7 +1,7 @@
-from biosim.animals.carnivore import Carnivore 
-from biosim.animals.herbivore import Herbivore 
+from biosim.animals.carnivore import Carnivore
+from biosim.animals.herbivore import Herbivore
 
-from typing import Union, List, Dict
+from typing import Union, List
 
 import numpy as np
 
@@ -22,27 +22,8 @@ class Cell:
         self.fodder = self.max_fodder
 
     def __repr__(self):
-        return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n number of herbivores: {len(self.herbivores)}'
-
-
-    def remove_animal(self, animal):  # TODO: add type
-        """
-        Removes wanted animal from either self.herbivores or self.carnivores.
-        Updates number of animals afterwards
-
-        Parameters
-        ----------
-        animal: Class
-
-        """
-        if type(animal) == Herbivore:
-            self.herbivores.remove(animal)
-            self.n_herbivores = len(self.herbivores)
-        elif type(animal) == Carnivore:
-            self.carnivores.remove(animal)
-            self.n_carnivores = len(self.carnivores)
-        else:
-            raise ValueError(f'Most be an animal in the class, not {animal}')
+        return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n ' \
+               f'number of herbivores: {len(self.herbivores)}'
 
     def eat_herbivore(self) -> None:
         """
@@ -76,11 +57,12 @@ class Cell:
         """
         Sort carnivores after fitness, the fittest first and least fittest last.
         Sort herbivores after fitness, the least fittest first and the fittest last.
-        Iterates through the carnivores and the carnivore itterates over the herbivores.
+        Iterates through the carnivores and the carnivore iterates over the herbivores.
         Every carnivore have an opportunity to kill a herbivore once a year. A carnivore will stop
         'hunting' the carnivore have eaten F amount of fodder.
         Can only hunt on herbivores in the same cell
         """
+        # TODO: test code
         self.remove_dead_animals()
 
         reverse_sort_c: List[Carnivore] = sorted(self.carnivores,
@@ -94,7 +76,8 @@ class Cell:
             for herbi in sorted_h:
                 if f_eaten >= appetite:
                     break
-                elif np.random.random() < carni.p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["DeltaPhiMax"]):
+                elif np.random.random() < carni.p_eat(carni.get_fitness(), herbi.get_fitness(),
+                                                      carni.params["DeltaPhiMax"]):
                     f_wanted = appetite - f_eaten
                     if herbi.weight <= f_wanted:
                         f_eaten += herbi.weight
@@ -108,14 +91,14 @@ class Cell:
     def add_animal(self, animal: str,
                    age: Union[int, None] = None,
                    weight: Union[
-                       int, float, None] = None) -> None:  # choose Any because hard to name type
+                       int, float, None] = None) -> None:
         """
         Takes in a type of animal, either Herbivore or Carnivore, and add's the respected animal to
         it's animal list (either self.herbivores or self.carnivores)
         Updates the amount of animals afterwards
         Parameters
         ----------
-        animal: Class
+        animal: str
             An animal subclass (Herbivore or Carnivore)
         age: int, None
             sets the age of the animal, if None it will be sat to 0
@@ -138,12 +121,12 @@ class Cell:
         """
         keep_herbivores: List[Herbivore] = []
         for h in self.herbivores:
-            if h.alive == True:
+            if h.alive is True:
                 keep_herbivores.append(h)
 
         keep_carnivores: List[Carnivore] = []
         for c in self.carnivores:
-            if c.alive == True:
+            if c.alive is True:
                 keep_carnivores.append(c)
 
         self.herbivores = keep_herbivores
@@ -185,7 +168,7 @@ class Cell:
         self.n_carnivores = self.n_carnivores + len(carnivore_babies)
         self.n_herbivores = self.n_herbivores + len(herbivore_babies)
 
-    # TODO: maybe put both the death functions together
+    # TODO: test function
     def death_animals(self) -> None:
         """
         Looks at the probability of each animal to die, if it's likely, the dead animal will
@@ -201,6 +184,7 @@ class Cell:
 
         self.remove_dead_animals()
 
+    # TODO: test function
     def new_year(self) -> None:
         for herb in self.herbivores:
             herb.new_year()

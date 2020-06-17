@@ -7,7 +7,8 @@ np.random.seed(1)
 
 class Animal:
 
-    """Animal superclass implemented using the specifications in https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
+    """Animal superclass implemented using the specifications in
+    https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
 
     """
     params: dict = {
@@ -36,20 +37,21 @@ class Animal:
         age : int, optional
             Age of a new animal. If not specified, age of a new animal will be 0
         weight : Union[int, float], optional
-            Weight of a new animal. If not specified, weight of a new animal will be normally distributed using w_birth and sigma_birth parameters.
+            Weight of a new animal. If not specified, weight of a new animal will be normally
+            distributed using w_birth and sigma_birth parameters.
         """
 
-        if age == None:
+        if age is None:
             self._age: int = 0
         else:
             self._age: int = age
-        if weight == None:
+        if weight is None:
             self._weight: float = self._initialize_weight()
         else:
             self._weight: float = weight
 
         self.fitness = self.get_fitness()
-        self.alive = True  # Might not be necessary
+        self.alive = True
         self.has_migrated = False
 
     def __repr__(self) -> str:
@@ -60,6 +62,7 @@ class Animal:
         str
             String to be printed out
         """
+        # TODO: what is pragma: no cover
         return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}' # pragma: no cover
 
     @classmethod
@@ -85,20 +88,18 @@ class Animal:
             else:
                 raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
 
-
     def increase_age(self) -> None:
         self._age += 1
 
-
     def should_die(self) -> bool:
         """Returns a boolean saying if the animal should die or not
-
 
         Returns
         -------
         bool
             Boolean representing if the animal should die or not
         """
+        # TODO: make test
         if self._weight <= 0:
             return True
         else:
@@ -135,7 +136,6 @@ class Animal:
     def eat(self, intake: Union[int, float]) -> None:
         """Takes in a certain amount of fodder. Calculates and updates weight given by beta * intake.
 
-
         Parameters
         ----------
         intake : Union[int, float]
@@ -154,7 +154,6 @@ class Animal:
                 weight_change: float = self.params["beta"] * intake
                 self.update_weight(weight_change)
 
-
     def update_weight(self, change: float) -> None:
         """Updates the weight of the animal and recalculates fitness
 
@@ -165,7 +164,6 @@ class Animal:
         """
         self._weight += change
         self.fitness = self.get_fitness()
-
 
     def new_year(self) -> None:
         """Increase age by one year and decrease weight by eta * weight
@@ -214,6 +212,7 @@ class Animal:
         bool
             Boolean representing of the animal should migrate or not
         """
+        # TODO: make test
         if self.has_migrated is False:
             prob = self.params["mu"] * self.fitness
             if np.random.rand() < prob:
@@ -253,8 +252,6 @@ class Animal:
             return 1 / (1 + exp(sign * phi*(x - x_half)))
 
         return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
-
-
 
     @property
     def age(self) -> int:

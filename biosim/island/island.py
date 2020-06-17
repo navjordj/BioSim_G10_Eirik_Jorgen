@@ -1,5 +1,5 @@
 from biosim.cells import Highland, Water, Lowland, Desert
-from typing import List, Any, Union
+from typing import List, Union
 
 import random
 
@@ -23,7 +23,7 @@ class Island:
 
     def __repr__(self) -> str:
         """toString to format how a island should be printed to the console.
-        Used for debugging puroposes  
+        Used for debugging purpose
 
         Returns
         -------
@@ -97,13 +97,13 @@ class Island:
 
         Returns
         -------
-        [type]
-            [description]
+        geo: list of lists
+            each index has a cell object
 
         Raises
         ------
         ValueError
-            [description]
+            can't set an index if it's not in the map_params dictionary
         """
         geo = self._prepare_map(string_map)
 
