@@ -144,20 +144,23 @@ class Viz:
 
     def _draw_animals_over_time(self, island):
 
-        self.years = [year for year in range(island.year)]
+        self.animals_over_time_ax.clear()
+
+        self.years = [year+1 for year in range(island.year+self.num_years)]
 
         self.herbivores_over_time = island.num_herbivores_data.copy()
         self.carnivores_over_time = island.num_carnivores_data.copy()
-        print(self.herbivores_over_time)
-        for n in range(self.num_years+island.year):
+        for n in range(self.num_years):
             self.herbivores_over_time.append(None)
             self.carnivores_over_time.append(None)
-        for n in range(self.num_years):
-            self.years.append(island.year + n + 1)
-        self.years = np.array(self.years)
 
+        print("Lengden til herbi over time:", len(self.herbivores_over_time))
+
+        self.years = np.array(self.years)
         self.herbivores_over_time = np.array(self.herbivores_over_time)
         self.carnivores_over_time = np.array(self.carnivores_over_time)
+
+        self.animals_over_time_ax.set_xlim(0, self.num_years+island.year)
 
         self.line_herbivore = self.animals_over_time_ax.plot(
             self.years, self.herbivores_over_time, color='b', label='Herbivore'
@@ -292,6 +295,8 @@ class Viz:
     def update_data(self, island, num_herb, num_carn):
         self.herbivores_over_time[island.year] = num_herb
         self.carnivores_over_time[island.year] = num_carn
+
+        self._update_animals_over_time(island, num_herb, num_carn)
 
     def _update_animals_over_time(self, island, num_herb, num_carn):
         self.line_herbivore.set_ydata(self.herbivores_over_time)
