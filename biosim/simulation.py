@@ -1,15 +1,12 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
-from .cell import Lowland, Highland, Water, Desert
-from .animals import Herbivore, Carnivore
-from .island import Island
-from .viz import Viz
-
-from .plotting import plot_map
+from biosim.animals import Herbivore, Carnivore
+from biosim.cells import Lowland, Highland, Water, Desert
+from biosim.island import Island
+from biosim.viz import Viz
 
 import numpy as np
-# import matplotlib.pyplot as plt
 from typing import Dict, Union
 import matplotlib.pyplot as plt
 
