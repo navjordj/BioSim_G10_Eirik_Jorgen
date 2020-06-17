@@ -61,6 +61,7 @@ class BioSim:
         img_base should contain a path and beginning of a file name.
 
         if data_name is None, no data is written to the system
+        
         """
         if hist_specs is None:
             self.hist_specs = {'weight': None,

@@ -12,7 +12,7 @@ Welcome to Group 10's documentation!
 
    simulation
    island
-   cell
+   cells
    animals
 
 

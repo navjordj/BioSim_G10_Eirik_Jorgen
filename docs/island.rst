@@ -1,7 +1,7 @@
 Island Class
 ===================
 
-.. automodule:: biosim.island
+.. automodule:: biosim.island.island
 	:members:
 	:private-members:
 	:undoc-members:
