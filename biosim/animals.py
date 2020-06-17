@@ -9,11 +9,33 @@ np.random.seed(1)
 
 
 def fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
+    """Helper function for calculating the current fitness of animal
 
-    def q(x: float, x_half: float, phi: float, sign: int) -> float:
+    Parameters
+    ----------
+    a : float
+        [description]
+    a_half : float
+        [description]
+    phi_age : float
+        [description]
+    w : float
+        [description]
+    w_half : float
+        [description]
+    phi_weight : float
+        [description]
+
+    Returns
+    -------
+    float
+        The current fitness of a animal
+    """
+
+    def _q(x: float, x_half: float, phi: float, sign: int) -> float:
         return 1 / (1 + exp(sign * phi*(x - x_half)))
 
-    return q(a, a_half, phi_age, 1) * q(w, w_half, phi_weight, -1)
+    return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
 
 
 class Animal:
