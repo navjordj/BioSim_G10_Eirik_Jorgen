@@ -39,7 +39,13 @@ kart = """\
 
 
 
-b = BioSim(seed=123, ini_pop=ini_herbs, island_map=kart, img_base="img", movie_format="mp4")
+b = BioSim(seed=123,
+           ini_pop=ini_herbs,
+           island_map=kart,
+           hist_specs={'fitness': {'max': 1.0, 'delta': 0.05},
+                          'age': {'max': 60.0, 'delta': 2}},
+           img_base="img",
+           movie_format="mp4")
 b.add_population(ini_carn)
 
 b.simulate(num_years=20)

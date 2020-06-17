@@ -57,16 +57,16 @@ class BioSim:
         img_base should contain a path and beginning of a file name.
         """
         if hist_specs is None:
-            self.hist_spec = {'weight': None,
+            self.hist_specs = {'weight': None,
                               'age': None,
                               'fitness': None}
         else:
-            self.hist_spec = {'weight': None,
+            self.hist_specs = {'weight': None,
                               'age': None,
                               'fitness': None}
             for key in hist_specs:
                 self.hist_specs[key] = hist_specs[key]
-        
+
         np.random.seed(seed)
         if save_name is None:
             self.island_map = Island(map_str=island_map)
