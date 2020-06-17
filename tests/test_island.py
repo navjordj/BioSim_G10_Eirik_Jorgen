@@ -54,6 +54,7 @@ class Test_island:
         for _ in range(1000):
             k = Island('WWW\nWLW\nWWW')
             k.map[1][1].add_animal("Herbivore", 10, 100)
+            k.map[1][1].herbivores[0].set_params({"omega": 0}) # Should never die in the new year
             k.new_year()
             assert k.map[1][1].n_herbivores == 1
 
