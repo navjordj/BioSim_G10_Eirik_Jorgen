@@ -9,16 +9,6 @@ import random
 np.random.seed(1)
 
 
-# TODO implement test
-# TODO move insie carnivore
-def p_eat(phi_carn: float, phi_herb: float, DeltaPhiMax: Union[int, float]) -> Union[int, float]:
-    if phi_carn <= phi_herb:
-        return 0
-    elif (0 < phi_carn - phi_herb) and (phi_carn - phi_herb < DeltaPhiMax):
-        return (phi_carn - phi_herb) / (DeltaPhiMax)
-    else:
-        return 1
-
 
 class Cell:
 
@@ -113,7 +103,7 @@ class Cell:
             for herbi in sorted_h:
                 if f_eaten >= appetite:
                     break
-                elif random.random() < p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["DeltaPhiMax"]):
+                elif random.random() < carni.p_eat(carni.get_fitness(), herbi.get_fitness(), carni.params["DeltaPhiMax"]):
                     f_wanted = appetite - f_eaten
                     if herbi.weight <= f_wanted:
                         f_eaten += herbi.weight
