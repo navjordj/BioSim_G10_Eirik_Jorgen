@@ -21,6 +21,8 @@ class BioSim:
             seed,
             ini_pop,
             island_map,
+            plt_speed=None,
+            island_map=None,
             ymax_animals=None,
             cmax_animals=None,
             hist_specs=None,
@@ -69,6 +71,7 @@ class BioSim:
         else:
             self.island_map = self.load_simlation(save_name)
 
+        self.plt_speed = plt_speed
         self.ymax_animals = ymax_animals
         self.cmax_animals = cmax_animals
         self.img_base = img_base
@@ -144,13 +147,16 @@ class BioSim:
             viz.update_data(self.island_map, num_herb, num_carn)
 
             if year % vis_years == 0:
-                viz.update_fig(self.island_map, num_herb, num_carn)
+                viz.update_fig(self.island_map, num_herb, num_carn, self.plt_speed)
+
+            if  img_years is not None and year % img_years == 0:
+                viz.save_fig()
 
             self.island_map.new_year()
             self.island_map.year += 1
             print(self.num_animals_per_species)
             # print(self.num_animals_per_species)
-            viz.save_fig()
+            
 
         plt.close()
 
