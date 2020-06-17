@@ -173,14 +173,12 @@ def test_get_years(plain_sim):
     assert plain_sim.year == 5
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 def test_get_num_animals(plain_sim):
     """Test that total number of animals is available"""
 
     assert plain_sim.num_animals == 0
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 def test_get_animals_per_species(plain_sim):
     """Test that total number of animals per species is available"""
 

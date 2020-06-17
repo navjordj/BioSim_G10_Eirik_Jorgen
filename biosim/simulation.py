@@ -137,8 +137,8 @@ class BioSim:
         # TODO fix map.map.map.map
         for year in range(num_years):
             print(f'Year {year}: ')
-            num_herb = self.num_animals_per_species["herbivores"]
-            num_carn = self.num_animals_per_species["carnivores"]
+            num_herb = self.num_animals_per_species["Herbivore"]
+            num_carn = self.num_animals_per_species["Carnivore"]
 
             # Append animal data to number counter for plotting
             self.island_map.num_herbivores_data.append(num_herb)
@@ -207,16 +207,16 @@ class BioSim:
     def num_animals(self) -> int:
         """Total number of animals on island."""
         animal_count = self.num_animals_per_species
-        return animal_count["herbivores"] + animal_count["carnivores"]
+        return animal_count["Herbivore"] + animal_count["Carnivore"]
 
     @property
     def num_animals_per_species(self) -> Dict[str, int]:
         """Number of animals per species in island, as dictionary."""
-        animal_count: Dict[str, int] = {"herbivores": 0,
-                                        "carnivores": 0}  # TODO Refactor with standard values
+        animal_count: Dict[str, int] = {"Herbivore": 0,
+                                        "Carnivore": 0}  # TODO Refactor with standard values
         for i, row in enumerate(self.island_map.map):
             for j, cell in enumerate(row):
-                animal_count["herbivores"] += cell.n_herbivores
-                animal_count["carnivores"] += cell.n_carnivores
+                animal_count["Herbivore"] += cell.n_herbivores
+                animal_count["Carnivore"] += cell.n_carnivores
 
         return animal_count
