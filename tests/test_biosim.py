@@ -31,3 +31,18 @@ def test_standard_specs() -> None:
     assert b.img_base == None
     assert b.img_fmt == "png"
     assert b.movie_format == None
+
+
+def test_property_year() -> None:
+    b = BioSim(island_map="WWWW\nWLHW\nWWWW",
+               ini_pop=[],
+               seed=1,
+               save_name='ok')
+    assert b.year() == 0
+
+
+def test_save_name():
+    b = BioSim(island_map="WWWW\nWLHW\nWWWW",
+               ini_pop=[],
+               seed=1,
+               save_name='ok')
