@@ -16,12 +16,19 @@ def test_cell() -> None:
 
 
 def test_change_params() -> None:
-    k = Lowland()
+    l = Lowland()
+    h = Highland()
+
     with pytest.raises(ValueError):
-        k.set_parameters({'f_max': -1})
-    k.set_parameters({'f_max': 300})
-    k.grow() # Reset fodder in cell to max_fodder
-    assert k.fodder == 300
+        l.set_parameters({'f_max': -1})
+    with pytest.raises(ValueError):
+        h.set_parameters({'f_max': -1})
+    l.set_parameters({'f_max': 400})
+    h.set_parameters({'f_max': 400})
+    l.grow() # Reset fodder in cell to max_fodder
+    h.grow()
+    assert l.fodder == 400
+    assert h.fodder == 400
 
     c = Lowland()
     with pytest.raises(ValueError):
@@ -51,6 +58,22 @@ def test_allowed_to_move_to() -> None:
     assert h.allowed_move_to is True
     assert d.allowed_move_to is True
 
+
+def test_remove_animal() -> None:
+    h = Highland()
+    h.add_animal('Herbivore')
+    n_before = h.n_herbivores
+    h.remove_animal(h.herbivores[0])
+    assert n_before > h.n_herbivores
+
+    h.add_animal('Carnivore')
+    n_before = h.n_carnivores
+    h.remove_animal(h.carnivores[0])
+    assert n_before > h.n_carnivores
+
+    a = 'Animal'
+    with pytest.raises(ValueError):
+        h.remove_animal(a)
 
 
 # TODO try to make it not look too ugly
@@ -84,6 +107,13 @@ def test_eat_herbivore() -> None:
     assert fodder_before_eating_desert == 0
     assert fodder_before_eating_desert == fodder_end_of_eating_desert
 
+    h = Highland()
+    h.add_animal('Herbivore')
+    start_weight_highland = h.herbivores[0].weight
+    h.set_parameters({'f_max': 11})
+    h.eat_herbivore()
+    assert h.herbivores[0].weight > start_weight_highland
+
 
 def test_add_animal() -> None:
     c = Cell()
@@ -94,6 +124,7 @@ def test_add_animal() -> None:
     assert type(c.herbivores[0]) == type(Herbivore())
     with pytest.raises(ValueError):
         c.add_animal(a)
+
 
 def test_eat_carnivore(mocker) -> None:
     """
@@ -131,9 +162,11 @@ def test_remove_dead_animals() -> None:
     l.remove_dead_animals()
     assert l.n_carnivores == n - 1 and l.n_herbivores == n - 1
 
+
 # TODO try to make mock or a statistic method (already done in animals?)
 def test_animal_babies() -> None:
     l = Lowland()
+
     l.animal_babies()
     assert l.n_herbivores == 0
     assert l.n_carnivores == 0
@@ -170,3 +203,16 @@ def test_grow() -> None:
     l.grow()
     assert l.fodder == l.params['f_max']
     assert l.fodder > finished_eating
+
+
+def test_new_year():
+    l = Lowland()
+    l.add_animal('Carnivore')
+    l.add_animal('Herbivore')
+    age_pre_carn = l.carnivores[0].age
+    age_pre_herb = l.herbivores[0].age
+    weight_pre_carn = l.carnivores[0].weight
+    weight_pre_herb = l.herbivores[0].weight
+    l.new_year()
+    assert age_pre_carn < l.carnivores[0].age and age_pre_herb < l.herbivores[0].age
+    assert weight_pre_carn > l.carnivores[0].weight and weight_pre_herb > l.herbivores[0].weight
