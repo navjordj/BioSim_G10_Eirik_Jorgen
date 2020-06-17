@@ -118,13 +118,17 @@ class Animal:
         bool
             Boolean representing of the animal should give birth or not
         """
+        # Can only make a baby once a year, if migrated to a cell it will not make baby in
+        # the new cell
+        if self.has_migrated is False:
+            if self._weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
+                return False
 
-        if self._weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
-            return False
-
-        p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
-        if np.random.random() < p:
-            return True
+            p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
+            if np.random.random() < p:
+                return True
+            else:
+                return False
         else:
             return False
 
@@ -142,11 +146,13 @@ class Animal:
         ValueError
             Raises ValueError if the amount of fodder eaten is negative
         """
-        if intake < 0:
-            raise ValueError("Cant eat negative amount")
-        else:
-            weight_change: float = self.params["beta"] * intake
-            self.update_weight(weight_change)
+        # When an animal has migrated, it will not eat again
+        if self.has_migrated is False:
+            if intake < 0:
+                raise ValueError("Cant eat negative amount")
+            else:
+                weight_change: float = self.params["beta"] * intake
+                self.update_weight(weight_change)
 
 
     def update_weight(self, change: float) -> None:
