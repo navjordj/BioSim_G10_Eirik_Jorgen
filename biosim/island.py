@@ -49,7 +49,7 @@ class Island:
         return map_str
 
     @staticmethod
-    def make_map_ready(map_string: str) -> List[List[str]]:
+    def _prepare_map(map_string: str) -> List[List[str]]:
         """Prepares the input map to be formatted to the proper format
 
         Parameters
@@ -85,7 +85,7 @@ class Island:
         return geo
 
     def make_a_map(self, string_map: str) -> List[List[Union[Highland, Water, Lowland, Desert]]]:
-        """Uses prepared map of strings from make_map_ready to create the final map.
+        """Uses prepared map of strings from prepare_map to create the final map.
         The final map is a list of list of cell objects.
 
         It created the final map in place and only replaces object in the list of lists 
@@ -105,7 +105,7 @@ class Island:
         ValueError
             [description]
         """
-        geo = self.make_map_ready(string_map)
+        geo = self._prepare_map(string_map)
 
         self.row_len = len(geo)
         self.column_len = len(geo[0])
