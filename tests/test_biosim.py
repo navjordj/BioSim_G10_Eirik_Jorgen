@@ -33,6 +33,7 @@ def test_standard_specs() -> None:
     assert b.movie_format == None
 
 
+@pytest.mark.skip(reason="Not implemented yet")
 def test_property_year() -> None:
     b = BioSim(island_map="WWWW\nWLHW\nWWWW",
                ini_pop=[],
@@ -41,6 +42,7 @@ def test_property_year() -> None:
     assert b.year() == 0
 
 
+@pytest.mark.skip(reason="Not implemented yet")
 def test_save_name():
     b = BioSim(island_map="WWWW\nWLHW\nWWWW",
                ini_pop=[],
