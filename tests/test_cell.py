@@ -62,25 +62,6 @@ def test_allowed_to_move_to() -> None:
     assert d.allowed_move_to is True
 
 
-# TODO: check if we ever need a remove_animal function
-@pytest.mark.skip(reason='Not implemented')
-def test_remove_animal() -> None:
-    h = Highland()
-    h.add_animal('Herbivore')
-    n_before = h.n_herbivores
-    h.remove_animal(h.herbivores[0])
-    assert n_before > h.n_herbivores
-
-    h.add_animal('Carnivore')
-    n_before = h.n_carnivores
-    h.remove_animal(h.carnivores[0])
-    assert n_before > h.n_carnivores
-
-    a = 'Animal'
-    with pytest.raises(ValueError):
-        h.remove_animal(a)
-
-
 # TODO try to make it not look too ugly
 def test_eat_herbivore() -> None:
     """
