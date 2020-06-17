@@ -2,6 +2,7 @@ from .animal import Animal
 
 from typing import Union
 
+
 class Carnivore(Animal):
     params: dict = {
             "w_birth": 6.0,
@@ -26,6 +27,21 @@ class Carnivore(Animal):
 
     @staticmethod
     def p_eat(phi_carn: float, phi_herb: float, DeltaPhiMax: Union[int, float]) -> Union[int, float]:
+        """
+        Probability for a carnivore to eat a herbivore
+        Parameters
+        ----------
+        phi_carn:
+            fitness carnivore
+        phi_herb:
+            fitness herbivore
+        DeltaPhiMax:
+            a parameter that helps to decide if a carnivore eats a herbivore
+
+        Returns
+        -------
+        A probability between 0 and 1
+        """
         if phi_carn <= phi_herb:
             return 0
         elif (0 < phi_carn - phi_herb) and (phi_carn - phi_herb < DeltaPhiMax):

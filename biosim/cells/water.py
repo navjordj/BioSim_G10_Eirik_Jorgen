@@ -1,5 +1,6 @@
 from .cell import Cell
 
+
 class Water(Cell):
     """
     Subclass of the superclass Cell

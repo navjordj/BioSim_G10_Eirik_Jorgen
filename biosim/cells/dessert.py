@@ -1,5 +1,6 @@
 from .cell import Cell
 
+
 class Desert(Cell):
     """
     Subclass of the superclass Cell

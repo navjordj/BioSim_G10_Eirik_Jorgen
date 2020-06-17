@@ -2,6 +2,7 @@ from .cell import Cell
 
 from typing import Union, Dict
 
+
 class Highland(Cell):
     """
     Attributes

@@ -205,7 +205,6 @@ def figfile_root():
         os.remove(f)
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 def test_figure_saved(figfile_root):
     """Test that figures are saved during simulation"""
 
