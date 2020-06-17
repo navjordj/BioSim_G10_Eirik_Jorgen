@@ -6,29 +6,29 @@ np.random.seed(1)
 
 
 class Animal:
-
     """Animal superclass implemented using the specifications in
     https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
 
     """
     params: dict = {
-            "w_birth": 8.0,
-            "sigma_birth": 1.5,
-            "beta": 0.9,
-            "eta": 0.05,
-            "a_half": 40.0,
-            "phi_age": 0.2,
-            "w_half": 10.0,
-            "phi_weight": 0.1,
-            "mu": 0.25,
-            "gamma": 0.2,
-            "zeta": 3.5,
-            "xi": 1.2,
-            "omega": 0.4,
-            "F": 10.0,
-            "DeltaPhiMax": None
-        }
-    
+        "w_birth": 8.0,
+        "sigma_birth": 1.5,
+        "beta": 0.9,
+        "eta": 0.05,
+        "a_half": 40.0,
+        "phi_age": 0.2,
+        "w_half": 10.0,
+        "phi_weight": 0.1,
+        "mu": 0.25,
+        "gamma": 0.2,
+        "zeta": 3.5,
+        "xi": 1.2,
+        "omega": 0.4,
+        "F": 10.0,
+        "DeltaPhiMax": None,
+        "infected": False
+    }
+
     def __init__(self, age=None, weight=None):
         """Constructor for animal superclass. Herbivore and Carnivore inherits from this class
 
@@ -53,6 +53,7 @@ class Animal:
         self.fitness = self.get_fitness()
         self.alive = True
         self.has_migrated = False
+        self.infected = self.params['infected']
 
     def __repr__(self) -> str:
         """method for how a animal should be represented when printed to the console
@@ -63,7 +64,7 @@ class Animal:
             String to be printed out
         """
         # TODO: what is pragma: no cover
-        return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}' # pragma: no cover
+        return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'  # pragma: no cover
 
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
@@ -99,12 +100,17 @@ class Animal:
         bool
             Boolean representing if the animal should die or not
         """
-        # TODO: make test
+        prob_death = 0
         if self._weight <= 0:
             return True
         else:
+            if self.infected is True:
+                # total death count and infected count of the Covid-19 virus in the world (17.06)
+                prob_death += 440290 / 8061550
             p: float = self.params["omega"] * (1 - self.fitness)
-            return np.random.random() < p
+            prob_death += p
+
+            return np.random.random() < prob_death, self.infected
 
     def give_birth(self, N: int) -> bool:
         """Returns a boolean saying if the animal should give birth or not
@@ -122,10 +128,11 @@ class Animal:
         # Can only make a baby once a year, if migrated to a cell it will not make baby in
         # the new cell
         if self.has_migrated is False:
-            if self._weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
+            if self._weight < self.params["zeta"] * (
+                    self.params["w_birth"] + self.params["sigma_birth"]):
                 return False
 
-            p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
+            p: Union[int, float] = min(1, self.params["gamma"] * self.fitness * (N - 1))
             if np.random.random() < p:
                 return True
             else:
@@ -185,8 +192,10 @@ class Animal:
         if self._weight < 0:
             return 0
         else:
-            new_fitness = self._fitness_calc(self._age, self.params["a_half"], self.params["phi_age"], 
-                                         self._weight, self.params["w_half"], self.params["phi_weight"] )
+            new_fitness = self._fitness_calc(self._age, self.params["a_half"],
+                                             self.params["phi_age"],
+                                             self._weight, self.params["w_half"],
+                                             self.params["phi_weight"])
 
         return new_fitness
 
@@ -224,7 +233,8 @@ class Animal:
             return False
 
     @staticmethod
-    def _fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
+    def _fitness_calc(a: float, a_half: float, phi_age: float, w: float, w_half: float,
+                      phi_weight: float) -> float:
         """Helper function for calculating the current fitness of animal
 
         Parameters
@@ -249,7 +259,7 @@ class Animal:
         """
 
         def _q(x: float, x_half: float, phi: float, sign: int) -> float:
-            return 1 / (1 + exp(sign * phi*(x - x_half)))
+            return 1 / (1 + exp(sign * phi * (x - x_half)))
 
         return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
 
@@ -275,7 +285,7 @@ class Animal:
         """
         self._age = new_age
 
-    @property 
+    @property
     def weight(self) -> float:
         """Getter for the weight of a animal
 
@@ -286,7 +296,7 @@ class Animal:
         """
         return self._weight
 
-    @weight.setter 
+    @weight.setter
     def weight(self, new_weight: float) -> None:
         """Setter for the weight of a animal
 
