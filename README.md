@@ -20,15 +20,15 @@ pip install .
 ## How to use
 ``` python
 from biosim.simulation import BioSim
-   ini_herbs = [{'loc': (2, 2), 'pop': [{'species': 'Herbivore', 'age': 5, 'weight': 50} for _ in range(50)]}]         
-   ini_carn = [{'loc': (2, 2), 'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 50} for _ in range(50)]}]
+ini_herbs = [{'loc': (2, 2), 'pop': [{'species': 'Herbivore', 'age': 5, 'weight': 50} for _ in range(50)]}]         
+ini_carn = [{'loc': (2, 2), 'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 50} for _ in range(50)]}]
 
-   island_map = """\
-                  WWW
-                  WLW
-                  WWW"""
-   b = BioSim(seed=123, ini_pop=ini_herbs, island_map=island_map)
-   b.simulate(num_years=50)
+island_map = """\
+               WWW
+               WLW
+               WWW"""
+b = BioSim(seed=123, ini_pop=ini_herbs, island_map=island_map)
+b.simulate(num_years=50)
 ```
 More examples are found in examples/
 
