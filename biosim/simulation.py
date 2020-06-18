@@ -2,12 +2,12 @@ __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no ,navjordj@gmail.com'
 
 from biosim.animals import Herbivore, Carnivore
-from biosim.cells import Lowland, Highland, Water, Desert
+from biosim.cells import Lowland, Highland, Water
 from biosim.island import Island
 from biosim.viz import Viz
 
 import numpy as np
-from typing import Dict, Union
+from typing import Dict
 import matplotlib.pyplot as plt
 
 import subprocess
@@ -18,22 +18,19 @@ import os
 
 
 class BioSim:
-    def __init__(
-            self,
-            seed,
-            ini_pop=None,
-            island_map=None,
-            plt_speed=None,
-            ymax_animals=None,
-            cmax_animals=None,
-            hist_specs=None,
-            img_base=None,
-            img_fmt="png",
-            movie_format=None,
-            save_name=None,
-            data_name=None
-
-    ):
+    def __init__(self,
+                 seed,
+                 ini_pop=None,
+                 island_map=None,
+                 plt_speed=None,
+                 ymax_animals=None,
+                 cmax_animals=None,
+                 hist_specs=None,
+                 img_base=None,
+                 img_fmt="png",
+                 movie_format=None,
+                 save_name=None,
+                 data_name=None):
         """
         :param seed: Integer used as random number seed
         :param ini_pop: List of dictionaries specifying initial population
@@ -46,19 +43,20 @@ class BioSim:
         :param img_fmt: String with file type for figures, e.g. 'png'
         :param movie_format: String with the file type for movies, e.g. 'mp4
         :param save_name": String with the file name for saving the state of the island
-        :param data_name": String with the file name for the csv file containing populations every year
+        :param data_name": String with the file name for
+            the csv file containing populations every year
 
         If ini_pop is None, BioSim will be initiated without a inital population
 
         If island_map is None, BioSim will try to load a state given by save_name
 
-        If plt_speed is None, the pause between updates of the plot will be 1e-2 
+        If plt_speed is None, the pause between updates of the plot will be 1e-2
 
         If ymax_animals is None, the y-axis limit should be adjusted automatically.
 
         If cmax_animals is None, sensible, fixed default values should be used.
         cmax_animals is a dict mapping species names to numbers, e.g.,
-           {'Herbivore': 50, 'Carnivore': 20} 
+           {'Herbivore': 50, 'Carnivore': 20}
 
         If img_base is None, no figures are written to file.
         Filenames are formed as
@@ -71,26 +69,24 @@ class BioSim:
         If save_name is None, no state will be attempted to load
 
         if data_name is None, no data is written to the system
-        
+
         """
 
         if island_map is None:
-             if save_name is None:
-                raise ValueError("""Island_map and save_name can't both be none. \ 
-                               Initiate with a map or filename of saved state""") 
+            if save_name is None:
+                error_msg = """Island_map and save_name can't both be none. \
+                               Initiate with a map or filename of saved state"""
+                raise ValueError(error_msg)
         else:
             if save_name is not None:
-                raise ValueError("""Island_map and save_name can't both be given. \ 
-                                  Initiate with a map OR filename of saved state""") 
-                
+                error_msg = """Island_map and save_name can't both be given. \
+                                  Initiate with a map OR filename of saved state"""
+                raise ValueError(error_msg)
+
         if hist_specs is None:
-            self.hist_specs = {'weight': None,
-                              'age': None,
-                              'fitness': None}
+            self.hist_specs = {'weight': None, 'age': None, 'fitness': None}
         else:
-            self.hist_specs = {'weight': None,
-                              'age': None,
-                              'fitness': None}
+            self.hist_specs = {'weight': None, 'age': None, 'fitness': None}
             for key in hist_specs:
                 self.hist_specs[key] = hist_specs[key]
 
@@ -120,13 +116,16 @@ class BioSim:
             self.data_name = data_name
             filename = f'{data_name}.csv'
             self.file = open(filename, 'a+', newline='')
-            self.filewriter = csv.writer(self.file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            self.filewriter = csv.writer(self.file,
+                                         delimiter=',',
+                                         quotechar='|',
+                                         quoting=csv.QUOTE_MINIMAL)
             self.file_open = True
 
-                # Check if file if empty. 
+            # Check if file if empty.
             # If empty: append column names
             # (Must be a better way to check if the file is empty)
-            if os.stat(filename).st_size == 0: 
+            if os.stat(filename).st_size == 0:
                 self.filewriter.writerow(["Year", "Herbivores", "Carnivores"])
 
         else:
@@ -141,10 +140,7 @@ class BioSim:
         :param species: String, name of animal species
         :param params: Dict with valid parameter specification for species
         """
-        animals = {
-            'Herbivore': Herbivore,
-            'Carnivore': Carnivore
-        }
+        animals = {'Herbivore': Herbivore, 'Carnivore': Carnivore}
         animals[species].set_params(params)
 
     @staticmethod
@@ -156,10 +152,7 @@ class BioSim:
         :param params: Dict with valid parameter specification for landscape
         """
 
-        landscape_types = {
-            'L': Lowland,
-            'H': Highland
-        }
+        landscape_types = {'L': Lowland, 'H': Highland}
         landscape_types[landscape].set_parameters(params)
 
     def simulate(self, num_years, vis_years=1, img_years=None, status_years=None):
@@ -181,10 +174,13 @@ class BioSim:
                   img_base=self.img_base,
                   img_fmt=self.img_fmt)
 
-        if self.data_name is not None and self.file_open == False:
+        if self.data_name is not None and self.file_open is False:
             filename = f'{self.data_name}.csv'
             self.file = open(filename, 'a+', newline='')
-            self.filewriter = csv.writer(self.file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            self.filewriter = csv.writer(self.file,
+                                         delimiter=',',
+                                         quotechar='|',
+                                         quoting=csv.QUOTE_MINIMAL)
             self.file_open = True
 
         # TODO fix map.map.map.map
@@ -195,7 +191,6 @@ class BioSim:
             # Append animal data to number counter for plotting
             self.island_map.num_herbivores_data.append(num_herb)
             self.island_map.num_carnivores_data.append(num_carn)
-
 
             viz.update_data(self.island_map, num_herb, num_carn)
 
@@ -212,7 +207,6 @@ class BioSim:
 
             self.island_map.new_year()
             self.island_map.year += 1
-            
 
         plt.close()
         if self.data_name is not None:
@@ -237,7 +231,8 @@ class BioSim:
                     raise ValueError(f"Cant add animals on water landscape ({loc[0], loc[1]})")
                 else:
                     self.island_map.map[loc[0] - 1][loc[1] - 1].add_animal(animal=type_animal,
-                                                                           age=age, weight=weight)
+                                                                           age=age,
+                                                                           weight=weight)
 
     def save_simulation(self, filename: str) -> None:
         """Method for saving the state of the simulation to a file.
@@ -279,7 +274,10 @@ class BioSim:
             Raises error if anything goes wrong during runtime
         """
         try:
-            cmd = f'ffmpeg -r 20 -i {self.img_base}_%05d.{self.img_fmt} -b:v 20M {self.img_base}.{self.movie_format}'
+            cmd = f'ffmpeg -r 20 -i \
+                   {self.img_base}_%05d.{self.img_fmt} \
+                   -b:v 20M \
+                   {self.img_base}.{self.movie_format}'
             subprocess.check_call(cmd)
         except subprocess.CalledProcessError as err:
             raise RuntimeError(f"Error creating movie: {err}")
@@ -298,7 +296,6 @@ class BioSim:
         """
         self.filewriter.writerow([year, num_herb, num_carn])
 
-
     @property
     def year(self):
         """Last year simulated."""
@@ -314,8 +311,7 @@ class BioSim:
     @property
     def num_animals_per_species(self) -> Dict[str, int]:
         """Number of animals per species in island, as dictionary."""
-        animal_count: Dict[str, int] = {"Herbivore": 0,
-                                        "Carnivore": 0}  # TODO Refactor with standard values
+        animal_count: Dict[str, int] = {"Herbivore": 0, "Carnivore": 0}
         for i, row in enumerate(self.island_map.map):
             for j, cell in enumerate(row):
                 animal_count["Herbivore"] += cell.n_herbivores
