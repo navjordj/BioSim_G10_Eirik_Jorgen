@@ -201,7 +201,7 @@ def test_will_migrate():
     # Probability should be 0.25 (mu*fitness)
 
     n_migrations = 0
-    for _ in range(1000):
+    for _ in range(10000):
         a: Animal = Animal(age=1, weight=10000)
         assert a.has_migrated == False
         if a.will_migrate():
