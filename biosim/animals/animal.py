@@ -1,5 +1,5 @@
 from math import exp
-from typing import Union, Dict
+from typing import Union, Dict, Tuple
 import numpy as np
 
 np.random.seed(1)
@@ -92,7 +92,7 @@ class Animal:
     def increase_age(self) -> None:
         self._age += 1
 
-    def should_die(self) -> bool:
+    def should_die(self) -> Tuple[bool, bool]:
         """Returns a boolean saying if the animal should die or not
 
         Returns
@@ -100,9 +100,9 @@ class Animal:
         bool
             Boolean representing if the animal should die or not
         """
-        prob_death = 0
+        prob_death: Union[int, float] = 0
         if self._weight <= 0:
-            return True
+            return True, False
         else:
             if self.infected is True:
                 # total death count and infected count of the Covid-19 virus in the world (17.06)

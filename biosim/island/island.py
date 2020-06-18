@@ -24,7 +24,9 @@ class Island:
         self.tot_infected_herbs: int = 0
         self.tot_infected_carns: int = 0
 
-        self.tot_infect_related_death: int = 0
+        self.tot_infect_related_death_carn: int = 0
+        self.tot_infect_related_death_herb: int = 0
+
 
     def __repr__(self) -> str:
         """toString to format how a island should be printed to the console.
@@ -193,4 +195,7 @@ class Island:
                 cell.new_year()
                 # DEATH
                 cell.death_animals()
-                self.tot_infect_related_death += cell.infect_related_death
+                self.tot_infect_related_death_herb += cell.infect_related_death_herb
+                self.tot_infect_related_death_carn += cell.infect_related_death_carn
+                cell.infect_related_death_herb = 0
+                cell.infect_related_death_carn = 0
