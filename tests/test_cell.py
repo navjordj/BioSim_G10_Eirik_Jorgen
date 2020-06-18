@@ -27,7 +27,7 @@ def test_change_params() -> None:
         h.set_parameters({'f_max': -1})
     l.set_parameters({'f_max': 400})
     h.set_parameters({'f_max': 400})
-    l.grow() # Reset fodder in cell to max_fodder
+    l.grow()  # Reset fodder in cell to max_fodder
     h.grow()
     assert l.fodder == 400
     assert h.fodder == 400
@@ -77,7 +77,8 @@ def test_eat_herbivore() -> None:
     assert fodder_before_eating_lowland >= fodder_end_of_eating_lowland  # see if the amount of
     # fodder is lower after eating
     l.grow()
-    assert l.fodder >= fodder_end_of_eating_lowland and l.fodder == l.params['f_max']  # fodder is set
+    assert l.fodder >= fodder_end_of_eating_lowland and l.fodder == l.params[
+        'f_max']  # fodder is set
     # to the standard amount of fodder (max fodder)
 
     d = Desert()
@@ -107,7 +108,7 @@ def test_add_animal() -> None:
     a = 'Animal'
     c.add_animal(h)
     assert len(c.herbivores) == 1
-    assert type(c.herbivores[0]) == type(Herbivore())
+    assert type(c.herbivores[0]) is type(Herbivore())
     with pytest.raises(ValueError):
         c.add_animal(a)
 
@@ -200,8 +201,7 @@ def test_death_animal() -> None:
     n_infect_death_pre = l.infect_related_death_carn + l.infect_related_death_herb
     l.death_animals()
     n_infect_death_after = l.infect_related_death_carn + l.infect_related_death_herb
-    assert n_infect_death_pre <n_infect_death_after
-
+    assert n_infect_death_pre < n_infect_death_after
 
 
 def test_grow() -> None:
@@ -227,6 +227,7 @@ def test_infected_animals():
     for herb in d.herbivores:
         assert herb.infected is True
     assert d.carnivores[0].infected is True
+
 
 def test_new_year():
     l = Lowland()

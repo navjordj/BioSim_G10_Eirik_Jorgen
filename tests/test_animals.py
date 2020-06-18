@@ -16,16 +16,20 @@ def test_init_animal_and_weight():
     alpha = 0.001
     n = 10000
     a = Animal()
+    # makes a normal distribution from the parameters w_birth and sigma_birth
     norm_disp = np.random.normal(a.params["w_birth"], a.params["sigma_birth"], n)
+    # list with weights of animals when not any specified weight is given
     weight_list = []
     for _ in range(n):
         a = Animal()
         weight_list.append(a.weight)
+    # compares the weight_list against the normal distribution, the closer they are, the bigger the
+    # p-value gets
     x = np.concatenate((weight_list, norm_disp))
     k2, p = stats.normaltest(x)
     assert p >= alpha
-    assert a.age == 0
 
+    assert a.age == 0
     a: Animal = Animal(age=2, weight=10)
     assert a.age == 2
     assert a.weight == 10
@@ -83,19 +87,18 @@ def test_death(mocker):
     a.infected = True
     prob_death, infected = a.should_die()
     assert prob_death is False and infected is True
-    # TODO Is this ok?
     # probability of death is close to a normal distribution
     alpha = 0.00001
     n = 1000
-    death_list = []  # list o prob of death for animal
+    death_list = []  # list of prob of death for animal
     for _ in range(n):
         a = Animal()
         death_list.append(a.params["omega"] * (1 - a.fitness))
     # Central limit theorem
     mean = np.mean(death_list)
-    sd = np.std(death_list)
+    std = np.std(death_list)
     assert n * mean >= 30 and n * (1 - mean) >= 30  # test for close to normal
-    norm_approx = np.random.normal(mean, sd, n)
+    norm_approx = np.random.normal(mean, std, n)  # makes a normal distribution from mean and std
     x = np.concatenate((death_list, norm_approx))
     k2, p = stats.normaltest(x)
     assert p > alpha
@@ -197,11 +200,11 @@ def test_will_migrate():
     n_migrations = 0
     for _ in range(10000):
         a: Animal = Animal(age=1, weight=10000)
-        assert a.has_migrated == False
+        assert a.has_migrated is False
         if a.will_migrate():
             n_migrations += 1
-            assert a.has_migrated == True
-            assert a.will_migrate() == False # 
+            assert a.has_migrated is True
+            assert a.will_migrate() is False  # Animal will not migrate once has_migrated = True
 
     prob_migration = n_migrations/10000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)
