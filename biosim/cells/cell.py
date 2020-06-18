@@ -204,10 +204,12 @@ class Cell:
 
     def infected_animals(self) -> bool:
         """
-
+        chekcs every animal if they are infected, if they are, then all the other animals in the
+        cell also gets infected
         Returns
         -------
-
+        bool
+            True in there was an infection in cell, false otherwise
         """
         infected_in_cell = False
         for herb in self.herbivores:

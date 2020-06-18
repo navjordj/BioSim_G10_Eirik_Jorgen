@@ -308,4 +308,7 @@ class Animal:
         self._weight = new_weight
 
     def infect(self) -> None:
+        """
+        changes the self.infected to true
+        """
         self.infected = True
