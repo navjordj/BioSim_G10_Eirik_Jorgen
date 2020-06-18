@@ -26,5 +26,5 @@ sim1.simulate(num_years=5)
 sim1.save_simulation('state')
 
 # Initiates BioSim with a state from a previous simulation
-sim2 = BioSim(seed=123, ini_pop=[], island_map="WWW\nWWW\nWWW", save_name='state')
+sim2 = BioSim(seed=123, ini_pop=[], save_name='state')
 sim2.simulate(num_years=10)

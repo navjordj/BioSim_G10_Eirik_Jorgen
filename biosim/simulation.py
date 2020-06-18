@@ -22,7 +22,7 @@ class BioSim:
             self,
             seed,
             ini_pop,
-            island_map,
+            island_map=None,
             plt_speed=None,
             ymax_animals=None,
             cmax_animals=None,
@@ -46,6 +46,8 @@ class BioSim:
         :save_name": String with the file name for saving the state of the island
         "data_name": String with the file name for the csv file containing populations every year
 
+        If island_map is None, BioSim will try to load a state given by save_name
+
         If ymax_animals is None, the y-axis limit should be adjusted automatically.
 
         If cmax_animals is None, sensible, fixed default values should be used.
@@ -63,6 +65,15 @@ class BioSim:
         if data_name is None, no data is written to the system
         
         """
+
+        if island_map is None and save_name is None:
+            raise ValueError("""Island_map and save_name can't both be none. \ 
+                               Initiate with a map or filename of saved state""") 
+        
+        if island_map is not None and save_name is not None:
+            raise ValueError("""Island_map and save_name can't both be given. \ 
+                               Initiate with a map OR filename of saved state""") 
+        
         if hist_specs is None:
             self.hist_specs = {'weight': None,
                               'age': None,
