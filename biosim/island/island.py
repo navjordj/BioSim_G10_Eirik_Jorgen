@@ -9,6 +9,9 @@ import random
 
 
 class Island:
+    """ 
+    Documentation for Island class
+    """
     map_params = {'W': Water,
                   'D': Desert,
                   'L': Lowland,

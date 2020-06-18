@@ -8,10 +8,7 @@ from typing import Union, Dict
 
 class Highland(Cell):
     """
-    Attributes
-    ----------
-    params: dict
-        have what the max mount of fodder available in cell
+    Documentation for desert cell type    
     """
 
     params = {'f_max': 300.0}

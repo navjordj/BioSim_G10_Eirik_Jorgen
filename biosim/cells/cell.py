@@ -10,6 +10,9 @@ import numpy as np
 
 
 class Cell:
+    """
+    Documentation for cell class
+    """
     max_fodder: Union[float, int] = 0
 
     def __init__(self) -> None:
