@@ -121,6 +121,7 @@ class BioSim:
             filename = f'{data_name}.csv'
             self.file = open(filename, 'a+', newline='')
             self.filewriter = csv.writer(self.file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            self.file_open = True
             
             # Check if file if empty. 
             # If empty: append column names
@@ -178,6 +179,12 @@ class BioSim:
                   img_base=self.img_base,
                   img_fmt=self.img_fmt)
 
+        if self.file_open == False:
+            filename = f'{self.data_name}.csv'
+            self.file = open(filename, 'a+', newline='')
+            self.filewriter = csv.writer(self.file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            self.file_open = True
+
         # TODO fix map.map.map.map
         for year in range(num_years):
             print(f'Year {year}: ')
@@ -200,7 +207,7 @@ class BioSim:
                     viz.save_fig()
 
             if self.data_name is not None:
-                self._save_status(year, num_herb, num_carn)
+                self._save_status(self.island_map.year, num_herb, num_carn)
 
             self.island_map.new_year()
             self.island_map.year += 1
@@ -211,6 +218,7 @@ class BioSim:
         plt.close()
         if self.data_name is not None:
             self.file.close()
+            self.file_open = False
 
     def add_population(self, population):
         """
