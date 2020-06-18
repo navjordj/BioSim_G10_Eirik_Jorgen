@@ -24,7 +24,8 @@ class Carnivore(Animal):
             "xi": 1.1,
             "omega": 0.8,
             "F": 50.0,
-            "DeltaPhiMax": 10
+            "DeltaPhiMax": 10,
+            "infected": False
     }
 
     def __init__(self, age=None, weight=None) -> None:

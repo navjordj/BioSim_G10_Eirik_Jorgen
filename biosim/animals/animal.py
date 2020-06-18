@@ -25,7 +25,8 @@ class Animal:
         "xi": 1.2,
         "omega": 0.4,
         "F": 10.0,
-        "DeltaPhiMax": None
+        "DeltaPhiMax": None,
+        "infected": False
     }
 
     def __init__(self, age=None, weight=None):
@@ -52,7 +53,7 @@ class Animal:
         self.fitness = self.get_fitness()
         self.alive = True
         self.has_migrated = False
-        self.infected = False  # can choose to set animals to be
+        self.infected = self.params['infected']  # can choose to set animals to be
         # infected by the virus
 
     def __repr__(self) -> str:
