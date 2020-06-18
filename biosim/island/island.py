@@ -8,7 +8,7 @@ import random
 
 
 class Island:
-    """ 
+    """
     Documentation for Island class
     """
     map_params = {'W': Water,
@@ -99,7 +99,7 @@ class Island:
         """Uses prepared map of strings from prepare_map to create the final map.
         The final map is a list of list of cell objects.
 
-        It created the final map in place and only replaces object in the list of lists 
+        It created the final map in place and only replaces object in the list of lists
 
         Parameters
         ----------

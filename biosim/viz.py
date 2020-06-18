@@ -4,7 +4,6 @@ __email__ = 'eirihoyh@nmbu.no, navjordj@gmail.com'
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from typing import Dict
 
 
 class Viz:
@@ -341,8 +340,8 @@ class Viz:
                                                    f'Total infect related death herbivores: '
                                                    f'{tot_death_herb}\n'
                                                    f'Total infect related death carnivores: '
-                                                   f'{tot_death_carn}'
-                                                   , ha='center', wrap=True)
+                                                   f'{tot_death_carn}',
+                                                   ha='center', wrap=True)
 
     def update_data(self, island, num_herb, num_carn):
         """Method for updating the data used for plotting
@@ -435,7 +434,7 @@ class Viz:
         self._update_age_histogram(island)
         self._update_weight_histogram(island)
         self._update_text(island)
-        if plt_speed == None:
+        if plt_speed is None:
             plt.pause(1e-2)
         else:
             plt.pause(plt_speed)

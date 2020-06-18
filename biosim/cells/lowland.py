@@ -8,7 +8,7 @@ from typing import Union, Dict
 
 class Lowland(Cell):
     """
-    Documentation for desert cell type   
+    Documentation for desert cell type
     """
 
     params = {'f_max': 800.0}
