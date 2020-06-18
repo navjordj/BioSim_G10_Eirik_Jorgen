@@ -165,6 +165,7 @@ class Cell:
                     mother_weight_change = - carni.params["xi"] * baby_weight
                     carni.update_weight(mother_weight_change)
                     carnivore_babies.append(baby_carnivore)
+                    self.n_carnivores += 1
 
         herbivore_babies: List[Herbivore] = []
         if self.n_herbivores >= 2:
@@ -176,11 +177,10 @@ class Cell:
                     mother_weight_change = -herbi.params["xi"] * baby_weight
                     herbi.update_weight(mother_weight_change)
                     herbivore_babies.append(baby_herbivore)
+                    self.n_herbivores += 1
 
         self.carnivores.extend(carnivore_babies)
         self.herbivores.extend(herbivore_babies)
-        self.n_carnivores = self.n_carnivores + len(carnivore_babies)
-        self.n_herbivores = self.n_herbivores + len(herbivore_babies)
 
     # TODO: test function
     def death_animals(self) -> None:
