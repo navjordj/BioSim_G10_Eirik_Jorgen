@@ -202,6 +202,7 @@ def test_fitness():
     a.update_weight(1000000) # TODO see if I can make it "right"
     #assert a.get_fitness() == pytest.approx(1)
 
+
 def test_will_migrate():
     # fitness ~ 1
     # mu = 0.25
@@ -219,5 +220,9 @@ def test_will_migrate():
     prob_migration = n_migrations/1000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)
 
-
-
+def test_infect():
+    a = Animal()
+    pre_infection = a.infected
+    a.infect()
+    assert pre_infection is False
+    assert a.infected is True
