@@ -8,9 +8,6 @@ from typing import Union, List
 
 import numpy as np
 
-np.random.seed(1)
-
-
 class Cell:
     max_fodder: Union[float, int] = 0
 
@@ -224,7 +221,6 @@ class Cell:
                 carn.infected = True
         return infected_in_cell
 
-    # TODO: test function
     def new_year(self) -> None:
         for herb in self.herbivores:
             herb.new_year()
