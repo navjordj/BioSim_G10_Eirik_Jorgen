@@ -5,10 +5,7 @@ import random
 
 
 class Island:
-    map_params = {'W': Water,
-                  'D': Desert,
-                  'L': Lowland,
-                  'H': Highland}
+    map_params = {'W': Water, 'D': Desert, 'L': Lowland, 'H': Highland}
 
     def __init__(self, map_str: str) -> None:
         self.row_len: int = 0
@@ -88,7 +85,7 @@ class Island:
         """Uses prepared map of strings from prepare_map to create the final map.
         The final map is a list of list of cell objects.
 
-        It created the final map in place and only replaces object in the list of lists 
+        It created the final map in place and only replaces object in the list of lists
 
         Parameters
         ----------
@@ -137,7 +134,7 @@ class Island:
 
                 cell_destination = random.choice(adj_cells)
                 if cell_destination.allowed_move_to:
-                    cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)  #TODO: try to put the same animal in, not create new one
+                    cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)
                     cell_destination.herbivores[-1].has_migrated = True
                     cell.herbivores[i].alive = False
 
@@ -171,10 +168,12 @@ class Island:
                 cell.animal_babies()
                 # MIGRATION:
                 if cell.allowed_move_to is True:
-                    adj_cells: List[Union[Highland, Lowland, Water, Desert]] = [self.map[i - 1][j],
-                                                                     self.map[i + 1][j],
-                                                                     self.map[i][j - 1],
-                                                                     self.map[i][j + 1]]
+                    adj_cells: List[Union[Highland, Lowland, Water, Desert]] = [
+                        self.map[i - 1][j],
+                        self.map[i + 1][j],
+                        self.map[i][j - 1],
+                        self.map[i][j + 1]
+                    ]
                     self.migration(cell, adj_cells)
                     self.map[i][j].remove_dead_animals()
 
