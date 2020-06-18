@@ -217,7 +217,7 @@ class Animal:
         """Returns a boolean representing if a animal should migrate or not
 
             Probability of migration is given by the following equation:
-            
+
 
         Returns
         -------
