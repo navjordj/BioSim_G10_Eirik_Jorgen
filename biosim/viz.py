@@ -331,7 +331,7 @@ class Viz:
                                                          f'Herbivores: {herb}\n'
                                                          f'Carnivores: {carn}',
                                                ha='center', wrap=True)
-        if infect_carn is not 0 or infect_herb is not 0:
+        if infect_carn != 0 or infect_herb != 0:
             self.text_year = self.text_img_ax.text(0.5, 0,
                                                    f'Tot infected herbivores: {infect_herb}\n'
                                                    f'Tot infected carnivores: {infect_carn}\n\n'
