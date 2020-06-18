@@ -1,13 +1,46 @@
-.. Biosim Group 10 June 2020 documentation master file, created by
-   sphinx-quickstart on Wed Jun 17 13:01:03 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 Welcome to Group 10's documentation!
 ====================================
 
 This is a package for running biologic simulations according to the specifications from PEAP
-The package can be ran by using the following commands:
+
+Description:
+
+This package includes software for performing biological simulations in a custom environment. 
+The package is implemented according to standards by PEAP.
+
+The main interface is the BioSim class which controls the simulation and all the underlying aspects.
+
+The simulation is performed on an island specified by the user according to PEAP specifications.
+
+The island consists of the following environments:
+
+- Water - W
+- Desert - D
+- Lowland - L
+- Highland - H
+
+The following animals live on the island:
+
+- Herbivores - Only eats fodder which is found in Lowland and Highland
+- Carnivores - Only eats herbivores
+
+
+Installation:
+
+.. code-block:: console
+
+   pip install git+https://github.com/navjordj/BioSim_G10_Eirik_Jorgen
+
+or:
+
+.. code-block:: console
+
+   git clone https://github.com/navjordj/BioSim_G10_Eirik_Jorgen
+   cd BioSim_G10_Eirik_Jorgen
+   pip install .
+
+How to use:
 
 .. code-block:: python
 
