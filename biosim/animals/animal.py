@@ -5,9 +5,10 @@ from math import exp
 from typing import Union, Dict, Tuple
 import numpy as np
 
+
 class Animal:
     """Documentation for Animal superclass implemented using the specifications in
-    https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
+    PEAP requirements
 
     """
     params: dict = {
@@ -64,7 +65,9 @@ class Animal:
         str
             String to be printed out
         """
-        return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'  # pragma: no cover
+        return f'Type: {type(self)} \n \
+                 Age: {self._age} \n \
+                 Fitness: {self.get_fitness()}'  # pragma: no cover
 
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
@@ -73,7 +76,8 @@ class Animal:
         Parameters
         ----------
         new_parameters : Dict[str, Union[int, float]]
-            Dictionary containing the keys of the parameters to be changed and the corresponding values
+            Dictionary containing the keys of the parameters to be changed
+            and the corresponding values
 
         Raises
         ------
@@ -90,7 +94,7 @@ class Animal:
                 raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
 
     def increase_age(self) -> None:
-        
+
         self._age += 1
 
     def should_die(self) -> Tuple[bool, bool]:
@@ -129,8 +133,8 @@ class Animal:
         # Can only make a baby once a year, if migrated to a cell it will not make baby in
         # the new cell
         if self.has_migrated is False:
-            if self._weight < self.params["zeta"] * (
-                    self.params["w_birth"] + self.params["sigma_birth"]):
+            if self._weight < self.params["zeta"] * \
+             (self.params["w_birth"] + self.params["sigma_birth"]):
                 return False
 
             p: Union[int, float] = min(1, self.params["gamma"] * self.fitness * (N - 1))
@@ -193,9 +197,11 @@ class Animal:
         if self._weight < 0:
             return 0
         else:
-            new_fitness = self._fitness_calc(self._age, self.params["a_half"],
+            new_fitness = self._fitness_calc(self._age,
+                                             self.params["a_half"],
                                              self.params["phi_age"],
-                                             self._weight, self.params["w_half"],
+                                             self._weight,
+                                             self.params["w_half"],
                                              self.params["phi_weight"])
 
         return new_fitness
@@ -215,7 +221,7 @@ class Animal:
         """Returns a boolean representing if a animal should migrate or not
 
             Probability of migration is given by the following equation:
-            
+
 
         Returns
         -------
@@ -234,7 +240,11 @@ class Animal:
             return False
 
     @staticmethod
-    def _fitness_calc(a: float, a_half: float, phi_age: float, w: float, w_half: float,
+    def _fitness_calc(a: float,
+                      a_half: float,
+                      phi_age: float,
+                      w: float,
+                      w_half: float,
                       phi_weight: float) -> float:
         """Helper function for calculating the current fitness of animal
 
@@ -258,7 +268,6 @@ class Animal:
         float
             The current fitness of a animal
         """
-
         def _q(x: float, x_half: float, phi: float, sign: int) -> float:
             return 1 / (1 + exp(sign * phi * (x - x_half)))
 
