@@ -10,6 +10,11 @@ from pytest_mock import mocker
 
 from biosim.simulation import BioSim
 
+def plain_sim():
+    """Return a simple island for used in various tests below"""
+    return BioSim(island_map="WWWW\nWLHW\nWWWW",
+                  ini_pop=[],
+                  seed=1)
 
 def test_init_biosim():
     b = BioSim(seed=1,
@@ -33,18 +38,17 @@ def test_standard_specs() -> None:
     assert b.movie_format == None
 
 
-@pytest.mark.skip(reason="Not implemented yet")
-def test_property_year() -> None:
-    b = BioSim(island_map="WWWW\nWLHW\nWWWW",
-               ini_pop=[],
-               seed=1,
-               save_name='ok')
-    assert b.year() == 0
+@pytest.fixture
+def test_serialization(plain_sim):
+    plain_sim.simulate(num_years=5)
 
+    island_pre_save = plain_sim.island_map
+    plain_sim.save_simulation('test_save')
 
-@pytest.mark.skip(reason="Not implemented yet")
-def test_save_name():
-    b = BioSim(island_map="WWWW\nWLHW\nWWWW",
-               ini_pop=[],
-               seed=1,
-               save_name='ok')
+    plain_sim.load_simlation('test_save')
+    island_post_save = plain_sim.island_map
+
+    assert island_post_save == island_pre_save
+
+    plain_sim.simulate(num_years=5)
+    assert plain_sim.year == 10
