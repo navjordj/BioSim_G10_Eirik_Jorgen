@@ -21,6 +21,9 @@ class Cell:
         self.allowed_move_to: bool = True
         self.fodder = self.max_fodder
 
+        self.infect_related_death_herb: int = 0
+        self.infect_related_death_carn: int = 0
+
     def __repr__(self):
         return f'{type(self)} \n number of carnivores: {len(self.carnivores)} \n ' \
                f'number of herbivores: {len(self.herbivores)}'
@@ -174,15 +177,41 @@ class Cell:
         Looks at the probability of each animal to die, if it's likely, the dead animal will
         be removed
         """
+        counter_death = 0
         for herb in self.herbivores:
-            if herb.should_die():
+            prob, infected = herb.should_die()
+            if prob is True:
                 herb.alive = False
+                if infected is True:
+                    self.infect_related_death_herb += 1
+            herb.infected = False
 
         for carni in self.carnivores:
-            if carni.should_die():
+            prob, infected = carni.should_die()
+            if prob is True:
                 carni.alive = False
+                if infected is True:
+                    self.infect_related_death_carn += 1
+            carni.infected = False
 
         self.remove_dead_animals()
+
+    def infected_animals(self) -> bool:
+        infected_in_cell = False
+        for herb in self.herbivores:
+            if herb.infected is True:
+                infected_in_cell = True
+
+        for carn in self.carnivores:
+            if carn.infected is True:
+                infected_in_cell = True
+
+        if infected_in_cell is True:
+            for herb in self.herbivores:
+                herb.infected = True
+            for carn in self.carnivores:
+                carn.infected = True
+        return infected_in_cell
 
     # TODO: test function
     def new_year(self) -> None:
