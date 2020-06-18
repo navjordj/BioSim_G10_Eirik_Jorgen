@@ -21,7 +21,7 @@ class BioSim:
     def __init__(
             self,
             seed,
-            ini_pop,
+            ini_pop=None,
             island_map=None,
             plt_speed=None,
             ymax_animals=None,
@@ -66,14 +66,15 @@ class BioSim:
         
         """
 
-        if island_map is None and save_name is None:
-            raise ValueError("""Island_map and save_name can't both be none. \ 
+        if island_map is None:
+             if save_name is None:
+                raise ValueError("""Island_map and save_name can't both be none. \ 
                                Initiate with a map or filename of saved state""") 
-        
-        if island_map is not None and save_name is not None:
-            raise ValueError("""Island_map and save_name can't both be given. \ 
-                               Initiate with a map OR filename of saved state""") 
-        
+        else:
+            if save_name is not None:
+                raise ValueError("""Island_map and save_name can't both be given. \ 
+                                  Initiate with a map OR filename of saved state""") 
+                
         if hist_specs is None:
             self.hist_specs = {'weight': None,
                               'age': None,
@@ -99,7 +100,9 @@ class BioSim:
             self.img_fmt = 'png'
         else:
             self.img_fmt = img_fmt
-        self.add_population(ini_pop)
+
+        if ini_pop is not None:
+            self.add_population(ini_pop)
 
         self.img_base = img_base
         self.img_fmt = img_fmt
