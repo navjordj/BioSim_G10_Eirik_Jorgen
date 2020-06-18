@@ -6,7 +6,7 @@ from .cell import Cell
 
 class Desert(Cell):
     """
-    Subclass of the superclass Cell
+    Documentation for desert cell type
     """
 
     def __init__(self) -> None:
