@@ -7,6 +7,8 @@ from typing import Union
 
 
 class Carnivore(Animal):
+    """Documentation for Carnivore
+    """
     params: dict = {
             "w_birth": 6.0,
             "sigma_birth": 1.0,

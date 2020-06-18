@@ -6,7 +6,7 @@ from typing import Union, Dict, Tuple
 import numpy as np
 
 class Animal:
-    """Animal superclass implemented using the specifications in
+    """Documentation for Animal superclass implemented using the specifications in
     https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
 
     """

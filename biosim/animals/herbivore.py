@@ -5,6 +5,9 @@ from .animal import Animal
 
 
 class Herbivore(Animal):
+    """ 
+    Documentation for Herbivore class
+    """
     params: dict = {
         "w_birth": 8.0,
         "sigma_birth": 1.5,
