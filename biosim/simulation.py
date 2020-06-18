@@ -35,18 +35,24 @@ class BioSim:
 
     ):
         """
-        :param island_map: Multi-line string specifying island geography
-        :param ini_pop: List of dictionaries specifying initial population
         :param seed: Integer used as random number seed
+        :param ini_pop: List of dictionaries specifying initial population
+        :param island_map: Multi-line string specifying island geography
+        :param plt_speed: Float with time between updating plots
         :param ymax_animals: Number specifying y-axis limit for graph showing animal numbers
         :param cmax_animals: Dict specifying color-code limits for animal densities
+        :param hist_specs: Dict specifying settings in histograms
         :param img_base: String with beginning of file name for figures, including path
         :param img_fmt: String with file type for figures, e.g. 'png'
         :param movie_format: String with the file type for movies, e.g. 'mp4
-        :save_name": String with the file name for saving the state of the island
-        "data_name": String with the file name for the csv file containing populations every year
+        :param save_name": String with the file name for saving the state of the island
+        :param data_name": String with the file name for the csv file containing populations every year
+
+        If ini_pop is None, BioSim will be initiated without a inital population
 
         If island_map is None, BioSim will try to load a state given by save_name
+
+        If plt_speed is None, the pause between updates of the plot will be 1e-2 
 
         If ymax_animals is None, the y-axis limit should be adjusted automatically.
 
@@ -61,6 +67,8 @@ class BioSim:
 
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
+
+        If save_name is None, no state will be attempted to load
 
         if data_name is None, no data is written to the system
         
