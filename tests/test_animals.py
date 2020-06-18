@@ -209,7 +209,7 @@ def test_will_migrate():
             assert a.has_migrated == True
             assert a.will_migrate() == False # 
 
-    prob_migration = n_migrations/1000
+    prob_migration = n_migrations/10000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)
 
 
