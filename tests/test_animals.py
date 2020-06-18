@@ -11,7 +11,8 @@ from pytest_mock import mocker
 from biosim.animals.animal import Animal
 
 
-def test_init_animal():
+def test_init_animal_and_weight():
+    # Checks that the weight is close to a normal distribution
     alpha = 0.001
     n = 10000
     a = Animal()
@@ -29,6 +30,7 @@ def test_init_animal():
     assert a.age == 2
     assert a.weight == 10
 
+
 def test_set_params():
     a: Animal = Animal()
 
@@ -45,8 +47,6 @@ def test_set_params():
 
 
 def test_aging():
-    # TODO add mocker?
-    #mocker.spy(Animal, 'new_year')
     a: Animal = Animal()
     a.increase_age()
     assert a.age == 1
@@ -142,9 +142,7 @@ def test_new_year():
     assert a.weight == (weight_before - a.params["eta"]*weight_before)
 
 
-# TODO confidence interval + stat problem
 def test_fitness():
-    # TODO is this ok?
     # Tests that fitness is close to normal when a newborn is placed in the simulation
     alpha = 0.00001
     n = 1000
@@ -190,11 +188,6 @@ def test_fitness():
     a.weight = -1
     assert a.get_fitness() == 0
 
-    # Test that fitness goes towards 1 as weight increases
-    a: Animal = Animal()
-    a.update_weight(1000000) # TODO see if I can make it "right"
-    #assert a.get_fitness() == pytest.approx(1)
-
 
 def test_will_migrate():
     # fitness ~ 1
@@ -212,10 +205,3 @@ def test_will_migrate():
 
     prob_migration = n_migrations/10000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)
-
-def test_infect():
-    a = Animal()
-    pre_infection = a.infected
-    a.infect()
-    assert pre_infection is False
-    assert a.infected is True

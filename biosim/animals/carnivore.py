@@ -32,7 +32,9 @@ class Carnivore(Animal):
         super().__init__(age, weight)
 
     @staticmethod
-    def p_eat(phi_carn: float, phi_herb: float, DeltaPhiMax: Union[int, float]) -> Union[int, float]:
+    def p_eat(phi_carn: float,
+              phi_herb: float,
+              DeltaPhiMax: Union[int, float]) -> Union[int, float]:
         """
         Probability for a carnivore to eat a herbivore
         Parameters
