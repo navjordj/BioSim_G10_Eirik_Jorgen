@@ -11,24 +11,25 @@ class Animal:
     https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
 
     """
+
     params: dict = {
-            "w_birth": 8.0,
-            "sigma_birth": 1.5,
-            "beta": 0.9,
-            "eta": 0.05,
-            "a_half": 40.0,
-            "phi_age": 0.2,
-            "w_half": 10.0,
-            "phi_weight": 0.1,
-            "mu": 0.25,
-            "gamma": 0.2,
-            "zeta": 3.5,
-            "xi": 1.2,
-            "omega": 0.4,
-            "F": 10.0,
-            "DeltaPhiMax": None
-        }
-    
+        "w_birth": 8.0,
+        "sigma_birth": 1.5,
+        "beta": 0.9,
+        "eta": 0.05,
+        "a_half": 40.0,
+        "phi_age": 0.2,
+        "w_half": 10.0,
+        "phi_weight": 0.1,
+        "mu": 0.25,
+        "gamma": 0.2,
+        "zeta": 3.5,
+        "xi": 1.2,
+        "omega": 0.4,
+        "F": 10.0,
+        "DeltaPhiMax": None,
+    }
+
     def __init__(self, age=None, weight=None):
         """Constructor for animal superclass. Herbivore and Carnivore inherits from this class
 
@@ -63,7 +64,7 @@ class Animal:
             String to be printed out
         """
         # TODO: what is pragma: no cover
-        return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}' # pragma: no cover
+        return f"Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}"
 
     @classmethod
     def set_params(cls, new_parameters: Dict[str, Union[int, float]]) -> None:
@@ -72,7 +73,8 @@ class Animal:
         Parameters
         ----------
         new_parameters : Dict[str, Union[int, float]]
-            Dictionary containing the keys of the parameters to be changed and the corresponding values
+            Dictionary containing the keys of the parameters to be changed
+            and the corresponding values
 
         Raises
         ------
@@ -84,9 +86,11 @@ class Animal:
                 if key in cls.params.keys():
                     cls.params[key] = new_parameters[key]
                 else:
-                    raise ValueError(f'Key {key} is not a key in class parameters')
+                    raise ValueError(f"Key {key} is not a key in class parameters")
             else:
-                raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
+                raise ValueError(
+                    f"Key for {key} cant be negative ({new_parameters[key]}"
+                )
 
     def increase_age(self) -> None:
         self._age += 1
@@ -122,10 +126,12 @@ class Animal:
         # Can only make a baby once a year, if migrated to a cell it will not make baby in
         # the new cell
         if self.has_migrated is False:
-            if self._weight < self.params["zeta"] * (self.params["w_birth"] + self.params["sigma_birth"]):
+            if self._weight < self.params["zeta"] * (
+                self.params["w_birth"] + self.params["sigma_birth"]
+            ):
                 return False
 
-            p: Union[int, float] = min(1, self.params["gamma"]*self.fitness*(N-1))
+            p: Union[int, float] = min(1, self.params["gamma"] * self.fitness * (N - 1))
             if np.random.random() < p:
                 return True
             else:
@@ -185,8 +191,14 @@ class Animal:
         if self._weight < 0:
             return 0
         else:
-            new_fitness = self._fitness_calc(self._age, self.params["a_half"], self.params["phi_age"], 
-                                         self._weight, self.params["w_half"], self.params["phi_weight"] )
+            new_fitness = self._fitness_calc(
+                self._age,
+                self.params["a_half"],
+                self.params["phi_age"],
+                self._weight,
+                self.params["w_half"],
+                self.params["phi_weight"],
+            )
 
         return new_fitness
 
@@ -224,7 +236,14 @@ class Animal:
             return False
 
     @staticmethod
-    def _fitness_calc(a: float, a_half: float, phi_age: float,  w: float, w_half: float, phi_weight: float) -> float:
+    def _fitness_calc(
+        a: float,
+        a_half: float,
+        phi_age: float,
+        w: float,
+        w_half: float,
+        phi_weight: float,
+    ) -> float:
         """Helper function for calculating the current fitness of animal
 
         Parameters
@@ -249,7 +268,7 @@ class Animal:
         """
 
         def _q(x: float, x_half: float, phi: float, sign: int) -> float:
-            return 1 / (1 + exp(sign * phi*(x - x_half)))
+            return 1 / (1 + exp(sign * phi * (x - x_half)))
 
         return _q(a, a_half, phi_age, 1) * _q(w, w_half, phi_weight, -1)
 
@@ -275,7 +294,7 @@ class Animal:
         """
         self._age = new_age
 
-    @property 
+    @property
     def weight(self) -> float:
         """Getter for the weight of a animal
 
@@ -286,7 +305,7 @@ class Animal:
         """
         return self._weight
 
-    @weight.setter 
+    @weight.setter
     def weight(self, new_weight: float) -> None:
         """Setter for the weight of a animal
 
