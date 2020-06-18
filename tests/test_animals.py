@@ -69,12 +69,14 @@ def test_update_weight():
 def test_death(mocker):
     a = Animal()
     a.weight = 0
-    assert a.should_die() is True
+    prob_death, infected = a.should_die()
+    assert prob_death is True and infected is False
 
-    mocker.patch('random.random', return_value=1)
+    mocker.patch('numpy.random.random', return_value=1)
 
     a = Animal()
-    assert a.should_die() is False
+    prob_death, infected = a.should_die()
+    assert prob_death is False
     # TODO Is this ok?
     # probability of death is close to a normal distribution
     alpha = 0.00001
