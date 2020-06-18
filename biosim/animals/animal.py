@@ -5,9 +5,6 @@ from math import exp
 from typing import Union, Dict, Tuple
 import numpy as np
 
-np.random.seed(1)
-
-
 class Animal:
     """Animal superclass implemented using the specifications in
     https://github.com/heplesser/nmbu_inf200_june2020/blob/master/project_description/INF200_H19_BioSimJune_v2.pdf
@@ -93,6 +90,7 @@ class Animal:
                 raise ValueError(f'Key for {key} cant be negative ({new_parameters[key]}')
 
     def increase_age(self) -> None:
+        
         self._age += 1
 
     def should_die(self) -> Tuple[bool, bool]:
@@ -179,7 +177,7 @@ class Animal:
         """Increase age by one year and decrease weight by eta * weight
         """
         self.has_migrated = False
-        self._age += 1
+        self.increase_age()
         weight_change: float = -self.params["eta"] * self._weight
         self.update_weight(weight_change)
         self.fitness = self.get_fitness()
