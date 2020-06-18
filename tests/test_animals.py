@@ -22,10 +22,7 @@ def test_init_animal():
         weight_list.append(a.weight)
     x = np.concatenate((weight_list, norm_disp))
     k2, p = stats.normaltest(x)
-    if p >= alpha:
-        assert True
-    else:
-        assert False
+    assert p >= alpha
     assert a.age == 0
 
     a: Animal = Animal(age=2, weight=10)
@@ -101,10 +98,7 @@ def test_death(mocker):
     norm_approx = np.random.normal(mean, sd, n)
     x = np.concatenate((death_list, norm_approx))
     k2, p = stats.normaltest(x)
-    if p > alpha:
-        assert True
-    else:
-        assert False
+    assert p > alpha
 
 
 def test_birth(mocker):
@@ -169,7 +163,6 @@ def test_fitness():
     norm_approx = np.random.normal(mean, sd, n)
     x = np.concatenate((fitness_list2, norm_approx))
     k2, p = stats.normaltest(x)
-    print(p)
     assert p > alpha
 
     # Check that fitness decreases when age increases
@@ -208,7 +201,7 @@ def test_will_migrate():
     # Probability should be 0.25 (mu*fitness)
 
     n_migrations = 0
-    for _ in range(1000):
+    for _ in range(10000):
         a: Animal = Animal(age=1, weight=10000)
         assert a.has_migrated == False
         if a.will_migrate():
@@ -216,7 +209,7 @@ def test_will_migrate():
             assert a.has_migrated == True
             assert a.will_migrate() == False # 
 
-    prob_migration = n_migrations/1000
+    prob_migration = n_migrations/10000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)
 
 

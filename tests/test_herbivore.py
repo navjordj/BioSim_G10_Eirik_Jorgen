@@ -20,10 +20,7 @@ def test_init_herbivore():
         weight_list.append(a.weight)
     x = np.concatenate((weight_list, norm_disp))
     k2, p = stats.normaltest(x)
-    if p >= alpha:
-        assert True
-    else:
-        assert False
+    assert p >= alpha
     assert a.age == 0
 
     a: Herbivore = Herbivore(age=2, weight=10)
