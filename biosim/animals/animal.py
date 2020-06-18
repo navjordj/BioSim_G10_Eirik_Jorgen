@@ -42,13 +42,13 @@ class Animal:
         """
 
         if age is None:
-            self._age: int = 0
+            self.age: int = 0
         else:
-            self._age: int = age
+            self.age: int = age
         if weight is None:
-            self._weight: float = self._initialize_weight()
+            self.weight: float = self._initialize_weight()
         else:
-            self._weight: float = weight
+            self.weight: float = weight
 
         self.fitness = self.get_fitness()
         self.alive = True
