@@ -6,7 +6,7 @@ np.random.seed(1)
 ini_herbs = [
     {'loc': (5, 5), 'pop': [{'species': 'Herbivore', 'age': 5, 'weight': 50} for _ in range(50)]}]
 ini_carn = [
-    {'loc': (5, 5), 'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 50} for _ in range(10)]}]
+    {'loc': (5, 5), 'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 50} for _ in range(50)]}]
 
 
 kart = """\
