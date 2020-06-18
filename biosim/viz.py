@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from typing import Dict
 
 
 class Viz:
@@ -9,16 +8,25 @@ class Viz:
     Visualisation class for plotting, saving and generating movies from simulations in BioSim
     """
 
-    cmax_default = {'Herbivore': None,
-                    'Carnivore': None}
+    cmax_default = {'Herbivore': None, 'Carnivore': None}
 
     hist_specs_default = {
-        'fitness': {'max': 1.0, 'delta': 0.05},
-        'age': {'max': 60, 'delta': 2},
-        'weight': {'max': 60, 'delta': 2}
+        'fitness': {
+            'max': 1.0,
+            'delta': 0.05
+        },
+        'age': {
+            'max': 60,
+            'delta': 2
+        },
+        'weight': {
+            'max': 60,
+            'delta': 2
+        }
     }
 
-    def __init__(self, island,
+    def __init__(self,
+                 island,
                  num_years,
                  ymax_animals=None,
                  cmax_animals=None,
@@ -154,10 +162,12 @@ class Viz:
 
     def _draw_map(self, island):
 
-        rgb_value = {'W': (0.0, 0.0, 1.0),  # blue
-                     'L': (0.0, 0.6, 0.0),  # dark green
-                     'H': (0.5, 1.0, 0.5),  # light green
-                     'D': (1.0, 1.0, 0.5)}  # light yellow
+        rgb_value = {
+            'W': (0.0, 0.0, 1.0),  # blue
+            'L': (0.0, 0.6, 0.0),  # dark green
+            'H': (0.5, 1.0, 0.5),  # light green
+            'D': (1.0, 1.0, 0.5)
+        }  # light yellow
 
         map_rgb = []
         # TODO see for better solution to write it in
@@ -174,7 +184,7 @@ class Viz:
 
         self.animals_over_time_ax.clear()
 
-        self.years = [year+1 for year in range(island.year+self.num_years)]
+        self.years = [year + 1 for year in range(island.year + self.num_years)]
 
         self.herbivores_over_time = island.num_herbivores_data.copy()
         self.carnivores_over_time = island.num_carnivores_data.copy()
@@ -186,14 +196,16 @@ class Viz:
         self.herbivores_over_time = np.array(self.herbivores_over_time)
         self.carnivores_over_time = np.array(self.carnivores_over_time)
 
-        self.animals_over_time_ax.set_xlim(0, self.num_years+island.year)
+        self.animals_over_time_ax.set_xlim(0, self.num_years + island.year)
 
-        self.line_herbivore = self.animals_over_time_ax.plot(
-            self.years, self.herbivores_over_time, color='b', label='Herbivore'
-        )[0]
-        self.line_carnivore = self.animals_over_time_ax.plot(
-            self.years, self.carnivores_over_time, color='r', label='Carnivore'
-        )[0]
+        self.line_herbivore = self.animals_over_time_ax.plot(self.years,
+                                                             self.herbivores_over_time,
+                                                             color='b',
+                                                             label='Herbivore')[0]
+        self.line_carnivore = self.animals_over_time_ax.plot(self.years,
+                                                             self.carnivores_over_time,
+                                                             color='r',
+                                                             label='Carnivore')[0]
         self.animals_over_time_ax.set(xlabel='years', ylabel='Animals')
         self.animals_over_time_ax.legend()
 
@@ -209,11 +221,8 @@ class Viz:
     def _draw_herbivores_heat_map(self, heat_map):
         self.herbivores_heat_map_img_ax.set(title='Heat map - herbivores')
         self.herbivores_heat_map = self.herbivores_heat_map_img_ax.imshow(heat_map,
-                                                                          vmax=self.cmax_animals[
-                                                                              'Herbivore'])
-        plt.colorbar(
-            self.herbivores_heat_map, cax=self.colorbar_herb
-        )
+                                                                          vmax=self.cmax_animals['Herbivore'])
+        plt.colorbar(self.herbivores_heat_map, cax=self.colorbar_herb)
 
     def _make_carnivore_heat_map(self, island):
         self.carnivores_heat_map = []
@@ -227,12 +236,8 @@ class Viz:
 
     def _draw_carnivores_heat_map(self, heat_map):
         self.carnivores_heat_map_img_ax.set(title='Heat map - carnivores')
-        self.carnivores_heat_map = self.carnivores_heat_map_img_ax.imshow(heat_map,
-                                                                          vmax=self.cmax_animals[
-                                                                              'Carnivore'])
-        plt.colorbar(
-            self.carnivores_heat_map, self.colorbar_carn
-        )
+        self.carnivores_heat_map = self.carnivores_heat_map_img_ax.imshow(heat_map, vmax=self.cmax_animals['Carnivore'])
+        plt.colorbar(self.carnivores_heat_map, self.colorbar_carn)
 
     def _get_fitness_animals(self, island):
         self.fitness_herb = []
@@ -252,12 +257,14 @@ class Viz:
         self.fitness_histogram_img_ax.set(title='Fitness')
         bins = np.arange(0, self.fitness_specs['max'], self.fitness_specs['delta'])
         self.fitness_histogram_img_ax.invert_yaxis()
-        self.hist_line_herb = self.fitness_histogram_img_ax.hist(fitness_herb, color='b',
-                                                                     histtype='step',
-                                                                     bins=bins)
-        self.hist_line_carn = self.fitness_histogram_img_ax.hist(fitness_carn, color='r',
-                                                                     histtype='step',
-                                                                     bins=bins)
+        self.hist_line_herb = self.fitness_histogram_img_ax.hist(fitness_herb,
+                                                                 color='b',
+                                                                 histtype='step',
+                                                                 bins=bins)
+        self.hist_line_carn = self.fitness_histogram_img_ax.hist(fitness_carn,
+                                                                 color='r',
+                                                                 histtype='step',
+                                                                 bins=bins)
 
     def _get_age_animals(self, island):
         self.age_herb = []
@@ -277,12 +284,14 @@ class Viz:
         self.age_histogram_img_ax.set(title='Age')
         bins = np.arange(0, self.age_specs['max'], self.age_specs['delta'])
         self.age_histogram_img_ax.invert_yaxis()
-        self.hist_line_herb_age = self.age_histogram_img_ax.hist(age_herb, color='b',
-                                                                     histtype='step',
-                                                                     bins=bins)
-        self.hist_line_carn_age = self.age_histogram_img_ax.hist(age_carn, color='r',
-                                                                     histtype='step',
-                                                                     bins=bins)
+        self.hist_line_herb_age = self.age_histogram_img_ax.hist(age_herb,
+                                                                 color='b',
+                                                                 histtype='step',
+                                                                 bins=bins)
+        self.hist_line_carn_age = self.age_histogram_img_ax.hist(age_carn,
+                                                                 color='r',
+                                                                 histtype='step',
+                                                                 bins=bins)
 
     def _get_weight_animals(self, island):
         self.weight_herb = []
@@ -302,12 +311,14 @@ class Viz:
         self.weight_histogram_img_ax.set(title='Weight')
         bins = np.arange(0, self.weight_specs['max'], self.weight_specs['delta'])
         self.weight_histogram_img_ax.invert_yaxis()
-        self.hist_line_herb_weight = self.weight_histogram_img_ax.hist(weight_herb, color='b',
-                                                                           histtype='step',
-                                                                           bins=bins)
-        self.hist_line_carn_weight = self.weight_histogram_img_ax.hist(weight_carn, color='r',
-                                                                           histtype='step',
-                                                                           bins=bins)
+        self.hist_line_herb_weight = self.weight_histogram_img_ax.hist(weight_herb,
+                                                                       color='b',
+                                                                       histtype='step',
+                                                                       bins=bins)
+        self.hist_line_carn_weight = self.weight_histogram_img_ax.hist(weight_carn,
+                                                                       color='r',
+                                                                       histtype='step',
+                                                                       bins=bins)
 
     def _get_num_animals(self, island):
         self.herbivore_counter = 0
@@ -322,10 +333,12 @@ class Viz:
     def _draw_text(self, island):
         herb, carn = self._get_num_animals(island)
         self.text_img_ax.axis("off")
-        self.text_year = self.text_img_ax.text(0.5, 0.5, f'Years: {island.year}\n'
-                                                         f'Herbivores: {herb}\n'
-                                                         f'Carnivores: {carn}',
-                                               ha='center', wrap=True)
+        self.text_year = self.text_img_ax.text(0.5,
+                                               0.5, f'Years: {island.year}\n'
+                                               f'Herbivores: {herb}\n'
+                                               f'Carnivores: {carn}',
+                                               ha='center',
+                                               wrap=True)
 
     def update_data(self, island, num_herb, num_carn):
         """Method for updating the data used for plotting
@@ -375,9 +388,9 @@ class Viz:
         self.fitness_histogram_img_ax.clear()
         herb, carn = self._get_fitness_animals(island)
         self._draw_fitness_histogram(herb, carn)
-        self.y_lim_hist = max(self.y_lim_hist, (max((self.carnivores_over_time[island.year],
-                                                         self.herbivores_over_time[
-                                                             island.year])) * 0.5))
+        self.y_lim_hist = max(self.y_lim_hist,
+                              (max((self.carnivores_over_time[island.year],
+                                   self.herbivores_over_time[island.year])) * 0.5))
         self.fitness_histogram_img_ax.set_ylim(self.y_lim_hist * 1.1, 0)
         self.fitness_histogram_img_ax.invert_yaxis()
 
@@ -418,7 +431,7 @@ class Viz:
         self._update_age_histogram(island)
         self._update_weight_histogram(island)
         self._update_text(island)
-        if plt_speed == None:
+        if plt_speed is None:
             plt.pause(1e-2)
         else:
             plt.pause(plt_speed)
@@ -436,29 +449,25 @@ class Viz:
 
             try:
                 makedirs(mypath)
-            except OSError as exc: # Python >2.5
+            except OSError as exc:  # Python >2.5
                 if exc.errno == EEXIST and path.isdir(mypath):
                     pass
-                else: raise
+                else:
+                    raise
 
         # Was not able to save figs to a unmade directory
         # Uses the path from img_base to create a new folder with this name
         if self.img_base is not None:
-            last_slash = self.img_base.rfind('/') # Last occurcence of / (getting the output folder)
+            # Last occurcence of / (getting the output folder)
+            last_slash = self.img_base.rfind('/')
             path = self.img_base[:last_slash]
             print(path)
             if os.path.isdir(path):
 
-                self.figure.savefig(
-                    f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
-                )
+                self.figure.savefig(f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}')
             else:
                 _mkdir_p(path)
-                self.figure.savefig(
-                    f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
-                )
+                self.figure.savefig(f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}')
         else:
-            self.figure.savefig(
-                    f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}'
-                )
+            self.figure.savefig(f'{self.img_base}_{self.img_num:05d}.{self.img_fmt}')
         self.img_num += 1
