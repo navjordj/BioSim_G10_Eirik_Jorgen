@@ -8,22 +8,23 @@ from typing import Union, List
 
 import numpy as np
 
-np.random.seed(1)
-
-
 class Cell:
     max_fodder: Union[float, int] = 0
 
     def __init__(self) -> None:
+
+        # Lists containing the carnivores and herbivores in every cell
         self.carnivores: List[Carnivore] = []
         self.herbivores: List[Herbivore] = []
 
+        # Cached number of animals for both species.
         self.n_carnivores: int = 0
         self.n_herbivores: int = 0
 
         self.allowed_move_to: bool = True
         self.fodder = self.max_fodder
 
+        # Number of infected animals if corona pandemic
         self.infect_related_death_herb: int = 0
         self.infect_related_death_carn: int = 0
 
@@ -126,19 +127,23 @@ class Cell:
         Updates number of herbivores afterwards
         """
         keep_herbivores: List[Herbivore] = []
+
+        self.n_herbivores = 0
+        self.n_carnivores = 0
+
         for h in self.herbivores:
             if h.alive is True:
                 keep_herbivores.append(h)
+                self.n_herbivores += 1
 
         keep_carnivores: List[Carnivore] = []
         for c in self.carnivores:
             if c.alive is True:
                 keep_carnivores.append(c)
+                self.n_carnivores += 1
 
         self.herbivores = keep_herbivores
         self.carnivores = keep_carnivores
-        self.n_herbivores = len(keep_herbivores)
-        self.n_carnivores = len(keep_carnivores)
 
     def animal_babies(self) -> None:
         """
@@ -157,6 +162,7 @@ class Cell:
                     mother_weight_change = - carni.params["xi"] * baby_weight
                     carni.update_weight(mother_weight_change)
                     carnivore_babies.append(baby_carnivore)
+                    self.n_carnivores += 1
 
         herbivore_babies: List[Herbivore] = []
         if self.n_herbivores >= 2:
@@ -168,11 +174,10 @@ class Cell:
                     mother_weight_change = -herbi.params["xi"] * baby_weight
                     herbi.update_weight(mother_weight_change)
                     herbivore_babies.append(baby_herbivore)
+                    self.n_herbivores += 1
 
         self.carnivores.extend(carnivore_babies)
         self.herbivores.extend(herbivore_babies)
-        self.n_carnivores = self.n_carnivores + len(carnivore_babies)
-        self.n_herbivores = self.n_herbivores + len(herbivore_babies)
 
     # TODO: test function
     def death_animals(self) -> None:
@@ -216,7 +221,6 @@ class Cell:
                 carn.infected = True
         return infected_in_cell
 
-    # TODO: test function
     def new_year(self) -> None:
         for herb in self.herbivores:
             herb.new_year()
