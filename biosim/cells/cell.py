@@ -26,7 +26,7 @@ class Cell:
         self.n_herbivores: int = 0
 
         self.allowed_move_to: bool = True
-        self.fodder = self.max_fodder
+        self.fodder: Union[int, float] = self.max_fodder
 
         # Number of infected animals if corona pandemic
         self.infect_related_death_herb: int = 0
@@ -45,8 +45,7 @@ class Cell:
         """
         shuffled_herbivores: List[
             Herbivore] = self.herbivores.copy()  # Avoid shuffling original herbivore list
-        np.random.shuffle(shuffled_herbivores)  # TODO refactor code
-        # TODO test if fodder newer gets below zero
+        np.random.shuffle(shuffled_herbivores)
         np.random.shuffle(shuffled_herbivores)
 
         for herbi in shuffled_herbivores:
@@ -73,7 +72,6 @@ class Cell:
         'hunting' the carnivore have eaten F amount of fodder.
         Can only hunt on herbivores in the same cell
         """
-        # TODO: test break bit
         self.remove_dead_animals()
 
         reverse_sort_c: List[Carnivore] = sorted(self.carnivores,
