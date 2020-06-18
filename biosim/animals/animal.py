@@ -51,10 +51,10 @@ class Animal:
         else:
             self.weight: float = weight
 
-        self.fitness = self.get_fitness()
-        self.alive = True
-        self.has_migrated = False
-        self.infected = self.params['infected']  # can choose to set animals to be
+        self.fitness: Union[int, float] = self.get_fitness()
+        self.alive: bool = True
+        self.has_migrated: bool = False
+        self.infected: bool = self.params['infected']  # can choose to set animals to be
         # infected by the virus
 
     def __repr__(self) -> str:
@@ -146,7 +146,8 @@ class Animal:
             return False
 
     def eat(self, intake: Union[int, float]) -> None:
-        """Takes in a certain amount of fodder. Calculates and updates weight given by beta * intake.
+        """
+        Takes in a certain amount of fodder. Calculates and updates weight given by beta * intake.
 
         Parameters
         ----------
@@ -216,7 +217,6 @@ class Animal:
         """
         return np.random.normal(self.params["w_birth"], self.params["sigma_birth"])
 
-    # TODO add latex formula for probability
     def will_migrate(self) -> bool:
         """Returns a boolean representing if a animal should migrate or not
 
@@ -228,7 +228,6 @@ class Animal:
         bool
             Boolean representing of the animal should migrate or not
         """
-        # TODO: make test
         if self.has_migrated is False:
             prob = self.params["mu"] * self.fitness
             if np.random.rand() < prob:
@@ -316,9 +315,3 @@ class Animal:
             The new weight of the animal
         """
         self._weight = new_weight
-
-    def infect(self) -> None:
-        """
-        changes the self.infected to true
-        """
-        self.infected = True

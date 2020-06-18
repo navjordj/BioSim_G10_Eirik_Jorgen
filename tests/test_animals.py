@@ -212,10 +212,3 @@ def test_will_migrate():
 
     prob_migration = n_migrations/10000
     assert prob_migration == pytest.approx(0.25, abs=1e-2)
-
-def test_infect():
-    a = Animal()
-    pre_infection = a.infected
-    a.infect()
-    assert pre_infection is False
-    assert a.infected is True
