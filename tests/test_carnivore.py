@@ -7,7 +7,7 @@ import numpy as np
 import scipy.stats as stats
 
 
-from biosim.animals import Carnivore
+from biosim.animals import Carnivore, Herbivore
 
 def test_init_carnivore():
     alpha = 0.001
@@ -29,3 +29,12 @@ def test_init_carnivore():
     a: Carnivore = Carnivore(age=2, weight=10)
     assert a.age == 2
     assert a.weight == 10
+
+
+def test_eat_carnivore() -> None:
+    c = Carnivore()
+    h = Herbivore()
+    c.set_params({'DeltaPhiMax': 0})
+    c.p_eat(c.get_fitness(), h.get_fitness(), c.params['DeltaPhiMax'])
+
+

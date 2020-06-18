@@ -46,12 +46,16 @@ def test_set_params():
         invalid_params = {"not_a_param": 100}
         a.set_params(invalid_params)
 
+
 def test_aging():
     # TODO add mocker?
     #mocker.spy(Animal, 'new_year')
     a: Animal = Animal()
     a.increase_age()
     assert a.age == 1
+
+    a.age = 5
+    assert a.age == 5
 
 
 def test_update_weight():
@@ -77,6 +81,11 @@ def test_death(mocker):
     a = Animal()
     prob_death, infected = a.should_die()
     assert prob_death is False
+
+    a = Animal()
+    a.infected = True
+    prob_death, infected = a.should_die()
+    assert prob_death is False and infected is True
     # TODO Is this ok?
     # probability of death is close to a normal distribution
     alpha = 0.00001
@@ -104,6 +113,9 @@ def test_birth(mocker):
     assert a.give_birth(N) is False
 
     N = 0
+    assert a.give_birth(N) is False
+
+    a.has_migrated = True
     assert a.give_birth(N) is False
 
     mocker.patch('random.random', return_value=0)

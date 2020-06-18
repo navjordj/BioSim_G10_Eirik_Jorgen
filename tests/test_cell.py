@@ -96,7 +96,9 @@ def test_eat_herbivore() -> None:
     h = Highland()
     h.add_animal('Herbivore')
     start_weight_highland = h.herbivores[0].weight
-    h.set_parameters({'f_max': 11})
+    h.set_parameters({'f_max': 7})
+    h.grow()
+    h.herbivores[0].set_params({'F': 20})
     h.eat_herbivore()
     assert h.herbivores[0].weight > start_weight_highland
 
@@ -130,6 +132,18 @@ def test_eat_carnivore(mocker) -> None:
     end_weight_carnivore = d.carnivores[0].weight
     assert start_weight_carnivore < end_weight_carnivore
     assert d.herbivores[0].alive is False
+
+    l = Lowland()
+    l.add_animal('Carnivore')
+    l.add_animal('Carnivore')
+    l.add_animal('Herbivore')
+    l.add_animal('Herbivore')
+    start_weight_carnivore = l.carnivores[0].weight
+    l.carnivores[0].set_params({'F': 10})
+    l.herbivores[0].weight = 11
+
+    l.eat_carnivore()
+    assert start_weight_carnivore < l.carnivores[0].weight
 
 
 def test_remove_dead_animals() -> None:
@@ -179,6 +193,18 @@ def test_death_animal() -> None:
     d.death_animals()
     assert num_carni_pre_prob > d.n_carnivores and num_herb_pre_prob > d.n_herbivores
 
+    l = Lowland()
+    for _ in range(n):
+        l.add_animal('Carnivore')
+        l.add_animal('Herbivore')
+        l.herbivores[-1].infected = True
+        l.carnivores[-1].infected = True
+    n_infect_death_pre = l.infect_related_death_carn + l.infect_related_death_herb
+    l.death_animals()
+    n_infect_death_after = l.infect_related_death_carn + l.infect_related_death_herb
+    assert n_infect_death_pre <n_infect_death_after
+
+
 
 def test_grow() -> None:
     l = Lowland()
@@ -191,6 +217,18 @@ def test_grow() -> None:
     assert l.fodder == l.params['f_max']
     assert l.fodder > finished_eating
 
+
+def test_infected_animals():
+    d = Desert()
+    n = 10
+    for _ in range(n):
+        d.add_animal('Herbivore')
+    d.add_animal('Carnivore')
+    d.herbivores[0].infected = True
+    d.infected_animals()
+    for herb in d.herbivores:
+        assert herb.infected is True
+    assert d.carnivores[0].infected is True
 
 def test_new_year():
     l = Lowland()

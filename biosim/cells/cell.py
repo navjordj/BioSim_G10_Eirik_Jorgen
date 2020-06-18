@@ -69,7 +69,7 @@ class Cell:
         'hunting' the carnivore have eaten F amount of fodder.
         Can only hunt on herbivores in the same cell
         """
-        # TODO: test code
+        # TODO: test break bit
         self.remove_dead_animals()
 
         reverse_sort_c: List[Carnivore] = sorted(self.carnivores,
@@ -94,7 +94,6 @@ class Cell:
                         herbi.alive = False
             carni.update_weight(carni.params["beta"] * f_eaten)
 
-    # TODO add type
     def add_animal(self, animal: str,
                    age: Union[int, None] = None,
                    weight: Union[
@@ -179,13 +178,11 @@ class Cell:
         self.carnivores.extend(carnivore_babies)
         self.herbivores.extend(herbivore_babies)
 
-    # TODO: test function
     def death_animals(self) -> None:
         """
         Looks at the probability of each animal to die, if it's likely, the dead animal will
         be removed
         """
-        counter_death = 0
         for herb in self.herbivores:
             prob, infected = herb.should_die()
             if prob is True:
