@@ -5,7 +5,7 @@ from .animal import Animal
 
 
 class Herbivore(Animal):
-    """ 
+    """
     Documentation for Herbivore class
     """
     params: dict = {
