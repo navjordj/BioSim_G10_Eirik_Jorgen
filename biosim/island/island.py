@@ -1,3 +1,7 @@
+__author__ = 'Eirik Høyheim, Jørgen Navjord'
+__email__ = 'eirihoyh@nmbu.no, navjordj@gmail.com'
+
+
 from biosim.cells import Highland, Water, Lowland, Desert
 from typing import List, Union
 

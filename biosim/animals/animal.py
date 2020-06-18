@@ -1,3 +1,6 @@
+__author__ = 'Eirik Høyheim, Jørgen Navjord'
+__email__ = 'eirihoyh@nmbu.no, navjordj@gmail.com'
+
 from math import exp
 from typing import Union, Dict, Tuple
 import numpy as np

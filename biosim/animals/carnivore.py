@@ -1,3 +1,6 @@
+__author__ = 'Eirik Høyheim, Jørgen Navjord'
+__email__ = 'eirihoyh@nmbu.no, navjordj@gmail.com'
+
 from .animal import Animal
 
 from typing import Union
