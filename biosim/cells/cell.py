@@ -228,6 +228,9 @@ class Cell:
         return infected_in_cell
 
     def new_year(self) -> None:
+        """
+        Starts a new year for every animal in the cell. Uses the function inside of the animal class
+        """
         for herb in self.herbivores:
             herb.new_year()
         for carn in self.carnivores:
