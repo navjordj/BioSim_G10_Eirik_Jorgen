@@ -8,6 +8,7 @@ from typing import Union, List
 
 import numpy as np
 
+
 class Cell:
     max_fodder: Union[float, int] = 0
 
@@ -188,20 +189,26 @@ class Cell:
             if prob is True:
                 herb.alive = False
                 if infected is True:
+                    # Counts every death were an herbivore was infected
                     self.infect_related_death_herb += 1
-            herb.infected = False
 
         for carni in self.carnivores:
             prob, infected = carni.should_die()
             if prob is True:
                 carni.alive = False
                 if infected is True:
+                    # Counts every death were an carnivore was infected
                     self.infect_related_death_carn += 1
-            carni.infected = False
 
         self.remove_dead_animals()
 
     def infected_animals(self) -> bool:
+        """
+
+        Returns
+        -------
+
+        """
         infected_in_cell = False
         for herb in self.herbivores:
             if herb.infected is True:
