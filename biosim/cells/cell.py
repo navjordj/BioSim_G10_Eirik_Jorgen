@@ -8,6 +8,7 @@ from typing import Union, List
 
 import numpy as np
 
+
 class Cell:
     max_fodder: Union[float, int] = 0
 
@@ -188,20 +189,28 @@ class Cell:
             if prob is True:
                 herb.alive = False
                 if infected is True:
+                    # Counts every death were an herbivore was infected
                     self.infect_related_death_herb += 1
-            herb.infected = False
 
         for carni in self.carnivores:
             prob, infected = carni.should_die()
             if prob is True:
                 carni.alive = False
                 if infected is True:
+                    # Counts every death were an carnivore was infected
                     self.infect_related_death_carn += 1
-            carni.infected = False
 
         self.remove_dead_animals()
 
     def infected_animals(self) -> bool:
+        """
+        chekcs every animal if they are infected, if they are, then all the other animals in the
+        cell also gets infected
+        Returns
+        -------
+        bool
+            True in there was an infection in cell, false otherwise
+        """
         infected_in_cell = False
         for herb in self.herbivores:
             if herb.infected is True:
@@ -219,6 +228,9 @@ class Cell:
         return infected_in_cell
 
     def new_year(self) -> None:
+        """
+        Starts a new year for every animal in the cell. Uses the function inside of the animal class
+        """
         for herb in self.herbivores:
             herb.new_year()
         for carn in self.carnivores:

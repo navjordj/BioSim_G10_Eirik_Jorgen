@@ -193,13 +193,17 @@ class Island:
             for cell in row:
                 # infected animals
                 if cell.infected_animals() is True:
+                    # If any animal is infected in the cell it'll put all the animals in the
+                    # tot infected counter for each animal
                     self.tot_infected_carns += cell.n_carnivores
                     self.tot_infected_herbs += cell.n_herbivores
                 # Age animals one year:
                 cell.new_year()
                 # DEATH
                 cell.death_animals()
+                # Counts every case where an animal was infected and died
                 self.tot_infect_related_death_herb += cell.infect_related_death_herb
                 self.tot_infect_related_death_carn += cell.infect_related_death_carn
+                # Resets the counter in the cell class every year
                 cell.infect_related_death_herb = 0
                 cell.infect_related_death_carn = 0

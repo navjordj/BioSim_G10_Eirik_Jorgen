@@ -20,8 +20,7 @@ class Herbivore(Animal):
         "xi": 1.2,
         "omega": 0.4,
         "F": 10.0,
-        "DeltaPhiMax": None,
-        "infected": False
+        "DeltaPhiMax": None
     }
 
     def __init__(self, age=None, weight=None) -> None:

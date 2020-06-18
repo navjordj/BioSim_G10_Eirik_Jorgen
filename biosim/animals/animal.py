@@ -25,8 +25,7 @@ class Animal:
         "xi": 1.2,
         "omega": 0.4,
         "F": 10.0,
-        "DeltaPhiMax": None,
-        "infected": False
+        "DeltaPhiMax": None
     }
 
     def __init__(self, age=None, weight=None):
@@ -53,7 +52,8 @@ class Animal:
         self.fitness = self.get_fitness()
         self.alive = True
         self.has_migrated = False
-        self.infected = self.params['infected']
+        self.infected = False  # can choose to set animals to be
+        # infected by the virus
 
     def __repr__(self) -> str:
         """method for how a animal should be represented when printed to the console
@@ -63,7 +63,6 @@ class Animal:
         str
             String to be printed out
         """
-        # TODO: what is pragma: no cover
         return f'Type: {type(self)} \n Age: {self._age} \n Fitness: {self.get_fitness()}'  # pragma: no cover
 
     @classmethod
@@ -98,15 +97,15 @@ class Animal:
 
         Returns
         -------
-        bool
-            Boolean representing if the animal should die or not
+        Tuple[bool, bool]
+            Boolean representing if the animal should die or not and if it was infected
         """
         prob_death: Union[int, float] = 0
         if self._weight <= 0:
             return True, False
         else:
             if self.infected is True:
-                # total death count and infected count of the Covid-19 virus in the world (17.06)
+                # total death count and infected count of the COVID-19 virus in the world (17.06.20)
                 prob_death += 440290 / 8061550
             p: float = self.params["omega"] * (1 - self.fitness)
             prob_death += p
@@ -114,8 +113,8 @@ class Animal:
             return np.random.random() < prob_death, self.infected
 
     def give_birth(self, N: int) -> bool:
-        """Returns a boolean saying if the animal should give birth or not
-
+        """Returns a boolean saying if the animal should give birth or not.
+        Higher possibility to die if infected by the virus
         Parameters
         ----------
         N : int
@@ -307,3 +306,9 @@ class Animal:
             The new weight of the animal
         """
         self._weight = new_weight
+
+    def infect(self) -> None:
+        """
+        changes the self.infected to true
+        """
+        self.infected = True
