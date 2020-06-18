@@ -122,14 +122,16 @@ class BioSim:
             self.file = open(filename, 'a+', newline='')
             self.filewriter = csv.writer(self.file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             self.file_open = True
-            
-            # Check if file if empty. 
+
+                # Check if file if empty. 
             # If empty: append column names
             # (Must be a better way to check if the file is empty)
             if os.stat(filename).st_size == 0: 
                 self.filewriter.writerow(["Year", "Herbivores", "Carnivores"])
+
         else:
-            self.data_name = None
+            self.file_open = False
+            self.data_name = data_name
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -179,7 +181,7 @@ class BioSim:
                   img_base=self.img_base,
                   img_fmt=self.img_fmt)
 
-        if self.file_open == False:
+        if self.data_name is not None and self.file_open == False:
             filename = f'{self.data_name}.csv'
             self.file = open(filename, 'a+', newline='')
             self.filewriter = csv.writer(self.file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
