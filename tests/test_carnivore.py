@@ -9,6 +9,7 @@ import scipy.stats as stats
 
 from biosim.animals import Carnivore, Herbivore
 
+
 def test_init_carnivore():
     alpha = 0.001
     n = 10000
@@ -33,5 +34,3 @@ def test_eat_carnivore() -> None:
     h = Herbivore()
     c.set_params({'DeltaPhiMax': 0})
     c.p_eat(c.get_fitness(), h.get_fitness(), c.params['DeltaPhiMax'])
-
-
