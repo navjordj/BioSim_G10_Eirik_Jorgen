@@ -14,7 +14,6 @@ class Test_island:
         """
         Island('WW\nWW')
         i = Island('WWWW\nWHLW\nWDLW\nWWWW')
-        print(i)
 
     def test_same_len(self) -> None:
         """

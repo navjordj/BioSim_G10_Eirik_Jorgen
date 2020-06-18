@@ -15,7 +15,6 @@ import random
 def test_cell() -> None:
     Cell()
     i = Cell()
-    print(i)
 
 
 def test_change_params() -> None:
@@ -44,7 +43,6 @@ def test_change_params() -> None:
     before = l.fodder
     l.set_parameters({'f_max': 900})
     l.grow()
-    print(l.params['f_max'], l.fodder)
     assert l.fodder > before
 
 

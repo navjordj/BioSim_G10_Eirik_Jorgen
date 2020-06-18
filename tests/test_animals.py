@@ -169,7 +169,6 @@ def test_fitness():
     norm_approx = np.random.normal(mean, sd, n)
     x = np.concatenate((fitness_list2, norm_approx))
     k2, p = stats.normaltest(x)
-    print(p)
     assert p > alpha
 
     # Check that fitness decreases when age increases

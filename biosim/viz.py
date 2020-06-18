@@ -465,7 +465,6 @@ class Viz:
             last_slash = self.img_base.rfind(
                 '/')  # Last occurcence of / (getting the output folder)
             path = self.img_base[:last_slash]
-            print(path)
             if os.path.isdir(path):
 
                 self.figure.savefig(

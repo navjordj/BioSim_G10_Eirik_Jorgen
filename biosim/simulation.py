@@ -189,7 +189,6 @@ class BioSim:
 
         # TODO fix map.map.map.map
         for year in range(num_years):
-            print(f'Year {year}: ')
             num_herb = self.num_animals_per_species["Herbivore"]
             num_carn = self.num_animals_per_species["Carnivore"]
 
@@ -213,8 +212,6 @@ class BioSim:
 
             self.island_map.new_year()
             self.island_map.year += 1
-            print(self.num_animals_per_species)
-            # print(self.num_animals_per_species)
             
 
         plt.close()
@@ -228,17 +225,14 @@ class BioSim:
 
         :param population: List of dictionaries specifying population
         """
-        # [{loc: (1, 1), pop: [{species: Herbi, age: 4, weight: 3}]}]
         for cell in population:
             loc = cell["loc"]
             pop = cell["pop"]
 
             for animal in pop:
-                # TODO age and weight might be none
                 type_animal = animal["species"]
                 age = animal["age"]
                 weight = animal["weight"]
-                # print(type_animal, age, weight)
                 if type(self.island_map.map[loc[0] - 1][loc[1] - 1]) == Water:
                     raise ValueError(f"Cant add animals on water landscape ({loc[0], loc[1]})")
                 else:
@@ -286,7 +280,6 @@ class BioSim:
         """
         try:
             cmd = f'ffmpeg -r 20 -i {self.img_base}_%05d.{self.img_fmt} -b:v 20M {self.img_base}.{self.movie_format}'
-            print(cmd)
             subprocess.check_call(cmd)
         except subprocess.CalledProcessError as err:
             raise RuntimeError(f"Error creating movie: {err}")
