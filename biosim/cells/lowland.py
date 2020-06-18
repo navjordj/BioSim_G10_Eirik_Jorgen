@@ -15,7 +15,7 @@ class Lowland(Cell):
 
     def __init__(self) -> None:
         super().__init__()
-        self.fodder = self.grow()
+        self.fodder: Union[int, float] = self.grow()
 
     def grow(self) -> Union[int, float]:
         """

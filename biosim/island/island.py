@@ -1,7 +1,6 @@
 __author__ = 'Eirik Høyheim, Jørgen Navjord'
 __email__ = 'eirihoyh@nmbu.no, navjordj@gmail.com'
 
-
 from biosim.cells import Highland, Water, Lowland, Desert
 from typing import List, Union
 
@@ -20,10 +19,9 @@ class Island:
     def __init__(self, map_str: str) -> None:
         self.row_len: int = 0
         self.column_len: int = 0
-        self.map_str = map_str
-        self.map = self.make_a_map(map_str)
-
-        self.year = 0
+        self.map_str: str = map_str
+        self.map: List[List[Union[Highland, Water, Lowland, Desert]]] = self.make_a_map(map_str)
+        self.year: int = 0
 
         self.num_herbivores_data: List[int] = []
         self.num_carnivores_data: List[int] = []
@@ -33,7 +31,6 @@ class Island:
 
         self.tot_infect_related_death_carn: int = 0
         self.tot_infect_related_death_herb: int = 0
-
 
     def __repr__(self) -> str:
         """toString to format how a island should be printed to the console.
@@ -151,7 +148,8 @@ class Island:
 
                 cell_destination = random.choice(adj_cells)
                 if cell_destination.allowed_move_to:
-                    cell_destination.add_animal("Herbivore", herbi.age, herbi.weight)  #TODO: try to put the same animal in, not create new one
+                    cell_destination.add_animal("Herbivore", herbi.age,
+                                                herbi.weight)
                     cell_destination.herbivores[-1].has_migrated = True
                     cell.herbivores[i].alive = False
 
@@ -186,9 +184,9 @@ class Island:
                 # MIGRATION:
                 if cell.allowed_move_to is True:
                     adj_cells: List[Union[Highland, Lowland, Water, Desert]] = [self.map[i - 1][j],
-                                                                     self.map[i + 1][j],
-                                                                     self.map[i][j - 1],
-                                                                     self.map[i][j + 1]]
+                                                                                self.map[i + 1][j],
+                                                                                self.map[i][j - 1],
+                                                                                self.map[i][j + 1]]
                     self.migration(cell, adj_cells)
                     self.map[i][j].remove_dead_animals()
 
