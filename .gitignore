@@ -9,5 +9,4 @@ docs/_build/*
 .coverage
 cls
 
-*.png
 *.mp4
